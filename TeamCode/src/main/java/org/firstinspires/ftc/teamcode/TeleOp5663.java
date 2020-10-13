@@ -1,3 +1,5 @@
+// Version 1.1
+
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.logitech.LogitechGamepadF310;
@@ -10,15 +12,14 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.Servo;
-
+ 
 @TeleOp(name="TeleOp5663", group="Iterative Opmode")
 public class TeleOp5663 extends OpMode
 {
-    private ElapsedTime runtime = new ElapsedTime();
+    private ElapsedTime runtime = new ElapsedTime(); //do we need ElaspedTime in both Robot and TeleOP
 
     Robot robot = new Robot();
 
-    private Servo Gripper = null;
 
     /***********************************************
      * This method is run ONCE when drivers hits INIT
@@ -57,13 +58,13 @@ public class TeleOp5663 extends OpMode
      ***********************************************/
     @Override
     public void loop(){
-        // assign pilot controler valure to appropriate variables
+        // assign pilot controler value to appropriate variables
         double drive = gamepad1.left_stick_y;
         double strafe = gamepad1.right_stick_x;
         double turn = gamepad1.left_stick_x;
 
         // call drive and shooter methods with gamepad input
-        robot.MecanimDrive(drive, strafe, turn);
+        robot.MecanumDrive(drive, strafe, turn);
         robot.Shooter(gamepad2.right_trigger > 0, gamepad2.left_trigger > 0);
 
         // provide telemetry feedback to drivers

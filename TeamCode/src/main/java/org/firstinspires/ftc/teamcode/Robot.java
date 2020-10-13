@@ -1,3 +1,5 @@
+// Version 1.1
+
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -10,6 +12,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.Servo;
+
+
+
 
 import org.firstinspires.ftc.robotcore.internal.camera.delegating.DelegatingCaptureSequence;
 
@@ -29,6 +34,9 @@ public class Robot {
 
     /* Create other motors and servos */
     public Servo Gripper = null;
+    public DcMotor Intake = null;
+    public DcMotor FeedBelt = null;
+   // public DcMotor Lift = null;
     //Lift is the new variable
     //Picker is the new variable
 
@@ -47,11 +55,22 @@ public class Robot {
      * Hardware Map *
      ****************/
     public void hMap(HardwareMap hardwareMap) {
+
+
+        //Drive Motors
         FLDrive = hardwareMap.get(DcMotor.class, "FLDrive");
         FRDrive = hardwareMap.get(DcMotor.class, "FRDrive");
         BRDrive = hardwareMap.get(DcMotor.class, "BRDrive");
         BLDrive = hardwareMap.get(DcMotor.class, "BLDrive");
+
+
+        //Arm and intake
         Gripper = hardwareMap.get(Servo.class, "Gripper");
+        Intake = hardwareMap.get(DcMotor.class, "Intake");
+        FeedBelt = hardwareMap.get(DcMotor.class, "FeedBelt");
+        //Lift = hardwareMap.get(DcMotor.class, "Lift");
+
+        //Shooter
         LShooter = hardwareMap.get(DcMotor.class, "LShooter");
         RShooter = hardwareMap.get(DcMotor.class, "RShooter");
 
@@ -61,6 +80,8 @@ public class Robot {
         BRDrive.setDirection(DcMotor.Direction.REVERSE);
         RShooter.setDirection(DcMotor.Direction.FORWARD);
         LShooter.setDirection(DcMotor.Direction.REVERSE);
+
+
     }
 
 
@@ -68,7 +89,7 @@ public class Robot {
      * MecanimDrive method responsible of all *
      * drive motions: drive, strafe, and turn *
      ******************************************/
-    public void MecanimDrive(double drive, double strafe, double turn) {
+    public void MecanumDrive(double drive, double strafe, double turn) {
         double FLPower;
         double FRPower;
         double BLPower;
@@ -84,6 +105,7 @@ public class Robot {
         BLDrive.setPower(BLPower);
         BRDrive.setPower(BRPower);
 
+
     }
 
 
@@ -92,12 +114,12 @@ public class Robot {
      * controle. Current method implements two     *
      * launching velocities                        *
      ***********************************************/
-    public void Shooter(boolean in, boolean out) {
+    public void Shooter(boolean FastShoot, boolean SlowShoot) {
         // duplicate left and right code needed to avoid odd behiavior
         // Right shooter
-        if (in && !out) {
+        if (FastShoot && !SlowShoot) {
             RShooter.setPower(0.75);
-        } else if (out && !in) {
+        } else if (SlowShoot && !FastShoot) {
             RShooter.setPower(0.5);
         } else
         {
@@ -105,10 +127,10 @@ public class Robot {
         }
 
         // Left shooter
-        if (in && !out)
+        if (FastShoot && !SlowShoot)
         {
             LShooter.setPower(0.75);
-        } else if (out && !in)
+        } else if (SlowShoot && !FastShoot)
         {
             LShooter.setPower(0.5);
         }
