@@ -1,12 +1,14 @@
-// Version 1.1
+// Version 1.3
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.logitech.LogitechGamepadF310;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -33,12 +35,15 @@ public class Robot {
     public DcMotor RShooter = null;
 
     /* Create other motors and servos */
-    public Servo Gripper = null;
-    public DcMotor Intake = null;
-    public DcMotor FeedBelt = null;
+   // public Servo Gripper = null;
+   // public DcMotor Intake = null;
+    //public DcMotor FeedBelt = null;
    // public DcMotor Lift = null;
     //Lift is the new variable
     //Picker is the new variable
+
+    /* Create sensors */
+    public DistanceSensor FrontDistanceSensor = null; // NEW
 
     /* Create Hardware Map */
     HardwareMap hMap =  null;
@@ -65,9 +70,9 @@ public class Robot {
 
 
         //Arm and intake
-        Gripper = hardwareMap.get(Servo.class, "Gripper");
-        Intake = hardwareMap.get(DcMotor.class, "Intake");
-        FeedBelt = hardwareMap.get(DcMotor.class, "FeedBelt");
+        //Gripper = hardwareMap.get(Servo.class, "Gripper");
+        //Intake = hardwareMap.get(DcMotor.class, "Intake");
+        //FeedBelt = hardwareMap.get(DcMotor.class, "FeedBelt");
         //Lift = hardwareMap.get(DcMotor.class, "Lift");
 
         //Shooter
@@ -81,7 +86,8 @@ public class Robot {
         RShooter.setDirection(DcMotor.Direction.FORWARD);
         LShooter.setDirection(DcMotor.Direction.REVERSE);
 
-
+        // Sensors
+        FrontDistanceSensor = hardwareMap.get(DistanceSensor.class,"FrontDistanceSensor"); // NEW
     }
 
 
@@ -89,16 +95,28 @@ public class Robot {
      * MecanimDrive method responsible of all *
      * drive motions: drive, strafe, and turn *
      ******************************************/
-    public void MecanumDrive(double drive, double strafe, double turn) {
+    public void MecanumDrive(double drive, double strafe, double turn, boolean forceFieldOn) {
         double FLPower;
         double FRPower;
         double BLPower;
         double BRPower;
 
-        FRPower = -strafe + drive - turn;
-        FLPower = strafe + drive + turn;
-        BRPower = strafe + drive - turn;
-        BLPower = -strafe + drive + turn;
+        int driveAdjust = 1;
+        int turnAdjust = 1;
+        int strafeAdjust = 1;
+
+        if (forceFieldOn) {
+            driveAdjust = 0;
+            turnAdjust = 0;
+        } else {
+            driveAdjust = 1;
+            turnAdjust = 1;
+        }
+
+        FRPower = (-strafe * strafeAdjust) + (drive * driveAdjust) - (turn * turnAdjust);
+        FLPower = (strafe * strafeAdjust) + (drive * driveAdjust) + (turn * turnAdjust);
+        BRPower = (strafe * strafeAdjust) + (drive * driveAdjust) - (turn * turnAdjust);
+        BLPower = (-strafe * strafeAdjust) + (drive * driveAdjust) + (turn * turnAdjust);
 
         FLDrive.setPower(FLPower);
         FRDrive.setPower(FRPower);
@@ -137,5 +155,15 @@ public class Robot {
         else {
             LShooter.setPower(0);
         }
+
+        //distance sensor getting
+
+
+        }
+
+
+
     }
-}
+
+
+
