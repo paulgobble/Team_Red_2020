@@ -1,4 +1,4 @@
-// Version 1.3
+// Version 1.31
 
 package org.firstinspires.ftc.teamcode;
 
@@ -79,7 +79,7 @@ public class Robot {
 
 
     /******************************************
-     * MecanimDrive method responsible of all *
+     * MecanumDrive method responsible of all *
      * drive motions: drive, strafe, and turn *
      ******************************************/
     public void MecanumDrive(double drive, double strafe, double turn, boolean forceFieldOn) {
@@ -116,11 +116,11 @@ public class Robot {
 
     /***********************************************
      * Shooter method responsible for Ring Shooter *
-     * controle. Current method implements two     *
+     * control. Current method implements two     *
      * launching velocities                        *
      ***********************************************/
     public void Shooter(boolean FastShoot, boolean SlowShoot) {
-        // duplicate left and right code needed to avoid odd behiavior
+        // duplicate left and right code needed to avoid odd behavior
         // Right shooter
         if (FastShoot && !SlowShoot) {
             RShooter.setPower(0.75);
@@ -142,9 +142,6 @@ public class Robot {
         else {
             LShooter.setPower(0);
         }
-
-        //distance sensor getting
-
 
         }
 

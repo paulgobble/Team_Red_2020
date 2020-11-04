@@ -1,4 +1,4 @@
-// Version 1.3
+// Version 1.31
 
 package org.firstinspires.ftc.teamcode;
 
@@ -76,10 +76,6 @@ public class TeleOp5663 extends OpMode
         // call drive and shooter methods with gamepad input
         robot.MecanumDrive(drive, strafe, turn, forceFieldOn);
         robot.Shooter(gamepad2.right_trigger > 0, gamepad2.left_trigger > 0);
-
-
-
-
 
 
         // provide telemetry feedback to drivers
