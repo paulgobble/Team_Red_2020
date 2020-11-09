@@ -5,6 +5,6 @@ Coach Gobble: Peanutbutter Cup
 
 Corbin: 
 
-Damien:
+Damien:Chocolate Long John
 
 Dylan: 
