@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 // Version 1.3
+=======
+// Version 1.31
+>>>>>>> 9ab601d513efe36eabe20fcbdd30d5a8c14117ca
 
 package org.firstinspires.ftc.teamcode;
 
@@ -78,10 +82,13 @@ public class TeleOp5663 extends OpMode
         robot.Shooter(gamepad2.right_trigger > 0, gamepad2.left_trigger > 0);
 
 
+<<<<<<< HEAD
 
 
 
 
+=======
+>>>>>>> 9ab601d513efe36eabe20fcbdd30d5a8c14117ca
         // provide telemetry feedback to drivers
         telemetry.addData("FrontDistanceSensor", robot.FrontDistanceSensor.getDistance(DistanceUnit.INCH)); // NEW
         //telemetry.addData("LShooter", robot.LShooter.getCurrentPosition());
