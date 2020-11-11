@@ -7,6 +7,11 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
 public class Robot {
     /* Create Elapsed runtimer */
     private ElapsedTime runtime = new ElapsedTime();
@@ -40,7 +45,8 @@ public class Robot {
      **********************/
     public void Robot() {
 
-    }
+    } // end constructor method Robot
+
 
 
     /****************
@@ -48,38 +54,65 @@ public class Robot {
      ****************/
     public void hMap(HardwareMap hardwareMap) {
 
-
         //Drive Motors
         FLDrive = hardwareMap.get(DcMotor.class, "FLDrive");
         FRDrive = hardwareMap.get(DcMotor.class, "FRDrive");
         BRDrive = hardwareMap.get(DcMotor.class, "BRDrive");
         BLDrive = hardwareMap.get(DcMotor.class, "BLDrive");
-
-
-        //Arm and intake
-        //Gripper = hardwareMap.get(Servo.class, "Gripper");
-        //Intake = hardwareMap.get(DcMotor.class, "Intake");
-        //FeedBelt = hardwareMap.get(DcMotor.class, "FeedBelt");
-        //Lift = hardwareMap.get(DcMotor.class, "Lift");
-
-        //Shooter
-        LShooter = hardwareMap.get(DcMotor.class, "LShooter");
-        RShooter = hardwareMap.get(DcMotor.class, "RShooter");
-
+        //Setting Drive DC Motors direction
         FLDrive.setDirection(DcMotor.Direction.FORWARD);
         FRDrive.setDirection(DcMotor.Direction.REVERSE);
         BLDrive.setDirection(DcMotor.Direction.FORWARD);
         BRDrive.setDirection(DcMotor.Direction.REVERSE);
+
+        //Shooter
+        LShooter = hardwareMap.get(DcMotor.class, "LShooter");
+        RShooter = hardwareMap.get(DcMotor.class, "RShooter");
+        // Setting Shooter DC Motors Direction
         RShooter.setDirection(DcMotor.Direction.FORWARD);
         LShooter.setDirection(DcMotor.Direction.REVERSE);
 
+        //Ring Intake
+        //Intake = hardwareMap.get(DcMotor.class, "Intake");
+        //FeedBelt = hardwareMap.get(DcMotor.class, "FeedBelt");
+        //Setting Ring Intake DC Motor direction
+        //Intake.setDirection(DcMotor.Direction.FORWARD);
+        //FeedBelt.setDirection(DcMotor.Direction.FORWARD);
+
+        // Wobble target arm
+        //Lift = hardwareMap.get(DcMotor.class, "Lift");
+        //Gripper = hardwareMap.get(Servo.class, "Gripper");
+        // Setting Lift DC Motor Direction
+        //Lift.setDirection(DcMotor.Direction.FORWARD);
+
         // Sensors
-        FrontDistanceSensor = hardwareMap.get(DistanceSensor.class,"FrontDistanceSensor"); // NEW
-    }
+        FrontDistanceSensor = hardwareMap.get(DistanceSensor.class,"FrontDistanceSensor");
+
+    } // end hMap
+
+
+
+    /******************
+     *  ReportStatus  *
+     ******************/
+    public void ReportStatus(String theCaption, String theMessage) {
+
+        telemetry.addData(theCaption, theMessage)
+        telemetry.addData("FrontDistanceSensor", FrontDistanceSensor.getDistance(DistanceUnit.INCH));
+        // Drive Motors
+        telemetry.addData("FRDrive", FRDrive.getCurrentPosition());
+        telemetry.addData("FLDrive", FLDrive.getCurrentPosition());
+        telemetry.addData("BRDrive", BRDrive.getCurrentPosition());
+        telemetry.addData("BLDrive", BLDrive.getCurrentPosition());
+        // Shooter motors
+        telemetry.addData("RShooter", RShooter.getCurrentPosition());
+        telemetry.addData("LShooter", LShooter.getCurrentPosition());
+
+    } // end ReportStatus
+
 
 
     /******************************************
-     * MecanimDrive method responsible of all *
      * MecanumDrive method responsible of all *
      * drive motions: drive, strafe, and turn *
      ******************************************/
@@ -89,65 +122,49 @@ public class Robot {
         double BLPower;
         double BRPower;
 
-        int driveAdjust = 1;
-        int turnAdjust = 1;
-        int strafeAdjust = 1;
+        double masterPowerLimit;
+        masterPowerLimit = .6;
+
+        double driveAdjust;
+        double turnAdjust;
+        double strafeAdjust;
 
         if (forceFieldOn) {
             driveAdjust = 0;
             turnAdjust = 0;
+            strafeAdjust = masterPowerLimit / 2;
         } else {
-            driveAdjust = 1;
-            turnAdjust = 1;
+            driveAdjust = masterPowerLimit;
+            turnAdjust = masterPowerLimit;
+            strafeAdjust = masterPowerLimit;
         }
 
-        FRPower = (-strafe * strafeAdjust) + (drive * driveAdjust) - (turn * turnAdjust);
-        FLPower = (strafe * strafeAdjust) + (drive * driveAdjust) + (turn * turnAdjust);
-        BRPower = (strafe * strafeAdjust) + (drive * driveAdjust) - (turn * turnAdjust);
-        BLPower = (-strafe * strafeAdjust) + (drive * driveAdjust) + (turn * turnAdjust);
+        FRPower = (drive * driveAdjust) - (strafe * strafeAdjust) - (turn * turnAdjust);
+        FLPower = (drive * driveAdjust) + (strafe * strafeAdjust) + (turn * turnAdjust);
+        BRPower = (drive * driveAdjust) + (strafe * strafeAdjust) - (turn * turnAdjust);
+        BLPower = (drive * driveAdjust) - (strafe * strafeAdjust) + (turn * turnAdjust);
 
         FLDrive.setPower(FLPower);
         FRDrive.setPower(FRPower);
         BLDrive.setPower(BLPower);
         BRDrive.setPower(BRPower);
 
-
-    }
+    } // end MechanumDrive
 
 
     /***********************************************
      * Shooter method responsible for Ring Shooter *
-     * controle. Current method implements two     *
+     * control. Current method implements two      *
      * launching velocities                        *
      ***********************************************/
-    public void Shooter(boolean FastShoot, boolean SlowShoot) {
-        // duplicate left and right code needed to avoid odd behiavior
+    public void Shooter(double shootPower) {
 
-        // Right shooter
-        if (FastShoot && !SlowShoot) {
-            RShooter.setPower(0.75);
-        } else if (SlowShoot && !FastShoot) {
-            RShooter.setPower(0.5);
-        } else
-        {
-            RShooter.setPower(0);
-        }
+       RShooter.setPower(shootPower);
+       LShooter.setPower(shootPower);
 
-        // Left shooter
-        if (FastShoot && !SlowShoot)
-        {
-            LShooter.setPower(0.75);
-        } else if (SlowShoot && !FastShoot)
-        {
-            LShooter.setPower(0.5);
-        }
-        else {
-            LShooter.setPower(0);
-        }
+    } // end Shooter
 
-        }
-
-    }
+    } // end Class Robot
 
 
 
