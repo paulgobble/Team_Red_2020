@@ -1,8 +1,9 @@
-// Version 1.5.1
+// Version 1.5.2
 
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -60,10 +61,10 @@ public class Robot {
         BRDrive = hardwareMap.get(DcMotor.class, "BRDrive");
         BLDrive = hardwareMap.get(DcMotor.class, "BLDrive");
         //Setting Drive DC Motors direction
-        FLDrive.setDirection(DcMotor.Direction.FORWARD);
-        FRDrive.setDirection(DcMotor.Direction.REVERSE);
-        BLDrive.setDirection(DcMotor.Direction.FORWARD);
-        BRDrive.setDirection(DcMotor.Direction.REVERSE);
+        FLDrive.setDirection(DcMotor.Direction.REVERSE);
+        FRDrive.setDirection(DcMotor.Direction.FORWARD);
+        BLDrive.setDirection(DcMotor.Direction.REVERSE);
+        BRDrive.setDirection(DcMotor.Direction.FORWARD);
 
         //Shooter
         LShooter = hardwareMap.get(DcMotor.class, "LShooter");
@@ -95,18 +96,19 @@ public class Robot {
     /******************
      *  ReportStatus  *
      ******************/
-    public void ReportStatus(String theCaption, String theMessage) {
+    public void ReportStatus() {
 
-        telemetry.addData(theCaption, theMessage);
-        telemetry.addData("FrontDistanceSensor", FrontDistanceSensor.getDistance(DistanceUnit.INCH));
+        //telemetry.addData("Robot", "Woff Woff");  // all calls to the telemetry.addData method crash running program
+        //telemetry.addData(theCaption, theMessage);
+        //telemetry.addData("FrontDistanceSensor", FrontDistanceSensor.getDistance(DistanceUnit.INCH));
         // Drive Motors
-        telemetry.addData("FRDrive", FRDrive.getCurrentPosition());
-        telemetry.addData("FLDrive", FLDrive.getCurrentPosition());
-        telemetry.addData("BRDrive", BRDrive.getCurrentPosition());
-        telemetry.addData("BLDrive", BLDrive.getCurrentPosition());
+        //telemetry.addData("FRDrive", FRDrive.getCurrentPosition());
+        //telemetry.addData("FLDrive", FLDrive.getCurrentPosition());
+        //telemetry.addData("BRDrive", BRDrive.getCurrentPosition());
+        //telemetry.addData("BLDrive", BLDrive.getCurrentPosition());
         // Shooter motors
-        telemetry.addData("RShooter", RShooter.getCurrentPosition());
-        telemetry.addData("LShooter", LShooter.getCurrentPosition());
+        //telemetry.addData("RShooter", RShooter.getCurrentPosition());
+        //telemetry.addData("LShooter", LShooter.getCurrentPosition());
 
     } // end ReportStatus
 
@@ -139,10 +141,10 @@ public class Robot {
             strafeAdjust = masterPowerLimit;
         }
 
-        FRPower = (drive * driveAdjust) - (strafe * strafeAdjust) - (turn * turnAdjust);
-        FLPower = (drive * driveAdjust) + (strafe * strafeAdjust) + (turn * turnAdjust);
-        BRPower = (drive * driveAdjust) + (strafe * strafeAdjust) - (turn * turnAdjust);
-        BLPower = (drive * driveAdjust) - (strafe * strafeAdjust) + (turn * turnAdjust);
+        FRPower = (drive * driveAdjust) + (strafe * strafeAdjust) + (turn * turnAdjust);
+        FLPower = (drive * driveAdjust) - (strafe * strafeAdjust) - (turn * turnAdjust);
+        BRPower = (drive * driveAdjust) - (strafe * strafeAdjust) + (turn * turnAdjust);
+        BLPower = (drive * driveAdjust) + (strafe * strafeAdjust) - (turn * turnAdjust);
 
         FLDrive.setPower(FLPower);
         FRDrive.setPower(FRPower);

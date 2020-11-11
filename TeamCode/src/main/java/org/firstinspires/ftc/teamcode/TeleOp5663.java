@@ -26,7 +26,8 @@ public class TeleOp5663 extends OpMode
     @Override
     public void init() {
         robot.hMap(hardwareMap);
-        robot.ReportStatus("Status:", "Initialized");
+        telemetry.addData("Status:", "Initialized v1.5.2");
+        //robot.ReportStatus("Status:", "Initialized v1.5.1");
     } // end init
 
 
@@ -47,7 +48,8 @@ public class TeleOp5663 extends OpMode
     @Override
     public void start(){
         runtime.reset();
-        robot.ReportStatus("Status:", "S T A R T !");
+        telemetry.addData("Status:", "S T A R T !!");
+        //robot.ReportStatus("Status:", "S T A R T !");
     } // end start
 
 
@@ -59,7 +61,7 @@ public class TeleOp5663 extends OpMode
     public void loop(){
 
         // Ask Robot to note the elasped time using telemetry
-        robot.ReportStatus("Run Time:", runtime.toString());
+        //robot.ReportStatus();                                 // This method in robot doesn't work.  I can't make telemetry.addData work form robot.java
 
         // Input, compute, and send drive input data
         double driveNormal = gamepad1.left_stick_y; // Drive value entered on the left "normal drive" joystick
