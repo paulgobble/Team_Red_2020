@@ -1,4 +1,4 @@
-// Version 1.4
+// Version 1.5.1
 
 package org.firstinspires.ftc.teamcode;
 
@@ -97,7 +97,7 @@ public class Robot {
      ******************/
     public void ReportStatus(String theCaption, String theMessage) {
 
-        telemetry.addData(theCaption, theMessage)
+        telemetry.addData(theCaption, theMessage);
         telemetry.addData("FrontDistanceSensor", FrontDistanceSensor.getDistance(DistanceUnit.INCH));
         // Drive Motors
         telemetry.addData("FRDrive", FRDrive.getCurrentPosition());
@@ -164,7 +164,7 @@ public class Robot {
 
     } // end Shooter
 
-    } // end Class Robot
+} // end Class Robot
 
 
 

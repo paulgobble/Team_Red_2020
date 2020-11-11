@@ -9,7 +9,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @TeleOp(name="TeleOp5663", group="Iterative Opmode")
 public class TeleOp5663 extends OpMode
@@ -26,9 +25,9 @@ public class TeleOp5663 extends OpMode
      ***********************************************/
     @Override
     public void init() {
-        telemetry.addData("Status", "Initialized");
         robot.hMap(hardwareMap);
-    }
+        robot.ReportStatus("Status:", "Initialized");
+    } // end init
 
 
     /***********************************************
@@ -39,7 +38,7 @@ public class TeleOp5663 extends OpMode
     public void init_loop(){
 
 
-    }
+    } // end init_loop
 
 
     /***********************************************
@@ -48,8 +47,8 @@ public class TeleOp5663 extends OpMode
     @Override
     public void start(){
         runtime.reset();
-
-    }
+        robot.ReportStatus("Status:", "S T A R T !");
+    } // end start
 
 
     /***********************************************
@@ -58,47 +57,44 @@ public class TeleOp5663 extends OpMode
      ***********************************************/
     @Override
     public void loop(){
-        // assign pilot controler value to appropriate variables
-        double drive = gamepad1.left_stick_y;
+
+        // Ask Robot to note the elasped time using telemetry
+        robot.ReportStatus("Run Time:", runtime.toString());
+
+        // Input, compute, and send drive input data
+        double driveNormal = gamepad1.left_stick_y; // Drive value entered on the left "normal drive" joystick
+        double driveCreep = gamepad1.right_stick_y; // Drive value entered on the right "creep" joystice
+        double driveResult;                         // Computed drive value sent to Robot
+
+        if (driveCreep == 0) {
+            driveResult = driveNormal;
+        } else {
+            driveResult = driveCreep * .5;
+        }
+
         double strafe = gamepad1.right_stick_x;
         double turn = gamepad1.left_stick_x;
 
-        //distance sensor finder
-        if (gamepad2.x) {
-            if (robot.FrontDistanceSensor.getDistance(DistanceUnit.INCH) < 20) {
-                telemetry.addData("Force Field", "ON");
-                forceFieldOn = true;
-            } else {
-                telemetry.addData("Force Field", "ARMED");
-                forceFieldOn = false;
-            }
+        // call Robot's mecanumDrive method
+        robot.MecanumDrive(driveResult, strafe, turn, forceFieldOn);
+
+
+        // Input, compute, and send shooter input data
+        double shootFast = gamepad2.right_trigger;  // Input from Shoot Fast Trigger
+        double shootSlow = gamepad2.left_trigger;   // Input from Shoot Slow Trigger
+        double shootPower = 0;                      // Computed shooting power sent to Robot
+
+        if (shootFast != 0) {
+            shootPower = .75;
+        } else if (shootSlow != 0) {
+            shootPower = .5;
         } else {
-            telemetry.addData("Force Field", "OFF");
-            forceFieldOn = false;
+            shootPower = 0;
         }
-
-        // call drive and shooter methods with gamepad input
-        robot.MecanumDrive(drive, strafe, turn, forceFieldOn);
-        robot.Shooter(gamepad2.right_trigger > 0, gamepad2.left_trigger > 0);
+        robot.Shooter(shootPower);
 
 
-<<<<<<< HEAD
-
-
-
-
-=======
->>>>>>> 9ab601d513efe36eabe20fcbdd30d5a8c14117ca
-        // provide telemetry feedback to drivers
-        telemetry.addData("FrontDistanceSensor", robot.FrontDistanceSensor.getDistance(DistanceUnit.INCH)); // NEW
-        //telemetry.addData("LShooter", robot.LShooter.getCurrentPosition());
-        //telemetry.addData("RShooter", robot.RShooter.getCurrentPosition());
-        //telemetry.addData("FRDrive", robot.FRDrive.getCurrentPosition());
-        //telemetry.addData("FLDrive", robot.FLDrive.getCurrentPosition());
-        //telemetry.addData("BRDrive", robot.BRDrive.getCurrentPosition());
-        //telemetry.addData("BLDrive", robot.BLDrive.getCurrentPosition());
-        telemetry.addData("Status", "Run Time: " + runtime.toString());
-    }
+    } // end loop
 
 
     /***********************************************
@@ -108,5 +104,6 @@ public class TeleOp5663 extends OpMode
     public void stop() {
 
 
-    }
-}
+    } // end stop
+
+} // End class TeleOp5663
