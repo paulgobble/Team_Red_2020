@@ -1,4 +1,4 @@
-// Version 1.5.2
+// Version 1.6
 
 package org.firstinspires.ftc.teamcode;
 
@@ -29,7 +29,7 @@ public class Robot {
 
     /* Create other motors and servos */
    // public Servo Gripper = null;
-   // public DcMotor Intake = null;
+   public DcMotor Intake = null;
     //public DcMotor FeedBelt = null;
    // public DcMotor Lift = null;
     //Lift is the new variable
@@ -70,14 +70,14 @@ public class Robot {
         LShooter = hardwareMap.get(DcMotor.class, "LShooter");
         RShooter = hardwareMap.get(DcMotor.class, "RShooter");
         // Setting Shooter DC Motors Direction
-        RShooter.setDirection(DcMotor.Direction.FORWARD);
-        LShooter.setDirection(DcMotor.Direction.REVERSE);
+        RShooter.setDirection(DcMotor.Direction.REVERSE);
+        LShooter.setDirection(DcMotor.Direction.FORWARD);
 
         //Ring Intake
-        //Intake = hardwareMap.get(DcMotor.class, "Intake");
+        Intake = hardwareMap.get(DcMotor.class, "Intake");
         //FeedBelt = hardwareMap.get(DcMotor.class, "FeedBelt");
         //Setting Ring Intake DC Motor direction
-        //Intake.setDirection(DcMotor.Direction.FORWARD);
+        Intake.setDirection(DcMotor.Direction.REVERSE);
         //FeedBelt.setDirection(DcMotor.Direction.FORWARD);
 
         // Wobble target arm
@@ -90,6 +90,19 @@ public class Robot {
         FrontDistanceSensor = hardwareMap.get(DistanceSensor.class,"FrontDistanceSensor");
 
     } // end hMap
+
+
+
+    /*************************
+     *  CarWash - start the  *
+     *  rear ring intake     *
+     *  carwash spinner      *
+     *************************/
+    public void CarWash (double speed) {
+
+        Intake.setPower(speed);
+
+    }
 
 
 

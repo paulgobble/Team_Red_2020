@@ -8,6 +8,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="TeleOp5663", group="Iterative Opmode")
@@ -26,7 +27,7 @@ public class TeleOp5663 extends OpMode
     @Override
     public void init() {
         robot.hMap(hardwareMap);
-        telemetry.addData("Status:", "Initialized v1.5.2");
+        telemetry.addData("Status:", "Initialized v1.6");
         //robot.ReportStatus("Status:", "Initialized v1.5.1");
     } // end init
 
@@ -94,6 +95,13 @@ public class TeleOp5663 extends OpMode
             shootPower = 0;
         }
         robot.Shooter(shootPower);
+
+        // Turn on or off the rear Ring Intake carwash spinner
+        if (gamepad2.x) {
+            robot.CarWash(.5);
+        } else {
+            robot.CarWash((0));
+        }
 
 
     } // end loop
