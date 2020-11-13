@@ -7,4 +7,4 @@ Corbin:
 
 Damien:Chocolate and Cream Long John
 
-Dylan: 
+Dylan: Chocolate
