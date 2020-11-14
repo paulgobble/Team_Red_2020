@@ -1,4 +1,4 @@
-// Version 1.7
+// Version 1.8
 
 package org.firstinspires.ftc.teamcode;
 
@@ -64,8 +64,8 @@ public class Robot {
         LShooter = hardwareMap.get(DcMotor.class, "LShooter");
         RShooter = hardwareMap.get(DcMotor.class, "RShooter");
         // Setting Shooter DC Motors Direction
-        RShooter.setDirection(DcMotor.Direction.REVERSE);
-        LShooter.setDirection(DcMotor.Direction.FORWARD);
+        RShooter.setDirection(DcMotor.Direction.FORWARD);
+        LShooter.setDirection(DcMotor.Direction.REVERSE);
 
         //Ring Intake
         Intake = hardwareMap.get(DcMotor.class, "Intake");
