@@ -27,7 +27,7 @@ public class TeleOp5663 extends OpMode
     @Override
     public void init() {
         robot.hMap(hardwareMap);
-        telemetry.addData("Status:", "Initialized v1.8");
+        telemetry.addData("Status:", "Initialized v1.8.1");
         //robot.ReportStatus("Status:", "Initialized v1.5.1");
     } // end init
 
