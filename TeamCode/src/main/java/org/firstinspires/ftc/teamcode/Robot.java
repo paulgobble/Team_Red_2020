@@ -1,4 +1,4 @@
-// Version 1.8.1
+// Version 1.9
 
 package org.firstinspires.ftc.teamcode;
 
@@ -7,7 +7,14 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
 public class Robot {
+
+    /* Establish Essential Robot Modes */
+    private int driveDirectionModifyer = 1;
+    private boolean forceFieldOn = false;
+
     /* Create Elapsed runtimer */
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -86,6 +93,74 @@ public class Robot {
     } // end hMap
 
 
+    /************************
+     *        SETTER        *
+     *  Toggle the value of *
+     *  forwardDriveMode    *
+     ************************/
+    public void setForwardDriveMode () {
+        if (driveDirectionModifyer == 1) {
+            driveDirectionModifyer = -1;
+        } else {
+            driveDirectionModifyer = 1;
+        }
+    }
+
+    /************************
+     *        GETTER        *
+     *  report the value of *
+     *  forwardDriveMode    *
+     ************************/
+    public String getDirectionMode () {
+        if (driveDirectionModifyer == 1) {
+            return "FORWARD drive mode";
+        } else {
+            return "REVERSE drive mode";
+        }
+    }
+
+
+    /************************
+     *        SETTER        *
+     *  Toggle the value of *
+     *  forceFieldOn        *
+     ************************/
+    public void toggleForceField() {
+
+        if (forceFieldOn) {
+            forceFieldOn = false;
+        } else {
+            forceFieldOn = true;
+        }
+    }
+
+    /************************
+     *        GETTER        *
+     *  report the value of *
+     *  forceFieldOn        *
+     ************************/
+    public String isForceFieldOn() {
+
+        if (forceFieldOn) {
+            return "ON";
+        } else {
+            return "OFF";
+        }
+    }
+
+
+    /************************
+     *        GETTER        *
+     *  report the value of *
+     *  FrontDistanceSensor *
+     ************************/
+    public double getFrontDistance () {
+
+        return FrontDistanceSensor.getDistance(DistanceUnit.INCH);
+
+    }
+
+
 
     /*************************
      *  CarWash - start the  *
@@ -100,32 +175,11 @@ public class Robot {
 
 
 
-    /******************
-     *  ReportStatus  *
-     ******************/
-    public void ReportStatus() {
-
-        //telemetry.addData("Robot", "Woff Woff");  // all calls to the telemetry.addData method crash running program
-        //telemetry.addData(theCaption, theMessage);
-        //telemetry.addData("FrontDistanceSensor", FrontDistanceSensor.getDistance(DistanceUnit.INCH));
-        // Drive Motors
-        //telemetry.addData("FRDrive", FRDrive.getCurrentPosition());
-        //telemetry.addData("FLDrive", FLDrive.getCurrentPosition());
-        //telemetry.addData("BRDrive", BRDrive.getCurrentPosition());
-        //telemetry.addData("BLDrive", BLDrive.getCurrentPosition());
-        // Shooter motors
-        //telemetry.addData("RShooter", RShooter.getCurrentPosition());
-        //telemetry.addData("LShooter", LShooter.getCurrentPosition());
-
-    } // end ReportStatus
-
-
-
     /******************************************
      * MecanumDrive method responsible of all *
      * drive motions: drive, strafe, and turn *
      ******************************************/
-    public void MecanumDrive(double drive, double strafe, double turn, boolean forceFieldOn) {
+    public void MecanumDrive(double drive, double strafe, double turn) {
         double FLPower;
         double FRPower;
         double BLPower;
@@ -148,10 +202,10 @@ public class Robot {
             strafeAdjust = masterPowerLimit;
         }
 
-        FRPower = (drive * driveAdjust) + (strafe * strafeAdjust) + (turn * turnAdjust);
-        FLPower = (drive * driveAdjust) - (strafe * strafeAdjust) - (turn * turnAdjust);
-        BRPower = (drive * driveAdjust) - (strafe * strafeAdjust) + (turn * turnAdjust);
-        BLPower = (drive * driveAdjust) + (strafe * strafeAdjust) - (turn * turnAdjust);
+        FRPower = ((drive * driveAdjust * driveDirectionModifyer) + (strafe * strafeAdjust * driveDirectionModifyer) + (turn * turnAdjust)) ;
+        FLPower = ((drive * driveAdjust * driveDirectionModifyer) - (strafe * strafeAdjust * driveDirectionModifyer) - (turn * turnAdjust)) ;
+        BRPower = ((drive * driveAdjust * driveDirectionModifyer) - (strafe * strafeAdjust * driveDirectionModifyer) + (turn * turnAdjust)) ;
+        BLPower = ((drive * driveAdjust * driveDirectionModifyer) + (strafe * strafeAdjust * driveDirectionModifyer) - (turn * turnAdjust)) ;
 
         FLDrive.setPower(FLPower);
         FRDrive.setPower(FRPower);

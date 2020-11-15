@@ -18,8 +18,6 @@ public class TeleOp5663 extends OpMode
 
     Robot robot = new Robot();
 
-    private boolean forceFieldOn = false;
-
 
     /***********************************************
      * This method is run ONCE when drivers hits INIT
@@ -27,7 +25,8 @@ public class TeleOp5663 extends OpMode
     @Override
     public void init() {
         robot.hMap(hardwareMap);
-        telemetry.addData("Status:", "Initialized v1.8.1");
+        telemetry.addData("Status:", "Initialized v1.9");
+        //robot.ReportStatus();
         //robot.ReportStatus("Status:", "Initialized v1.5.1");
     } // end init
 
@@ -61,8 +60,20 @@ public class TeleOp5663 extends OpMode
     @Override
     public void loop(){
 
-        // Ask Robot to note the elasped time using telemetry
-        //robot.ReportStatus();                                 // This method in robot doesn't work.  I can't make telemetry.addData work form robot.java
+        // Set Robot Options
+        if (gamepad1.x) {
+            robot.setForwardDriveMode();
+
+        }
+
+        if (gamepad1.b) {
+            robot.toggleForceField();
+        }
+
+        // Report Telemetry Data
+        telemetry.addData("Drive Direction:", robot.getDirectionMode());
+        telemetry.addData("Forcefield:", robot.isForceFieldOn());
+        telemetry.addData("Front Distanfe", robot.getFrontDistance());
 
         // Input, compute, and send drive input data
         double driveNormal = gamepad1.left_stick_y; // Drive value entered on the left "normal drive" joystick
@@ -79,7 +90,7 @@ public class TeleOp5663 extends OpMode
         double turn = gamepad1.left_stick_x;
 
         // call Robot's mecanumDrive method
-        robot.MecanumDrive(driveResult, strafe, turn, forceFieldOn);
+        robot.MecanumDrive(driveResult, strafe, turn);
 
 
         // Input, compute, and send shooter input data
