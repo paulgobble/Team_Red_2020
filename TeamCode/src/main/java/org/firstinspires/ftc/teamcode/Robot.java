@@ -1,7 +1,8 @@
-// Version 1.9
+// Version 1.9.1
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -12,35 +13,47 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class Robot {
 
     /* Establish Essential Robot Modes */
-    private int driveDirectionModifyer = 1;
-    private boolean forceFieldOn = false;
+    private int driveDirectionModifyer = 1;     // What do we consider "Forward"
+    private boolean forceFieldArmed = false;    // Has the force field system been activated by pilot
+    private boolean inDangerZone = false;       // Is the robot within the stop distance limit
+    private boolean forceFieldTriggered = false;  // Has the Robot turned on the force field 'cause it wsa activated by pilot and roobt is within the stop distance
+    private final double stopDistance = 14.0;
 
     /* Create Elapsed runtimer */
     private ElapsedTime runtime = new ElapsedTime();
 
     /* Create DcMotors for drive */
-    public DcMotor FLDrive = null;
-    public DcMotor FRDrive = null;
-    public DcMotor BLDrive = null;
-    public DcMotor BRDrive = null;
+    private DcMotor FLDrive = null;
+    private DcMotor FRDrive = null;
+    private DcMotor BLDrive = null;
+    private DcMotor BRDrive = null;
 
     /* Create DcMotors for shooter */
-    public DcMotor LShooter = null;
-    public DcMotor RShooter = null;
+    private DcMotor LShooter = null;
+    private DcMotor RShooter = null;
 
     /* Create other motors and servos */
-   // public Servo Gripper = null;
-   public DcMotor Intake = null;
+    // public Servo Gripper = null;
+    private DcMotor Intake = null;
     //public DcMotor FeedBelt = null;
-   // public DcMotor Lift = null;
+    // public DcMotor Lift = null;
     //Lift is the new variable
     //Picker is the new variable
 
     /* Create sensors */
-    public DistanceSensor FrontDistanceSensor = null; // NEW
+    private DistanceSensor FrontDistanceSensor = null; // NEW
+
+    private RevBlinkinLedDriver blinkinLedDriver = null;
+    private RevBlinkinLedDriver.BlinkinPattern pattern = null;
+
+
 
     /* Create Hardware Map */
     HardwareMap hMap =  null;
+
+    public Robot() {
+    }
+
 
     /**********************
      /* Create constructor *
@@ -76,7 +89,6 @@ public class Robot {
 
         //Ring Intake
         Intake = hardwareMap.get(DcMotor.class, "Intake");
-        //FeedBelt = hardwareMap.get(DcMotor.class, "FeedBelt");
         //Setting Ring Intake DC Motor direction
         Intake.setDirection(DcMotor.Direction.REVERSE);
         //FeedBelt.setDirection(DcMotor.Direction.FORWARD);
@@ -89,6 +101,7 @@ public class Robot {
 
         // Sensors
         FrontDistanceSensor = hardwareMap.get(DistanceSensor.class,"FrontDistanceSensor");
+        blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
 
     } // end hMap
 
@@ -113,9 +126,9 @@ public class Robot {
      ************************/
     public String getDirectionMode () {
         if (driveDirectionModifyer == 1) {
-            return "FORWARD drive mode";
+            return "FORWARD (Shooter)";
         } else {
-            return "REVERSE drive mode";
+            return "REVERSE (Wedge)";
         }
     }
 
@@ -127,10 +140,10 @@ public class Robot {
      ************************/
     public void toggleForceField() {
 
-        if (forceFieldOn) {
-            forceFieldOn = false;
+        if (forceFieldArmed) {
+            forceFieldArmed = false;
         } else {
-            forceFieldOn = true;
+            forceFieldArmed = true;
         }
     }
 
@@ -141,8 +154,10 @@ public class Robot {
      ************************/
     public String isForceFieldOn() {
 
-        if (forceFieldOn) {
+        if (forceFieldTriggered) {
             return "ON";
+        } else if (forceFieldArmed) {
+            return "Armed";
         } else {
             return "OFF";
         }
@@ -192,7 +207,7 @@ public class Robot {
         double turnAdjust;
         double strafeAdjust;
 
-        if (forceFieldOn) {
+        if ((forceFieldArmed) && (forceFieldTriggered)) {
             driveAdjust = 0;
             turnAdjust = 0;
             strafeAdjust = masterPowerLimit / 2;
@@ -226,6 +241,29 @@ public class Robot {
        LShooter.setPower(shootPower);
 
     } // end Shooter
+
+
+    /************************************
+     *  Method directing Robot to check *
+     *  its sensors, adjust the
+     *  force field and set lights      *
+     ************************************/
+    public void updateStatus () {
+
+        // check if Robot should power of the force field
+        if ((forceFieldArmed) && (getFrontDistance() <= stopDistance)) {
+            forceFieldTriggered = true;
+            pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
+        } else if ((forceFieldArmed) && (getFrontDistance()) > stopDistance){
+            forceFieldTriggered = false;
+            pattern = RevBlinkinLedDriver.BlinkinPattern.YELLOW;
+        } else {
+            forceFieldTriggered = false;
+            pattern = RevBlinkinLedDriver.BlinkinPattern.WHITE;
+        }
+        blinkinLedDriver.setPattern(pattern);
+
+    } // end updateStatus
 
 } // end Class Robot
 
