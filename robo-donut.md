@@ -5,6 +5,6 @@ Coach Gobble: Peanutbutter Cup With Extra Peanutbutter
 
 Corbin: MMMMMMMMMMMMMM all donuts
 
-Damien:Chocolate and Cream Long John
+Damien: Chocolate and Cream Long John
 
-Dylan: Chocolate
+Dylan: Chocolate, also with sprinkles
