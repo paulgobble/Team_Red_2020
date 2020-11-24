@@ -8,15 +8,32 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.internal.system.Deadline;
+
+import java.util.concurrent.TimeUnit;
 
 @TeleOp(name="TeleOp5663", group="Iterative Opmode")
 public class TeleOp5663 extends OpMode
 {
+    Robot robot = new Robot();
+
     private ElapsedTime runtime = new ElapsedTime(); //do we need ElaspedTime in both Robot and TeleOP
 
-    Robot robot = new Robot();
+    /* Rate limit gamepad button presses to every 500ms. */
+    private final static int ButtonLockout = 500;
+
+    private Deadline buttonPressLimit;
+
+    /* Telemetry items */
+    private Telemetry.Item TI_message;
+    private Telemetry.Item TI_driveOrientation;
+    private Telemetry.Item TI_forceFieldMode;
+    private Telemetry.Item TI_frontDistance;
+
+
 
 
     /***********************************************
@@ -25,7 +42,14 @@ public class TeleOp5663 extends OpMode
     @Override
     public void init() {
         robot.hMap(hardwareMap);
-        telemetry.addData("Status:", "Initialized v1.9");
+
+        TI_message = telemetry.addData("Status:", "Initialized v1.9.2");
+        TI_driveOrientation = telemetry.addData("Drive Orientation", "Forward");
+        TI_forceFieldMode = telemetry.addData("Forec Field", "Off");
+        TI_frontDistance = telemetry.addData("Front Distance", "-------");
+
+        buttonPressLimit = new Deadline(ButtonLockout, TimeUnit.MILLISECONDS);
+
         //robot.ReportStatus();
         //robot.ReportStatus("Status:", "Initialized v1.5.1");
     } // end init
@@ -48,7 +72,7 @@ public class TeleOp5663 extends OpMode
     @Override
     public void start(){
         runtime.reset();
-        telemetry.addData("Status:", "S T A R T !!");
+        TI_message = telemetry.addData("Status", "S T A R T !!");
         //robot.ReportStatus("Status:", "S T A R T !");
     } // end start
 
@@ -60,20 +84,17 @@ public class TeleOp5663 extends OpMode
     @Override
     public void loop(){
 
-        // Set Robot Options
-        if (gamepad1.x) {
-            robot.setForwardDriveMode();
+        // handle button input
+        handleButtons();
 
-        }
-
-        if (gamepad1.b) {
-            robot.toggleForceField();
-        }
+        // Have Robot update its status
+        robot.updateStatus();
 
         // Report Telemetry Data
-        telemetry.addData("Drive Direction:", robot.getDirectionMode());
-        telemetry.addData("Forcefield:", robot.isForceFieldOn());
-        telemetry.addData("Front Distanfe", robot.getFrontDistance());
+        TI_message = telemetry.addData("Elasped Time", "%.1f", runtime.seconds());
+        TI_driveOrientation = telemetry.addData("Drive Orientation:", robot.getDirectionMode());
+        TI_forceFieldMode = telemetry.addData("Forcefield:", robot.isForceFieldOn());
+        TI_frontDistance = telemetry.addData("Front Distance","%.1f", robot.getFrontDistance());
 
         // Input, compute, and send drive input data
         double driveNormal = gamepad1.left_stick_y; // Drive value entered on the left "normal drive" joystick
@@ -119,12 +140,36 @@ public class TeleOp5663 extends OpMode
 
 
     /***********************************************
-     * Code to run ONCE after the driver hits STOP
+     * Code to run ONCE after the driver hits STOP *
      ***********************************************/
     @Override
     public void stop() {
 
 
     } // end stop
+
+
+    /*******************************************
+     * Method to handle gamepad button presses *
+     * and debounce                            *
+     *******************************************/
+    private void handleButtons () {
+
+        // check if we've waited long enough
+        if (!buttonPressLimit.hasExpired()) {
+            return;
+        }
+
+        // Set Robot Options
+        if (gamepad1.x) {
+            robot.setForwardDriveMode();
+            buttonPressLimit.reset();
+        } else if (gamepad1.b) {
+            robot.toggleForceField();
+            buttonPressLimit.reset();
+        }
+
+    } // End handleButtons
+
 
 } // End class TeleOp5663
