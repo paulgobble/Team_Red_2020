@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.robotcontroller.external.samples;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -87,7 +87,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 
 @TeleOp(name="ULTIMATEGOAL Vuforia Nav Webcam", group ="Concept")
 @Disabled
-public class ConceptVuforiaUltimateGoalNavigationWebcam extends LinearOpMode {
+public class VuforiaWebcam extends LinearOpMode {
 
     // IMPORTANT: If you are using a USB WebCam, you must select CAMERA_CHOICE = BACK; and PHONE_IS_PORTRAIT = false;
     private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
@@ -106,7 +106,7 @@ public class ConceptVuforiaUltimateGoalNavigationWebcam extends LinearOpMode {
      * and paste it in to your code on the next line, between the double quotes.
      */
     private static final String VUFORIA_KEY =
-            " --- YOUR NEW VUFORIA KEY GOES HERE  --- ";
+            "AcdLILv/////AAABmYzbACp1cUZ4uVRYBoRhEroelMuv2wT4F+QXkSSQdnVn53twNe9nCaPRKooVQGleLVRPiDVX3wmqOgARGOBU9rqLiS8fcwii0GS0B1xWV16OtWpjpthoAEwRKgr4zUUfPpnnjQ0VIg6vrGCp9AXAn4rHlNE5/LyJ+XkiLgxOhDCrp3oHFijB7jUuumzsZqs1rderBSGjvwJuyOwHWz0V52Nu2Cg6D5//hv5WgtYo1J7VgT8QDQQHtWmGHPFpksU+/5dXf4ZhIgE7opb+YrUcRRW0Yb/SsT2iSsZbIYakjLta46ICjQNbDikZkIAeVMO8EvSY1fUlcgoCKxv/kqLw0sKy1yTvABpKM+5leqAHJeEX";
 
     // Since ImageTarget trackables use mm to specifiy their dimensions, we must use mm for all the physical dimension.
     // We will define some constants and conversions here
@@ -136,7 +136,7 @@ public class ConceptVuforiaUltimateGoalNavigationWebcam extends LinearOpMode {
         /*
          * Retrieve the camera we are to use.
          */
-        webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
+        webcamName = hardwareMap.get(WebcamName.class, "Scanning");
 
         /*
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
