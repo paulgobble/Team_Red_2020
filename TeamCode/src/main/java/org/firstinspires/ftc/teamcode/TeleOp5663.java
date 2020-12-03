@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-// Version 1.3
-=======
-// Version 1.31
->>>>>>> 9ab601d513efe36eabe20fcbdd30d5a8c14117ca
+// Version 1.9 vf.1
 
 package org.firstinspires.ftc.teamcode;
 
@@ -25,7 +21,7 @@ public class TeleOp5663 extends OpMode
     @Override
     public void init() {
         robot.hMap(hardwareMap);
-        telemetry.addData("Status:", "Initialized v1.9");
+        telemetry.addData("Status:", "Initialized v1.9 vf.1");
         //robot.ReportStatus();
         //robot.ReportStatus("Status:", "Initialized v1.5.1");
     } // end init
