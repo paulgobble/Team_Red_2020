@@ -1,4 +1,4 @@
-// Version 1.9 eocv.1
+// Version 1.9 eocv.2
 
 package org.firstinspires.ftc.teamcode;
 
@@ -8,16 +8,32 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.opencv.core.Mat;
+import org.opencv.core.Point;
+import org.opencv.core.Scalar;
+import org.opencv.imgproc.Imgproc;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.openftc.easyopencv.OpenCvPipeline;
 
 public class Robot {
 
     /* Establish Essential Robot Modes */
-    private int driveDirectionModifyer = 1;     // What do we consider "Forward"
+    private int driveDirectionModifyer = 1;     // What do we consider "Forward" end of Redbot
     private boolean forceFieldArmed = false;    // Has the force field system been activated by pilot
-    private boolean inDangerZone = false;       // Is the robot within the stop distance limit
     private boolean forceFieldTriggered = false;  // Has the Robot turned on the force field 'cause it wsa activated by pilot and roobt is within the stop distance
     private final double stopDistance = 14.0;
+    private boolean streamingVideo;             // is the connection to the webcam open
+
+    /* Define Enumerator for possible TargetZones*/
+    enum TargetZones {
+        A,
+        B,
+        C
+    }
 
     /* Create Elapsed runtimer */
     private ElapsedTime runtime = new ElapsedTime();
@@ -33,12 +49,9 @@ public class Robot {
     private DcMotor RShooter = null;
 
     /* Create other motors and servos */
-    // public Servo Gripper = null;
     private DcMotor Intake = null;
-    //public DcMotor FeedBelt = null;
     // public DcMotor Lift = null;
-    //Lift is the new variable
-    //Picker is the new variable
+    // public Servo Gripper = null;
 
     /* Create sensors */
     private DistanceSensor FrontDistanceSensor = null; // NEW
@@ -46,18 +59,20 @@ public class Robot {
     private RevBlinkinLedDriver blinkinLedDriver = null;
     private RevBlinkinLedDriver.BlinkinPattern pattern = null;
 
-
+    /* Create a webcam */
+    OpenCvCamera webcam;
 
     /* Create Hardware Map */
     HardwareMap hMap =  null;
 
-    public Robot() {
-    }
+
+    //public Robot() {  // this method create twice?
+    //}
 
 
-    /**********************
-     /* Create constructor *
-     **********************/
+    /***********************
+     *  Create constructor *
+     ***********************/
     public void Robot() {
 
     } // end constructor method Robot
@@ -103,6 +118,21 @@ public class Robot {
         FrontDistanceSensor = hardwareMap.get(DistanceSensor.class,"FrontDistanceSensor");
         blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
 
+        // webcam
+        if(streamingVideo) {
+            webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
+            webcam.setPipeline(new RedPipeline());
+            webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+            {
+                @Override
+                public void onOpened()
+                {
+                    webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
+                }
+            });
+
+        }
+
     } // end hMap
 
 
@@ -147,6 +177,7 @@ public class Robot {
         }
     }
 
+
     /************************
      *        GETTER        *
      *  report the value of *
@@ -176,6 +207,15 @@ public class Robot {
     }
 
 
+    /************************
+     *        SETTER        *
+     *  Set the value of    *
+     *  streamingVideo      *
+     ************************/
+    public void setStreamingVideo(boolean onOrOff){
+        streamingVideo = onOrOff;
+    }
+
 
     /*************************
      *  CarWash - start the  *
@@ -187,7 +227,6 @@ public class Robot {
         Intake.setPower(speed);
 
     }
-
 
 
     /******************************************
@@ -248,7 +287,7 @@ public class Robot {
      *  its sensors, adjust the
      *  force field and set lights      *
      ************************************/
-    public void updateStatus () {
+    public void updateFFStatus() {
 
         // check if Robot should power of the force field
         if ((forceFieldArmed) && (getFrontDistance() <= stopDistance)) {
@@ -264,6 +303,77 @@ public class Robot {
         blinkinLedDriver.setPattern(pattern);
 
     } // end updateStatus
+
+
+    /********************************
+     *  Method directing Robot to   *
+     *  change its LEDs to indicate *
+     *  the detected target zone    *
+     ********************************/
+    public void idTargetZone(TargetZones passedZone){
+        switch (passedZone){
+            case A:
+                pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
+                break;
+            case B:
+                pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
+                break;
+            case C:
+                pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
+                break;
+        }
+
+        blinkinLedDriver.setPattern(pattern);
+
+    } // end idTargetZone
+
+
+    /******************************
+     *  Nested Class defining the *
+     *  EasyOpenCV pipeline       *
+     ******************************/
+    class RedPipeline extends OpenCvPipeline
+    {
+        boolean viewportPaused;
+
+        @Override
+        public Mat processFrame(Mat input)
+        {
+
+            /*
+             * Draw a simple box around the area where we expect the target rings to be seen
+             */
+            Imgproc.rectangle(
+                    input,
+                    new Point(
+                            120,
+                            50),
+                    new Point(
+                            input.cols()-120,
+                            input.rows()-140),
+                    new Scalar(255, 0, 0), 4);
+
+            return input;
+        }
+
+        @Override
+        public void onViewportTapped()
+        {
+
+            viewportPaused = !viewportPaused;
+
+            if(viewportPaused)
+            {
+                webcam.pauseViewport();
+            }
+            else
+            {
+                webcam.resumeViewport();
+            }
+        }
+    } // end nested Class RedPipeline
+
+
 
 } // end Class Robot
 

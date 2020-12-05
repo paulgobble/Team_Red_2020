@@ -1,4 +1,4 @@
-// Version 1.9 eocv.1
+// Version 1.9 eocv.2
 
 package org.firstinspires.ftc.teamcode;
 
@@ -37,9 +37,11 @@ public class TeleOp5663 extends OpMode
      ***********************************************/
     @Override
     public void init() {
+        robot.setStreamingVideo(false);
+
         robot.hMap(hardwareMap);
 
-        TI_message = telemetry.addData("Status:", "Initialized v1.9 eocv.1");
+        TI_message = telemetry.addData("Status:", "Initialized v1.9 eocv.2");
         TI_driveOrientation = telemetry.addData("Drive Orientation", "Forward");
         TI_forceFieldMode = telemetry.addData("Forec Field", "Off");
         TI_frontDistance = telemetry.addData("Front Distance", "-------");
@@ -82,7 +84,7 @@ public class TeleOp5663 extends OpMode
         handleButtons();
 
         // Have Robot update its status
-        robot.updateStatus();
+        robot.updateFFStatus();
 
         // Report Telemetry Data
         TI_message = telemetry.addData("Elasped Time", "%.1f", runtime.seconds());
