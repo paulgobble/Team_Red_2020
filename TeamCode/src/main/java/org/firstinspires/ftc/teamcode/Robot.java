@@ -1,4 +1,4 @@
-// Version 1.9 eocv.2
+// Version 1.9 eocv.3
 
 package org.firstinspires.ftc.teamcode;
 
@@ -10,8 +10,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
+import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -34,6 +36,17 @@ public class Robot {
         B,
         C
     }
+
+    /* Tested Target Zone Average Values for stack of rings */
+    private final double TZAV_0_Reading = 125;   // tested reading for no rings
+    private final double TZAV_1_Reading = 110;   // tested reading for one ring
+    private final double TZAV_4_Reading = 50;    // guessed reading for four rings
+
+    /* Create interger to hold the Target Zone Average Value */
+    private int targetZoneAverageValue;
+
+    /* Create enum TargetZones to store the descifered Target Zone */
+    private TargetZones desciferedTargetZone;
 
     /* Create Elapsed runtimer */
     private ElapsedTime runtime = new ElapsedTime();
@@ -217,6 +230,30 @@ public class Robot {
     }
 
 
+    /***************************
+     *        GETTER           *
+     *  get the value of       *
+     *  targetZoneAverageValue *
+     ***************************/
+    public int getTargetZoneAverageValue() {
+
+        return targetZoneAverageValue;
+
+    }
+
+
+    /***************************
+     *        GETTER           *
+     *  get the value of       *
+     *  desciferedTargetZone   *
+     ***************************/
+    public TargetZones getDesciferedTargetZone() {
+
+        return desciferedTargetZone;
+
+    }
+
+
     /*************************
      *  CarWash - start the  *
      *  rear ring intake     *
@@ -332,28 +369,71 @@ public class Robot {
      *  Nested Class defining the *
      *  EasyOpenCV pipeline       *
      ******************************/
+
+    // Based largely on EasyOpenCV example WebcamExample
     class RedPipeline extends OpenCvPipeline
     {
         boolean viewportPaused;
 
+        Mat processedImage = new Mat();     // Matrix to contain the input image after it is converted to LCrCb colorspace
+        Mat processedImageCr = new Mat();   // Matrix to contain just the Cb chanel
+        Mat targetZoneSample = new Mat();   // Matrix to contin the image cropped to the area where we expect to find the ring stack
+
+        final int leftMargin = 120;         // Left margin to be cropped off processedImageCr
+        final int righMargin = 120;         // Rign margin to be cropped off
+        final int topMargin = 50;           // Top margin to be cropped off
+        final int botMargin = 140;          // Bottom margin to be cropped off
+
+        final double TZAV_Threshold_A = (TZAV_0_Reading + TZAV_1_Reading) / 2;  // Average of the 0 Ring and 1 Ring values to function as Threshold
+        final double TZAV_Threshold_B = (TZAV_1_Reading + TZAV_4_Reading) / 2;  // Average of the 1 Ring and 4 Ring valuse to function as Threshold
+
         @Override
         public Mat processFrame(Mat input)
         {
+            // convert the input RGB image to YCrCb color space
+            Imgproc.cvtColor(input, processedImage, Imgproc.COLOR_RGB2YCrCb);
+            // extract just the Cb (?) channel to isolate the difference in red
+            Core.extractChannel(processedImage, processedImageCr, 2);
 
-            /*
-             * Draw a simple box around the area where we expect the target rings to be seen
-             */
+            // copy just target regon to a new matrix
+            targetZoneSample = processedImageCr.submat(
+                    new Rect(
+                            new Point(
+                                leftMargin,
+                                topMargin),
+                            new Point(
+                            input.cols()-righMargin,
+                            input.rows()-botMargin)));
+
+            targetZoneAverageValue = (int) Core.mean(targetZoneSample).val[0];
+
+            if (targetZoneAverageValue > TZAV_Threshold_A) {
+                // no rings detected, so Target Zone A is selected
+                desciferedTargetZone = TargetZones.A;
+            } else if (targetZoneAverageValue > TZAV_Threshold_B) {
+                // one ring detected, so Target Zone B is selected
+                desciferedTargetZone = TargetZones.B;
+            } else{
+                // four rings detected, so Target Zone C is selected
+                desciferedTargetZone = TargetZones.C;
+            }
+            idTargetZone(desciferedTargetZone);
+
+            //  Draw a simple box around the area where we expect the target rings to be seen
             Imgproc.rectangle(
-                    input,
+                    processedImageCr,
                     new Point(
-                            120,
-                            50),
+                            leftMargin,
+                            topMargin),
                     new Point(
-                            input.cols()-120,
-                            input.rows()-140),
+                            input.cols()-righMargin,
+                            input.rows()-botMargin),
                     new Scalar(255, 0, 0), 4);
 
-            return input;
+
+
+
+            return processedImageCr;
         }
 
         @Override

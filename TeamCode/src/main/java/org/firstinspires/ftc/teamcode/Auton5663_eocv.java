@@ -1,4 +1,4 @@
-// Version 1.9 eocv.2
+// Version 1.9 eocv.3
 
 package org.firstinspires.ftc.teamcode;
 
@@ -17,11 +17,16 @@ public class Auton5663_eocv extends LinearOpMode {
     @Override
     public void runOpMode() {
 
+        telemetry.addData("Codebase", "v 1.9 eocv.3");
+
         /*
          * Initialize the drive system variables.
          * The init() method of the hardware class does all the work here
          */
         robot.setStreamingVideo(true);
+
+        telemetry.addData("Video Streaming", "Started");
+        telemetry.update();
 
         robot.hMap(hardwareMap);
 
@@ -29,14 +34,12 @@ public class Auton5663_eocv extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        watchAndReport(10, org.firstinspires.ftc.teamcode.Robot.TargetZones.A);
-        watchAndReport(10, org.firstinspires.ftc.teamcode.Robot.TargetZones.B);
-        watchAndReport(10, org.firstinspires.ftc.teamcode.Robot.TargetZones.C);
+        watchAndReport(30);
 
     } // end runOpMode
 
 
-    public void watchAndReport(double timeoutS, org.firstinspires.ftc.teamcode.Robot.TargetZones thisZone) {
+    public void watchAndReport(double timeoutS) {
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
@@ -47,9 +50,10 @@ public class Auton5663_eocv extends LinearOpMode {
             while (opModeIsActive() && (runtime.seconds() < timeoutS)) {
 
                 // Display it for the driver.
-                telemetry.addData("Timer",  runtime.seconds());
+                telemetry.addData("Time:",  runtime.seconds());
+                telemetry.addData("TZAV:", robot.getTargetZoneAverageValue());
+                telemetry.addData("Decifered Target Zone", robot.getDesciferedTargetZone());
                 telemetry.update();
-                robot.idTargetZone(thisZone);
             }
         }
     } // end watchAndReport
