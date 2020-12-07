@@ -1,10 +1,7 @@
-<<<<<<< HEAD
-// Version 1.3
-=======
-// Version 1.31
->>>>>>> 9ab601d513efe36eabe20fcbdd30d5a8c14117ca
-
 package org.firstinspires.ftc.teamcode;
+// Version 1.3
+
+// Version 1.31
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -12,6 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.internal.system.Deadline;
+import org.firstinspires.ftc.teamcode.Robot;
 
 import java.util.concurrent.TimeUnit;
 
@@ -43,7 +41,7 @@ public class TeleOp5663 extends OpMode
     public void init() {
         robot.hMap(hardwareMap);
 
-        TI_message = telemetry.addData("Status:", "Initialized v1.9.2");
+        TI_message = telemetry.addData("Status:", "Initialized v1.9.3");
         TI_driveOrientation = telemetry.addData("Drive Orientation", "Forward");
         TI_forceFieldMode = telemetry.addData("Forec Field", "Off");
         TI_frontDistance = telemetry.addData("Front Distance", "-------");
