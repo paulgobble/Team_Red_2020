@@ -1,4 +1,4 @@
-// Version 1.9.1
+// Version 1.9.2
 
 package org.firstinspires.ftc.teamcode;
 
@@ -195,6 +195,8 @@ public class Robot {
      * drive motions: drive, strafe, and turn *
      ******************************************/
     public void MecanumDrive(double drive, double strafe, double turn) {
+
+        //The powers for the wheels
         double FLPower;
         double FRPower;
         double BLPower;
@@ -207,6 +209,10 @@ public class Robot {
         double turnAdjust;
         double strafeAdjust;
 
+
+        double speed = 5;
+
+
         if ((forceFieldArmed) && (forceFieldTriggered)) {
             driveAdjust = 0;
             turnAdjust = 0;
@@ -217,10 +223,10 @@ public class Robot {
             strafeAdjust = masterPowerLimit;
         }
 
-        FRPower = ((drive * driveAdjust * driveDirectionModifyer) + (strafe * strafeAdjust * driveDirectionModifyer) + (turn * turnAdjust)) ;
-        FLPower = ((drive * driveAdjust * driveDirectionModifyer) - (strafe * strafeAdjust * driveDirectionModifyer) - (turn * turnAdjust)) ;
-        BRPower = ((drive * driveAdjust * driveDirectionModifyer) - (strafe * strafeAdjust * driveDirectionModifyer) + (turn * turnAdjust)) ;
-        BLPower = ((drive * driveAdjust * driveDirectionModifyer) + (strafe * strafeAdjust * driveDirectionModifyer) - (turn * turnAdjust)) ;
+        FRPower = ((drive * driveAdjust * driveDirectionModifyer) * speed + (strafe * strafeAdjust * driveDirectionModifyer) * speed + (turn * turnAdjust) * speed) ;
+        FLPower = ((drive * driveAdjust * driveDirectionModifyer) * speed - (strafe * strafeAdjust * driveDirectionModifyer) * speed - (turn * turnAdjust) * speed) ;
+        BRPower = ((drive * driveAdjust * driveDirectionModifyer) * speed - (strafe * strafeAdjust * driveDirectionModifyer) * speed + (turn * turnAdjust) * speed) ;
+        BLPower = ((drive * driveAdjust * driveDirectionModifyer) * speed + (strafe * strafeAdjust * driveDirectionModifyer) * speed - (turn * turnAdjust) * speed) ;
 
         FLDrive.setPower(FLPower);
         FRDrive.setPower(FRPower);
