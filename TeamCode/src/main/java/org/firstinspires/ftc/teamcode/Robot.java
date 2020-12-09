@@ -42,7 +42,7 @@ public class Robot {
     private final double TZAV_1_Reading = 110;   // tested reading for one ring
     private final double TZAV_4_Reading = 50;    // guessed reading for four rings
 
-    /* Create interger to hold the Target Zone Average Value */
+    /* Create integer to hold the Target Zone Average Value */
     private int targetZoneAverageValue;
 
     /* Create enum TargetZones to store the descifered Target Zone */
