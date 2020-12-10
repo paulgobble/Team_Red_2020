@@ -40,7 +40,7 @@ public class Robot {
     /* Tested Target Zone Average Values for stack of rings */
     private final double TZAV_0_Reading = 125;   // tested reading for no rings
     private final double TZAV_1_Reading = 110;   // tested reading for one ring
-    private final double TZAV_4_Reading = 50;    // guessed reading for four rings
+    private final double TZAV_4_Reading = 87;    // tested reading for four rings
 
     /* Create integer to hold the Target Zone Average Value */
     private int targetZoneAverageValue;
