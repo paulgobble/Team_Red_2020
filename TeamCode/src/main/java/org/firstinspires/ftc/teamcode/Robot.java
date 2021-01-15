@@ -1,4 +1,4 @@
-// Version 1.9.1
+// Version 1.9.2
 
 package org.firstinspires.ftc.teamcode;
 
@@ -16,7 +16,7 @@ public class Robot {
     private int driveDirectionModifyer = 1;     // What do we consider "Forward"
     private boolean forceFieldArmed = false;    // Has the force field system been activated by pilot
     private boolean inDangerZone = false;       // Is the robot within the stop distance limit
-    private boolean forceFieldTriggered = false;  // Has the Robot turned on the force field 'cause it wsa activated by pilot and roobt is within the stop distance
+    private boolean forceFieldTriggered = false;  // Has the Robot turned on the force field 'cause it wsa activated by pilot and robot is within the stop distance
     private final double stopDistance = 14.0;
 
     /* Create Elapsed runtimer */

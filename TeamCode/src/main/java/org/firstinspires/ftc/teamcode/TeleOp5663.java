@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-// Version 1.3
-=======
-// Version 1.31
->>>>>>> 9ab601d513efe36eabe20fcbdd30d5a8c14117ca
+// Version 1.9.2
 
 package org.firstinspires.ftc.teamcode;
 
@@ -45,7 +41,7 @@ public class TeleOp5663 extends OpMode
 
         TI_message = telemetry.addData("Status:", "Initialized v1.9.2");
         TI_driveOrientation = telemetry.addData("Drive Orientation", "Forward");
-        TI_forceFieldMode = telemetry.addData("Forec Field", "Off");
+        TI_forceFieldMode = telemetry.addData("Force Field", "Off");
         TI_frontDistance = telemetry.addData("Front Distance", "-------");
 
         buttonPressLimit = new Deadline(ButtonLockout, TimeUnit.MILLISECONDS);
@@ -84,7 +80,7 @@ public class TeleOp5663 extends OpMode
     @Override
     public void loop(){
 
-        // handle button input
+        // handle toggle button input
         handleButtons();
 
         // Have Robot update its status
@@ -98,7 +94,7 @@ public class TeleOp5663 extends OpMode
 
         // Input, compute, and send drive input data
         double driveNormal = gamepad1.left_stick_y; // Drive value entered on the left "normal drive" joystick
-        double driveCreep = gamepad1.right_stick_y; // Drive value entered on the right "creep" joystice
+        double driveCreep = gamepad1.right_stick_y; // Drive value entered on the right "creep" joystick
         double driveResult;                         // Computed drive value sent to Robot
 
         if (driveCreep == 0) {
@@ -150,8 +146,8 @@ public class TeleOp5663 extends OpMode
 
 
     /*******************************************
-     * Method to handle gamepad button presses *
-     * and debounce                            *
+     * Method to handle gamepad toggle buttons *
+     * presses and debounce                    *
      *******************************************/
     private void handleButtons () {
 
