@@ -1,4 +1,4 @@
-// Version 1.9.2
+// Version 1.9.3
 
 package org.firstinspires.ftc.teamcode;
 
@@ -39,7 +39,7 @@ public class TeleOp5663 extends OpMode
     public void init() {
         robot.hMap(hardwareMap);
 
-        TI_message = telemetry.addData("Status:", "Initialized v1.9.2");
+        TI_message = telemetry.addData("Status:", "Initialized v1.9.3");
         TI_driveOrientation = telemetry.addData("Drive Orientation", "Forward");
         TI_forceFieldMode = telemetry.addData("Force Field", "Off");
         TI_frontDistance = telemetry.addData("Front Distance", "-------");
@@ -126,9 +126,24 @@ public class TeleOp5663 extends OpMode
 
         // Turn on or off the rear Ring Intake carwash spinner
         if (gamepad2.x) {
-            robot.CarWash(.5);
+            robot.CarWash(.9);
         } else {
             robot.CarWash((0));
+        }
+
+        // La Chicken Wing D-pod control
+        boolean wingFlapUp = gamepad2.dpad_up;
+        boolean wingFlapDown = gamepad2.dpad_down;
+        double wingSpeed = .5;
+        if (wingFlapUp) {
+            //rasie the wing
+            robot.FlapWing(wingSpeed);
+        } else if (wingFlapDown) {
+            // lower the wing
+            robot.FlapWing(wingSpeed * -1);
+        } else {
+            // do nothing
+            robot.FlapWing(0);
         }
 
 

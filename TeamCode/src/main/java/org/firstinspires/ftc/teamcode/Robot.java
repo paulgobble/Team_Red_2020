@@ -1,4 +1,4 @@
-// Version 1.9.2
+// Version 1.9.3
 
 package org.firstinspires.ftc.teamcode;
 
@@ -36,7 +36,7 @@ public class Robot {
     // public Servo Gripper = null;
     private DcMotor Intake = null;
     //public DcMotor FeedBelt = null;
-    // public DcMotor Lift = null;
+    public DcMotor Lift = null;
     //Lift is the new variable
     //Picker is the new variable
 
@@ -94,7 +94,7 @@ public class Robot {
         //FeedBelt.setDirection(DcMotor.Direction.FORWARD);
 
         // Wobble target arm
-        //Lift = hardwareMap.get(DcMotor.class, "Lift");
+        Lift = hardwareMap.get(DcMotor.class, "Lift");
         //Gripper = hardwareMap.get(Servo.class, "Gripper");
         // Setting Lift DC Motor Direction
         //Lift.setDirection(DcMotor.Direction.FORWARD);
@@ -247,6 +247,20 @@ public class Robot {
        LShooter.setPower(shootPower);
 
     } // end Shooter
+
+
+    /***********************************************
+     * Raise or lower La Chicke WIng               *
+     * wobble targert lifter                       *
+     * Accepts a sing argument for DC motor spoeed *
+     ***********************************************/
+    public void FlapWing(double wingSpeed) {
+
+        Lift.setPower(wingSpeed);
+
+    }
+
+
 
 
     /************************************
