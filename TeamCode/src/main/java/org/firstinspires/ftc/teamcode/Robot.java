@@ -1,4 +1,4 @@
-// Version 1.9.3
+// Version 1.9.4
 
 package org.firstinspires.ftc.teamcode;
 
@@ -6,6 +6,7 @@ import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -33,12 +34,10 @@ public class Robot {
     private DcMotor RShooter = null;
 
     /* Create other motors and servos */
-    // public Servo Gripper = null;
+    public Servo ChickenFinger = null;
     private DcMotor Intake = null;
-    //public DcMotor FeedBelt = null;
-    public DcMotor Lift = null;
-    //Lift is the new variable
-    //Picker is the new variable
+    public DcMotor LaChickenWing = null;
+
 
     /* Create sensors */
     private DistanceSensor FrontDistanceSensor = null; // NEW
@@ -94,9 +93,9 @@ public class Robot {
         //FeedBelt.setDirection(DcMotor.Direction.FORWARD);
 
         // Wobble target arm
-        Lift = hardwareMap.get(DcMotor.class, "Lift");
-        //Gripper = hardwareMap.get(Servo.class, "Gripper");
-        // Setting Lift DC Motor Direction
+        LaChickenWing = hardwareMap.get(DcMotor.class, "Wing");
+        // Wobble targer servo
+        ChickenFinger = hardwareMap.get(Servo.class, "Finger");
         //Lift.setDirection(DcMotor.Direction.FORWARD);
 
         // Sensors
@@ -256,7 +255,19 @@ public class Robot {
      ***********************************************/
     public void FlapWing(double wingSpeed) {
 
-        Lift.setPower(wingSpeed);
+        LaChickenWing.setPower(wingSpeed);
+
+    }
+
+
+    /***********************************************
+     * open or close the servo on the                 *
+     * wobble targert lifter                          *
+     * Accepts a single argument for se *rvo position *
+     ***********************************************/
+    public void FingerGrab(double gripPosition) {
+
+        ChickenFinger.setPosition(gripPosition);
 
     }
 

@@ -1,4 +1,4 @@
-// Version 1.9.3
+// Version 1.9.4
 
 package org.firstinspires.ftc.teamcode;
 
@@ -39,7 +39,7 @@ public class TeleOp5663 extends OpMode
     public void init() {
         robot.hMap(hardwareMap);
 
-        TI_message = telemetry.addData("Status:", "Initialized v1.9.3");
+        TI_message = telemetry.addData("Status:", "Initialized v1.9.4");
         TI_driveOrientation = telemetry.addData("Drive Orientation", "Forward");
         TI_forceFieldMode = telemetry.addData("Force Field", "Off");
         TI_frontDistance = telemetry.addData("Front Distance", "-------");
@@ -69,6 +69,8 @@ public class TeleOp5663 extends OpMode
     public void start(){
         runtime.reset();
         TI_message = telemetry.addData("Status", "S T A R T !!");
+
+        robot.FingerGrab(.6);
         //robot.ReportStatus("Status:", "S T A R T !");
     } // end start
 
@@ -145,6 +147,16 @@ public class TeleOp5663 extends OpMode
             // do nothing
             robot.FlapWing(0);
         }
+
+        // The Chicken Finger D-pad Controle
+        boolean fingerOpen = gamepad2.dpad_left;
+        boolean fingegClose = gamepad2.dpad_right;
+        if(fingerOpen) {
+            robot.FingerGrab(.2);
+        } else if (fingegClose){
+            robot.FingerGrab(.6);
+        }
+
 
 
     } // end loop
