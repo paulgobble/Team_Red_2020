@@ -1,4 +1,4 @@
-// Version 1.9.4
+// Version 1.9.5
 
 package org.firstinspires.ftc.teamcode;
 
@@ -209,7 +209,7 @@ public class Robot {
         double strafeAdjust;
 
 
-        double speed = 5;
+        double speed = 1;
 
 
         if ((forceFieldArmed) && (forceFieldTriggered)) {

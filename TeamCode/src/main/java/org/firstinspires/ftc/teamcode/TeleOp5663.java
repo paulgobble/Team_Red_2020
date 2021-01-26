@@ -1,4 +1,4 @@
-// Version 1.9.4
+// Version 1.9.5
 
 package org.firstinspires.ftc.teamcode;
 
@@ -39,7 +39,7 @@ public class TeleOp5663 extends OpMode
     public void init() {
         robot.hMap(hardwareMap);
 
-        TI_message = telemetry.addData("Status:", "Initialized v1.9.4");
+        TI_message = telemetry.addData("Status:", "Initialized v1.9.5");
         TI_driveOrientation = telemetry.addData("Drive Orientation", "Forward");
         TI_forceFieldMode = telemetry.addData("Force Field", "Off");
         TI_frontDistance = telemetry.addData("Front Distance", "-------");
@@ -122,7 +122,7 @@ public class TeleOp5663 extends OpMode
         } else if (shootSlow != 0) {
             shootPower = .5;
         } else {
-            shootPower = 0;
+            shootPower = -0.2;
         }
         robot.Shooter(shootPower);
 
@@ -152,9 +152,9 @@ public class TeleOp5663 extends OpMode
         boolean fingerOpen = gamepad2.dpad_left;
         boolean fingegClose = gamepad2.dpad_right;
         if(fingerOpen) {
-            robot.FingerGrab(.2);
+            robot.FingerGrab(-1);
         } else if (fingegClose){
-            robot.FingerGrab(.6);
+            robot.FingerGrab(.5);
         }
 
 
