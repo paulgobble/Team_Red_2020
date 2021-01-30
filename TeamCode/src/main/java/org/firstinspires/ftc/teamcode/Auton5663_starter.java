@@ -173,10 +173,7 @@
              }
 
              //Stop motors.
-             robot.FLDrive.setPower(0);
-             robot.FRDrive.setPower(0);
-             robot.BLDrive.setPower(0);
-             robot.BRDrive.setPower(0);
+             robot.StopRobot();
 
              //Turn off RUN_TO_POSITION.
              robot.FLDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

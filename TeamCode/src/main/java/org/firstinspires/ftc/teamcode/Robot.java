@@ -189,6 +189,14 @@ public class Robot {
     }
 
 
+    public void StopRobot()
+    {
+        FLDrive.setPower(0);
+        FRDrive.setPower(0);
+        BLDrive.setPower(0);
+        BRDrive.setPower(0);
+    }
+
 
     /******************************************
      * MecanumDrive method responsible of all *
