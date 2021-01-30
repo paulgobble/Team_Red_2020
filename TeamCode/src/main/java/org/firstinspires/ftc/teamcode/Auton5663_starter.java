@@ -35,7 +35,7 @@
  import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  import com.qualcomm.robotcore.hardware.DcMotor;
  import com.qualcomm.robotcore.util.ElapsedTime;
-
+//v.1.1
 
  @Autonomous(name="Auto Test", group="Auto")
 
