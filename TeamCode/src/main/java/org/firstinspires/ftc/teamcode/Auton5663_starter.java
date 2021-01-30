@@ -61,7 +61,8 @@
      public void runOpMode() {
 
          //Set up hardware maps.
-         robot.init(hardwareMap);
+         //robot.init(hardwareMap);
+         robot.hMap(hardwareMap);
 
          //Set Position of Servos
 
@@ -104,8 +105,11 @@
 
          //Complete each step.
 
+         // Step 01 - Wing Up
+
+
          //Step 1 - Drive Forward
-         encoderDrive(LOW_SPEED, 28, 28, 28, 28, 3.0);
+         encoderDrive(LOW_SPEED, 60, 60, 60, 28, 60);
          sleep(500);
 
 

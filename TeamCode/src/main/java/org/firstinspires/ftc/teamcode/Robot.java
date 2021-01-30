@@ -24,10 +24,11 @@ public class Robot {
     private ElapsedTime runtime = new ElapsedTime();
 
     /* Create DcMotors for drive */
-    private DcMotor FLDrive = null;
-    private DcMotor FRDrive = null;
-    private DcMotor BLDrive = null;
-    private DcMotor BRDrive = null;
+    /* We had to make these public to work with Template Autono class */
+    public DcMotor FLDrive = null;
+    public DcMotor FRDrive = null;
+    public DcMotor BLDrive = null;
+    public DcMotor BRDrive = null;
 
     /* Create DcMotors for shooter */
     private DcMotor LShooter = null;

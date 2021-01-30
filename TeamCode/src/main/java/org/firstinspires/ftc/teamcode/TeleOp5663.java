@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -58,6 +59,19 @@ public class TeleOp5663 extends OpMode
     @Override
     public void init_loop(){
 
+        //Reset all encoders to have a fresh start when the match starts.
+        //Drive
+        robot.FLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.FRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.BLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.BRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        //Turn off RUN_TO_POSITION.
+        //Drive
+        robot.FLDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.FRDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.BLDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.BRDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     } // end init_loop
 
@@ -93,6 +107,14 @@ public class TeleOp5663 extends OpMode
         TI_driveOrientation = telemetry.addData("Drive Orientation:", robot.getDirectionMode());
         TI_forceFieldMode = telemetry.addData("Forcefield:", robot.isForceFieldOn());
         TI_frontDistance = telemetry.addData("Front Distance","%.1f", robot.getFrontDistance());
+
+        //Send telemetry message to indicate successful encoder reset.
+        telemetry.addData("FLDrive", robot.FLDrive.getCurrentPosition());
+        telemetry.addData("FRDrive", robot.FRDrive.getCurrentPosition());
+        telemetry.addData("BLDrive", robot.BLDrive.getCurrentPosition());
+        telemetry.addData("BRDrive", robot.BRDrive.getCurrentPosition());
+
+        telemetry.update();
 
         // Input, compute, and send drive input data
         double driveNormal = gamepad1.left_stick_y; // Drive value entered on the left "normal drive" joystick
