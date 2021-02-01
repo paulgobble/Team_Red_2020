@@ -30,6 +30,12 @@ public class TeleOp5663 extends OpMode
     private Telemetry.Item TI_forceFieldMode;
     private Telemetry.Item TI_frontDistance;
 
+    private Telemetry.Item TI_FLDrive;
+    private Telemetry.Item TI_FRDrive;
+    private Telemetry.Item TI_BLDrive;
+    private Telemetry.Item TI_BRDrive;
+
+
 
 
 
@@ -41,9 +47,14 @@ public class TeleOp5663 extends OpMode
         robot.hMap(hardwareMap);
 
         TI_message = telemetry.addData("Status:", "Initialized v1.9.6");
-        TI_driveOrientation = telemetry.addData("Drive Orientation", "Forward");
-        TI_forceFieldMode = telemetry.addData("Force Field", "Off");
-        TI_frontDistance = telemetry.addData("Front Distance", "-------");
+        TI_driveOrientation = telemetry.addData("Drive Orientation:", "Forward");
+        TI_forceFieldMode = telemetry.addData("Force Field:", "Off");
+        TI_frontDistance = telemetry.addData("Front Distance:", "-------");
+
+        TI_FLDrive = telemetry.addData("FLDrive:",robot.FLDrive.getCurrentPosition());
+        TI_FRDrive = telemetry.addData("FRDrive:", robot.FRDrive.getCurrentPosition());
+        TI_BLDrive = telemetry.addData("BLDrive:", robot.BLDrive.getCurrentPosition());
+        TI_BRDrive = telemetry.addData("BRDrive:", robot.BRDrive.getCurrentPosition());
 
         buttonPressLimit = new Deadline(ButtonLockout, TimeUnit.MILLISECONDS);
 
@@ -103,16 +114,16 @@ public class TeleOp5663 extends OpMode
         robot.updateStatus();
 
         // Report Telemetry Data
-        TI_message = telemetry.addData("Elasped Time", "%.1f", runtime.seconds());
+        TI_message = telemetry.addData("Elasped Time:", "%.1f", runtime.seconds());
         TI_driveOrientation = telemetry.addData("Drive Orientation:", robot.getDirectionMode());
         TI_forceFieldMode = telemetry.addData("Forcefield:", robot.isForceFieldOn());
-        TI_frontDistance = telemetry.addData("Front Distance","%.1f", robot.getFrontDistance());
+        TI_frontDistance = telemetry.addData("Front Distance:","%.1f", robot.getFrontDistance());
 
-        //Send telemetry message to indicate successful encoder reset.
-        telemetry.addData("FLDrive", robot.FLDrive.getCurrentPosition());
-        telemetry.addData("FRDrive", robot.FRDrive.getCurrentPosition());
-        telemetry.addData("BLDrive", robot.BLDrive.getCurrentPosition());
-        telemetry.addData("BRDrive", robot.BRDrive.getCurrentPosition());
+        //Send telemetry message to monitor encoder values
+        TI_FLDrive = telemetry.addData("FLDrive:",robot.FLDrive.getCurrentPosition());
+        TI_FRDrive = telemetry.addData("FRDrive:", robot.FRDrive.getCurrentPosition());
+        TI_BLDrive = telemetry.addData("BLDrive:", robot.BLDrive.getCurrentPosition());
+        TI_BRDrive = telemetry.addData("BRDrive:", robot.BRDrive.getCurrentPosition());
 
         telemetry.update();
 

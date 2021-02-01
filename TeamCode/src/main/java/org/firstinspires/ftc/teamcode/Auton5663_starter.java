@@ -109,7 +109,7 @@
 
 
          //Step 1 - Drive Forward
-         encoderDrive(LOW_SPEED, 60, 60, 60, 28, 60);
+         encoderDrive(LOW_SPEED, 60, 60, 60, 60, 0.3);
          sleep(500);
 
 
