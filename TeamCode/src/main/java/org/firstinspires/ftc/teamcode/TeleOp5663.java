@@ -1,4 +1,4 @@
-// Version 1.9.6
+// Version 1.9.8
 
 package org.firstinspires.ftc.teamcode;
 
@@ -48,7 +48,7 @@ public class TeleOp5663 extends OpMode
 
         robot.hMap(hardwareMap);
 
-        TI_message = telemetry.addData("Status:", "Initialized v1.9.6");
+        TI_message = telemetry.addData("Status:", "Initialized v1.9.8");
         TI_driveOrientation = telemetry.addData("Drive Orientation:", "Forward");
         TI_forceFieldMode = telemetry.addData("Force Field:", "Off");
         TI_frontDistance = telemetry.addData("Front Distance:", "-------");

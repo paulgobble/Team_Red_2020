@@ -1,4 +1,4 @@
-// Version 1.9 eocv.3
+// Version 1.9.8
 
 package org.firstinspires.ftc.teamcode;
 
@@ -17,7 +17,7 @@ public class Auton5663_eocv extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        telemetry.addData("Codebase", "v 1.9 eocv.3");
+        telemetry.addData("Codebase", "v 1.9.8");
 
         /*
          * Initialize the drive system variables.

@@ -1,4 +1,4 @@
-// Version 1.9.6
+// Version 1.9.8
 /* Copyright (c) 2017 FIRST. All rights reserved.
   *
   * Redistribution and use in source and binary forms, with or without modification,
@@ -35,7 +35,7 @@
  import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  import com.qualcomm.robotcore.hardware.DcMotor;
  import com.qualcomm.robotcore.util.ElapsedTime;
-//v.1.1
+
 
  @Autonomous(name="Auto Test", group="Auto")
 
@@ -68,7 +68,7 @@
 
 
          //Tell the driver that the encoders are resetting.
-         telemetry.addData("Status:", "Initialized v1.9.6");
+         telemetry.addData("Status:", "Initialized v1.9.8");
          telemetry.addData("Status", "Resetting Encoders");    //
          telemetry.update();
 
