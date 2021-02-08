@@ -44,6 +44,8 @@ public class TeleOp5663 extends OpMode
      ***********************************************/
     @Override
     public void init() {
+        robot.setStreamingVideo(false);
+
         robot.hMap(hardwareMap);
 
         TI_message = telemetry.addData("Status:", "Initialized v1.9.6");
@@ -58,8 +60,6 @@ public class TeleOp5663 extends OpMode
 
         buttonPressLimit = new Deadline(ButtonLockout, TimeUnit.MILLISECONDS);
 
-        //robot.ReportStatus();
-        //robot.ReportStatus("Status:", "Initialized v1.5.1");
     } // end init
 
 
@@ -111,7 +111,7 @@ public class TeleOp5663 extends OpMode
         handleButtons();
 
         // Have Robot update its status
-        robot.updateStatus();
+        robot.updateFFStatus();
 
         // Report Telemetry Data
         TI_message = telemetry.addData("Elasped Time:", "%.1f", runtime.seconds());

@@ -1,3 +1,49 @@
+## Note on Installing and Using EasyOpenCV
+
+**Installation**
+
+The most challenging part of using the EasyOpenCV SKD was its installation. The EasyOpenCV GitHub project page contains detailed installation instructions: https://github.com/OpenFTC/EasyOpenCV. However, one critical step was omitted but is discussed here: https://docs.ftclib.org/ftclib/features/computer-vision under the "Install Dependency on Control Hub" section.
+
+**Creating The webcam Object**
+
+After completing the installation, I referred to several of the example java classes provided by EasyOpenCV in their examples directory on GitHub. Particularly useful were WebcamExample.java, SkystoneDeterminationExample.java, and PipelineStageSwitchingExample.java.
+
+While studying the example java classes mentioned above, I noticed the following similarites between them. Replicating those key steps marked the path to successfully implementing EasyOpenCV in our code. They are optlined below.
+
+First, in our Robot class, in the same initial area where objects were created for motors, servos and sensors, I created a webcam object.
+
+    /* Create a webcam */  
+    OpenCvCamera webcam;
+
+Second, in the "Hardwaremap" method, I created an instance of an OpenCvCamera object and assigned it to the webcam object created in the first step.
+
+    webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
+
+Third, on the next line, I attached a (not yet written) pipeline method, "RedPipeline()", to the webcam object
+
+    webcam.setPipeline(new RedPipeline());
+
+Fourth, on the next several lines, I opened a connection to the webcam and started streaming video.
+
+    webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()  
+    {  
+        @Override  
+        public void onOpened()  
+        {  
+            webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);  
+        }  
+    });
+
+I designed this example intending to use Computer Vision only in autonomous Op Mode. To avoid wasting CPU cycles and slow the robot down during teleOp,  I created a simple mechanism to test if streaming vidoe was wanted before executing the previous three steps.
+
+**The Pipeline**
+
+Next, I coded the pipeline. The pipeline is the class where the image streamed from the webcam is processed. In all three example classes I studied, the pipeline was implemented as a nested class within another class.  Following that example, I implemented the RedPipline as a nested class within our Robot class.  Calls to the Imgroc methods do most of the work in the pipeline.  In the case of RedPipeline the pipeline cropped an area of interest from the input image where the Target Zone stack of rings is expected to be.  Like several of the EasyOpenCV examples, RedPipeline converts the RGB colorspace input image into the LCrCb colorspace where the photographed scene's brightness less affects the colors in the input image.  The RedPipeline then discards all but one of the three channels, the Cb channel, which more effectively highlights the difference between the rings' orange color and the background's grey / black color. Finally, the RedPipeline treats the resultant image as an array of brightness values, and then averages them into a "Target Zone Average Value."  This Target Zone Average Value is then tested against sampled values to determine how many rings were photographed by the webcam and, consequently, which Target Zone is our goal.
+
+**Viewing the Streaming Video**
+
+When a class is correctly defined and extends the appropraate classes, a new feature is apparent in the Robot Controler Phone App. After pressing the Init button, a "Camera Stream" menu item is available when running such a class.  Selecting this menu item will display the video shot from the webcam and processed by the pipeline. This is a critical tool for discovering, defining, and testing the most relevant area of interest within the webcam's frame. This menu item is unavailable after pressing the Play button.
+
 ## NOTICE
 
 This repository contains the public FTC SDK for the Ultimate Goal (2020-2021) competition season.
