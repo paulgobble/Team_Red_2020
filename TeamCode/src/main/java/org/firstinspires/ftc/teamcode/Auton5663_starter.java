@@ -42,10 +42,10 @@
  public class Auton5663_starter extends LinearOpMode {
 
      //Set up hardware.
-     Robot         robot   = new Robot();
+     Robot robot = new Robot();
 
      //Create timekeeper.
-     private ElapsedTime     runtime = new ElapsedTime();
+     private ElapsedTime runtime = new ElapsedTime();
 
      //Set up variables.
      static final double     COUNTS_PER_MOTOR_REV    = 383.6 ;  //GoBilda Motor 28 counts per motor rev (28*13.7=383.6)
@@ -69,7 +69,7 @@
 
          //Tell the driver that the encoders are resetting.
          telemetry.addData("Status:", "Initialized v1.9.6");
-         telemetry.addData("Status", "Resetting Encoders");    //
+         telemetry.addData("Status", "Resetting Encoders");
          telemetry.update();
 
          // Reverse the motor that runs backwards when connected directly to the battery
@@ -126,6 +126,11 @@
          int newBLTarget;
          int newBRTarget;
 
+         double FLPosition;
+         double FRPosition;
+         double BLPosition;
+         double BRPosition;
+
          // Ensure that the opmode is still active.
          if (opModeIsActive()) {
 
@@ -134,6 +139,12 @@
              newFRTarget = robot.FRDrive.getCurrentPosition() + (int)(FRInches * COUNTS_PER_INCH);
              newBLTarget = robot.BLDrive.getCurrentPosition() + (int)(BLInches * COUNTS_PER_INCH);
              newBRTarget = robot.BRDrive.getCurrentPosition() + (int)(BRInches * COUNTS_PER_INCH);
+
+             //Get the current position of the wheels for storing.
+             FLPosition = robot.FLDrive.getCurrentPosition();
+             FRPosition = robot.FRDrive.getCurrentPosition();
+             BLPosition = robot.BLDrive.getCurrentPosition();
+             BRPosition = robot.BRDrive.getCurrentPosition();
 
              //Set the new target positions.
              robot.FLDrive.setTargetPosition(newFLTarget);
@@ -162,6 +173,8 @@
                      (runtime.seconds() < timeoutS) &&
                      (robot.FLDrive.isBusy() && robot.FRDrive.isBusy()&&robot.BLDrive.isBusy()&&robot.BRDrive.isBusy())) {
 
+
+
                  //Tell driver what the robot is doing.
                  telemetry.addData("Path1",  "Running to %7d :%7d", newFLTarget,  newFRTarget, newBLTarget, newBRTarget);
                  telemetry.addData("Path2",  "Running at %7d :%7d",
@@ -174,7 +187,7 @@
 
              //Stop motors.
              robot.StopRobot();
-
+                
              //Turn off RUN_TO_POSITION.
              robot.FLDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
              robot.FRDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
