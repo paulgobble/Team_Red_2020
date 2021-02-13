@@ -13,6 +13,7 @@ public class Auton5663_eocv extends LinearOpMode {
     /* Declare OpMode members. */
     Robot robot   = new Robot();
     private ElapsedTime runtime = new ElapsedTime();
+    private ElapsedTime segmentTime = new ElapsedTime();
 
     @Override
     public void runOpMode() {
@@ -33,26 +34,28 @@ public class Auton5663_eocv extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
+        
+        runtime.reset();
 
         watchAndReport(30);
 
     } // end runOpMode
 
 
-    public void watchAndReport(double timeoutS) {
+    public void watchAndReport(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
 
             // reset the timeout time
-            runtime.reset();
+            segmentTime.reset();
 
-            while (opModeIsActive() && (runtime.seconds() < timeoutS)) {
+            while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
 
                 // Display it for the driver.
                 telemetry.addData("Time:",  runtime.seconds());
                 telemetry.addData("TZAV:", robot.getTargetZoneAverageValue());
-                telemetry.addData("Decifered Target Zone", robot.getDesciferedTargetZone());
+                telemetry.addData("Deciphered Target Zone", robot.getDecipheredTargetZone());
                 telemetry.update();
             }
         }

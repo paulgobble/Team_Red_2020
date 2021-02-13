@@ -185,9 +185,9 @@ public class TeleOp5663 extends OpMode
         boolean fingerOpen = gamepad2.dpad_left;
         boolean fingegClose = gamepad2.dpad_right;
         if(fingerOpen) {
-            robot.FingerGrab(-1);
+            robot.FingerGrab(0);
         } else if (fingegClose){
-            robot.FingerGrab(.5);
+            robot.FingerGrab(1);
         }
 
 

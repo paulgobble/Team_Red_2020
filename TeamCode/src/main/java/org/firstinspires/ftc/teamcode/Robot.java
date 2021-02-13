@@ -26,10 +26,12 @@ public class Robot {
 
     /* Establish Essential Robot Modes */
     private int driveDirectionModifyer = 1;     // What do we consider "Forward"
+
     private boolean forceFieldArmed = false;    // Has the force field system been activated by pilot
     private boolean inDangerZone = false;       // Is the robot within the stop distance limit
     private boolean forceFieldTriggered = false;  // Has the Robot turned on the force field 'cause it wsa activated by pilot and robot is within the stop distance
     private final double stopDistance = 14.0;
+
     private boolean streamingVideo;             // is the connection to the webcam open
 
     /* Define Enumerator for possible TargetZones*/
@@ -47,8 +49,8 @@ public class Robot {
     /* Create integer to hold the Target Zone Average Value */
     private int targetZoneAverageValue;
 
-    /* Create enum TargetZones to store the descifered Target Zone */
-    private TargetZones desciferedTargetZone;
+    /* Create enum TargetZones to store the deciphered Target Zone */
+    private TargetZones decipheredTargetZone;
 
     /* Create Elapsed runtimer */
     private ElapsedTime runtime = new ElapsedTime();
@@ -66,8 +68,8 @@ public class Robot {
 
     /* Create other motors and servos */
     public Servo ChickenFinger = null;
-    private DcMotor Intake = null;
     public DcMotor LaChickenWing = null;
+    private DcMotor Intake = null;
 
 
     /* Create sensors */
@@ -107,10 +109,10 @@ public class Robot {
         BRDrive = hardwareMap.get(DcMotor.class, "BRDrive");
         BLDrive = hardwareMap.get(DcMotor.class, "BLDrive");
         //Setting Drive DC Motors direction
-        FLDrive.setDirection(DcMotor.Direction.REVERSE);
-        FRDrive.setDirection(DcMotor.Direction.FORWARD);
-        BLDrive.setDirection(DcMotor.Direction.REVERSE);
-        BRDrive.setDirection(DcMotor.Direction.FORWARD);
+        FLDrive.setDirection(DcMotor.Direction.FORWARD);
+        FRDrive.setDirection(DcMotor.Direction.REVERSE);
+        BLDrive.setDirection(DcMotor.Direction.FORWARD);
+        BRDrive.setDirection(DcMotor.Direction.REVERSE);
 
         //Shooter
         LShooter = hardwareMap.get(DcMotor.class, "LShooter");
@@ -250,9 +252,9 @@ public class Robot {
      *  get the value of       *
      *  desciferedTargetZone   *
      ***************************/
-    public TargetZones getDesciferedTargetZone() {
+    public TargetZones getDecipheredTargetZone() {
 
-        return desciferedTargetZone;
+        return decipheredTargetZone;
 
     }
 
@@ -453,15 +455,15 @@ public class Robot {
 
             if (targetZoneAverageValue > TZAV_Threshold_A) {
                 // no rings detected, so Target Zone A is selected
-                desciferedTargetZone = TargetZones.A;
+                decipheredTargetZone = TargetZones.A;
             } else if (targetZoneAverageValue > TZAV_Threshold_B) {
                 // one ring detected, so Target Zone B is selected
-                desciferedTargetZone = TargetZones.B;
+                decipheredTargetZone = TargetZones.B;
             } else{
                 // four rings detected, so Target Zone C is selected
-                desciferedTargetZone = TargetZones.C;
+                decipheredTargetZone = TargetZones.C;
             }
-            idTargetZone(desciferedTargetZone);
+            idTargetZone(decipheredTargetZone);
 
             //  Draw a simple box around the area where we expect the target rings to be seen
             Imgproc.rectangle(
