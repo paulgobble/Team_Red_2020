@@ -1,4 +1,4 @@
-// Version 1.9.6
+// Version 1.9.8
 /* Copyright (c) 2017 FIRST. All rights reserved.
   *
   * Redistribution and use in source and binary forms, with or without modification,
@@ -68,7 +68,7 @@
 
 
          //Tell the driver that the encoders are resetting.
-         telemetry.addData("Status:", "Initialized v1.9.6");
+         telemetry.addData("Status:", "Initialized v1.9.8");
          telemetry.addData("Status", "Resetting Encoders");    //
          telemetry.update();
 
@@ -126,6 +126,11 @@
          int newBLTarget;
          int newBRTarget;
 
+         double FLPosition;
+         double FRPosition;
+         double BLPosition;
+         double BRPosition;
+
          // Ensure that the opmode is still active.
          if (opModeIsActive()) {
 
@@ -140,6 +145,12 @@
              robot.FRDrive.setTargetPosition(newFRTarget);
              robot.BLDrive.setTargetPosition(newBLTarget);
              robot.BRDrive.setTargetPosition(newBRTarget);
+
+             // This is to store the current position of the drive wheels
+             FLPosition = robot.FLDrive.getCurrentPosition();
+             FRPosition = robot.FRDrive.getCurrentPosition();
+             BLPosition = robot.BLDrive.getCurrentPosition();
+             BRPosition = robot.BRDrive.getCurrentPosition();
 
              //Set mode to run to position.
              robot.FLDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
