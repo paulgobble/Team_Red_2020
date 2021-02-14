@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import java.util.concurrent.Delayed;
+
 @Autonomous(name="Auton5663_eocv", group="Autonomous")
 //@Disabled
 public class Auton5663_eocv extends LinearOpMode {
@@ -80,7 +82,7 @@ public class Auton5663_eocv extends LinearOpMode {
 
         watchAndReport(3);
 
-        prepChickenWing(10);
+        prepChickenWing(3);
 
     } // end runOpMode
 
@@ -96,7 +98,8 @@ public class Auton5663_eocv extends LinearOpMode {
             while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
 
                 // Display it for the driver.
-                telemetry.addData("Time:",  runtime.seconds());
+                telemetry.addData("Overall time:",  runtime.seconds());
+                telemetry.addData("Segment time:", segmentTime.seconds());
                 telemetry.addData("TZAV:", robot.getTargetZoneAverageValue());
                 telemetry.addData("Deciphered Target Zone", robot.getDecipheredTargetZone());
                 telemetry.update();
@@ -104,6 +107,33 @@ public class Auton5663_eocv extends LinearOpMode {
         }
     } // end watchAndReport
 
+    public void prepChickenWing(double segmentTimeLimit)
+    {
+        int currentWingPositionToIncrement;
+        int startWingPosition;
+        if(opModeIsActive())
+        {
+            segmentTime.reset();
 
+            while(opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit))
+            {
+                currentWingPositionToIncrement = robot.LaChickenWing.getCurrentPosition();
+                startWingPosition = robot.LaChickenWing.getCurrentPosition();
+                currentWingPositionToIncrement += 27;
+                robot.LaChickenWing.setTargetPosition(currentWingPositionToIncrement);
+                robot.LaChickenWing.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.LaChickenWing.setPower(1);
+
+               if(currentWingPositionToIncrement == startWingPosition + 27)
+               {
+                   //robot.FingerGrab(0);
+                    telemetry.addData("The Chicken Finger will come out now", robot.LaChickenWing.getCurrentPosition());
+               }
+
+                telemetry.addData("Overall time:",  runtime.seconds());
+                telemetry.addData("Segment time:", segmentTime.seconds());
+            }
+        }
+    }
 
 }  // end class Auton5663_eocv
