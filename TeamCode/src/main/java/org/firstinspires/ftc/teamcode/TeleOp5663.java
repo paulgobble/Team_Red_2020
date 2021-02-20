@@ -95,6 +95,9 @@ public class TeleOp5663 extends OpMode
         runtime.reset();
         TI_message = telemetry.addData("Status", "S T A R T !!");
 
+        robot.LaChickenWing.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.LaChickenWing.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         robot.FingerGrab(.6);
         //robot.ReportStatus("Status:", "S T A R T !");
     } // end start
@@ -107,6 +110,8 @@ public class TeleOp5663 extends OpMode
     @Override
     public void loop(){
 
+
+        telemetry.addData("Current Wing Position", robot.LaChickenWing.getCurrentPosition());
         // handle toggle button input
         handleButtons();
 
