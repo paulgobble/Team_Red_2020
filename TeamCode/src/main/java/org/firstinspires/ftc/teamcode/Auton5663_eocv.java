@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import java.util.Base64;
+
 @Autonomous(name="Auton5663_eocv", group="Autonomous")
 //@Disabled
 public class Auton5663_eocv extends LinearOpMode {
@@ -84,7 +86,7 @@ public class Auton5663_eocv extends LinearOpMode {
         telemetry.addData("Checkpoint", "Left Watch and Report");
         telemetry.update();
         sleep(1000);
-        prepChickenWing(2);
+        prepChickenWing(10);
 
         telemetry.addData("Checkpoint", "Left Prep Chicken Wing");
         telemetry.update();
@@ -120,9 +122,10 @@ public class Auton5663_eocv extends LinearOpMode {
         {
             //robot.LaChickenWing.setPositionPIDFCoefficients(35);
 
+            int increaseWingPosition = 5;
             robot.LaChickenWing.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.LaChickenWing.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            int desiredWingPosition = robot.LaChickenWing.getCurrentPosition() + 5;
+            robot.LaChickenWing.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            int desiredWingPosition = robot.LaChickenWing.getCurrentPosition() + increaseWingPosition;
 
             segmentTime.reset();
 
@@ -130,7 +133,7 @@ public class Auton5663_eocv extends LinearOpMode {
             {
                 while(robot.LaChickenWing.getCurrentPosition() < desiredWingPosition)
                 {
-                    robot.LaChickenWing.setPower(0.1);
+                    robot.LaChickenWing.setPower(0.35);
                     telemetry.addData("Current Wing Position", robot.LaChickenWing.getCurrentPosition());
                     telemetry.update();
                 }
