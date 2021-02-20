@@ -80,7 +80,14 @@ public class Auton5663_eocv extends LinearOpMode {
 
         watchAndReport(3);
 
-        prepChickenWing(10);
+        telemetry.addData("Checkpoint", "Left Watch and Report");
+        telemetry.update();
+        sleep(1000);
+        prepChickenWing(1.5);
+
+        telemetry.addData("Checkpoint", "Left Prep Chicken Wing");
+        telemetry.update();
+        sleep(1000);
 
     } // end runOpMode
 
@@ -102,13 +109,12 @@ public class Auton5663_eocv extends LinearOpMode {
                 telemetry.addData("Deciphered Target Zone", robot.getDecipheredTargetZone());
                 telemetry.update();
             }
+            //prepChickenWing(10);
         }
     } // end watchAndReport
 
     public void prepChickenWing(double segmentTimeLimit)
     {
-        int desiredWingPosition;
-        int startWingPosition;
         if(opModeIsActive())
         {
             robot.LaChickenWing.setPositionPIDFCoefficients(35);
@@ -117,26 +123,22 @@ public class Auton5663_eocv extends LinearOpMode {
 
             while(opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit))
             {
-                desiredWingPosition = robot.LaChickenWing.getCurrentPosition();
-                startWingPosition = robot.LaChickenWing.getCurrentPosition();
-                desiredWingPosition += 15;
-                robot.LaChickenWing.setTargetPosition(desiredWingPosition);
-                robot.LaChickenWing.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.LaChickenWing.setPower(1);
+                robot.LaChickenWing.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                robot.LaChickenWing.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                int desiredWingPosition = robot.LaChickenWing.getCurrentPosition() + 1;
 
-                while(robot.LaChickenWing.isBusy())
+                while(robot.LaChickenWing.getCurrentPosition() <= desiredWingPosition)
                 {
-                    telemetry.addData("Status:", "Is Busy");
+                    robot.LaChickenWing.setPower(0.4);
+                    telemetry.addData("Status:", robot.LaChickenWing.getCurrentPosition());
                     telemetry.update();
-
                 }
-
-                //robot.FingerGrab(.2);
-                telemetry.addData("Status", "Done while-ing");
 
                 telemetry.addData("Overall time:",  runtime.seconds());
                 telemetry.addData("Segment time:", segmentTime.seconds());
+                telemetry.update();
             }
+
         }
     }
 
