@@ -130,8 +130,8 @@ public class Auton5663_eocv extends LinearOpMode {
             {
                 while(robot.LaChickenWing.getCurrentPosition() < desiredWingPosition)
                 {
-                    robot.LaChickenWing.setPower(0.4);
-                    telemetry.addData("Status:", robot.LaChickenWing.getCurrentPosition());
+                    robot.LaChickenWing.setPower(0.1);
+                    telemetry.addData("Current Wing Position", robot.LaChickenWing.getCurrentPosition());
                     telemetry.update();
                 }
 
