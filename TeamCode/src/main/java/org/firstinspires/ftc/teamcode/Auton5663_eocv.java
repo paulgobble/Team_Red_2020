@@ -66,10 +66,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
         //Turn off RUN_TO_POSITION.
         //Drive
-        robot.FLDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.FRDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.BLDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.BRDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.FLDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.FRDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.BLDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.BRDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         telemetry.addData("FLDrive:",robot.FLDrive.getCurrentPosition());
         telemetry.addData("FRDrive:", robot.FRDrive.getCurrentPosition());
@@ -81,7 +81,7 @@ public class Auton5663_eocv extends LinearOpMode {
         
         runtime.reset();
 
-        watchAndReport(1);
+        watchAndReport(2);
 
         telemetry.addData("Checkpoint", "Left Watch and Report");
         telemetry.addData("Chicken Wing Position", robot.LaChickenWing.getCurrentPosition());
@@ -94,6 +94,11 @@ public class Auton5663_eocv extends LinearOpMode {
         telemetry.addData("Chicken Wing Position", robot.LaChickenWing.getCurrentPosition());
         telemetry.update();
         sleep(3000);
+
+        captureWobbleTarget(5);
+        telemetry.addData("Checkpoint", "Left Capture Wobble Target99");
+        telemetry.addData("Chicken Wing Position", robot.FLDrive.getCurrentPosition());
+        telemetry.update();
 
     } // end runOpMode
 
@@ -154,4 +159,36 @@ public class Auton5663_eocv extends LinearOpMode {
         }
     }
 
+    public void captureWobbleTarget(double segmentTimeLimit)
+    {
+        if(opModeIsActive())
+        {
+            int increasedMovePosition = 20;
+            int desiredFLDrivePosition = robot.FLDrive.getCurrentPosition() + increasedMovePosition;
+
+            segmentTime.reset();
+
+            while(opModeIsActive() && segmentTime.seconds() < segmentTimeLimit)
+            {
+                if(robot.FLDrive.getCurrentPosition() < desiredFLDrivePosition)
+                {
+                    robot.FLDrive.setPower(-0.7);
+                    robot.FRDrive.setPower(-0.7);
+                    robot.BLDrive.setPower(-0.7);
+                    robot.BRDrive.setPower(-0.7);
+                }
+                else
+                {
+                    robot.FLDrive.setPower(0);
+                    robot.FRDrive.setPower(0);
+                    robot.BLDrive.setPower(0);
+                    robot.BRDrive.setPower(0);
+                    robot.FingerGrab(1);
+                }
+                telemetry.addData("Overall time:",  runtime.seconds());
+                telemetry.addData("Segment time:", segmentTime.seconds());
+                telemetry.update();
+            }
+        }
+    }
 }  // end class Auton5663_eocv
