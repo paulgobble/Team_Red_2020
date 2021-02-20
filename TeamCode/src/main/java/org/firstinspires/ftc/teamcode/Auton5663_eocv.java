@@ -84,7 +84,7 @@ public class Auton5663_eocv extends LinearOpMode {
         telemetry.addData("Checkpoint", "Left Watch and Report");
         telemetry.update();
         sleep(1000);
-        prepChickenWing(1.5);
+        prepChickenWing(2);
 
         telemetry.addData("Checkpoint", "Left Prep Chicken Wing");
         telemetry.update();
@@ -118,17 +118,17 @@ public class Auton5663_eocv extends LinearOpMode {
     {
         if(opModeIsActive())
         {
-            robot.LaChickenWing.setPositionPIDFCoefficients(35);
+            //robot.LaChickenWing.setPositionPIDFCoefficients(35);
+
+            robot.LaChickenWing.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.LaChickenWing.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            int desiredWingPosition = robot.LaChickenWing.getCurrentPosition() + 5;
 
             segmentTime.reset();
 
             while(opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit))
             {
-                robot.LaChickenWing.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                robot.LaChickenWing.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                int desiredWingPosition = robot.LaChickenWing.getCurrentPosition() + 1;
-
-                while(robot.LaChickenWing.getCurrentPosition() <= desiredWingPosition)
+                while(robot.LaChickenWing.getCurrentPosition() < desiredWingPosition)
                 {
                     robot.LaChickenWing.setPower(0.4);
                     telemetry.addData("Status:", robot.LaChickenWing.getCurrentPosition());
