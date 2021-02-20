@@ -81,13 +81,14 @@ public class Auton5663_eocv extends LinearOpMode {
         
         runtime.reset();
 
-        watchAndReport(3);
+        watchAndReport(1);
 
         telemetry.addData("Checkpoint", "Left Watch and Report");
         telemetry.addData("Chicken Wing Position", robot.LaChickenWing.getCurrentPosition());
         telemetry.update();
         sleep(3000);
-        prepChickenWing(7);
+        robot.LaChickenWing.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        prepChickenWing(3);
 
         telemetry.addData("Checkpoint", "Left Prep Chicken Wing");
         telemetry.addData("Chicken Wing Position", robot.LaChickenWing.getCurrentPosition());
@@ -135,7 +136,7 @@ public class Auton5663_eocv extends LinearOpMode {
             {
                 if(robot.LaChickenWing.getCurrentPosition() < desiredWingPosition)
                 {
-                    robot.LaChickenWing.setPower(0.5);
+                    robot.LaChickenWing.setPower(0.35);
                     //telemetry.addData("Current Wing Position", robot.LaChickenWing.getCurrentPosition());
                     //telemetry.update();
                 }
