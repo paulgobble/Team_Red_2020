@@ -7,8 +7,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import java.util.concurrent.Delayed;
-
 @Autonomous(name="Auton5663_eocv", group="Autonomous")
 //@Disabled
 public class Auton5663_eocv extends LinearOpMode {
@@ -82,7 +80,7 @@ public class Auton5663_eocv extends LinearOpMode {
 
         watchAndReport(3);
 
-        prepChickenWing(3);
+        prepChickenWing(10);
 
     } // end runOpMode
 
@@ -109,26 +107,32 @@ public class Auton5663_eocv extends LinearOpMode {
 
     public void prepChickenWing(double segmentTimeLimit)
     {
-        int currentWingPositionToIncrement;
+        int desiredWingPosition;
         int startWingPosition;
         if(opModeIsActive())
         {
+            robot.LaChickenWing.setPositionPIDFCoefficients(35);
+
             segmentTime.reset();
 
             while(opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit))
             {
-                currentWingPositionToIncrement = robot.LaChickenWing.getCurrentPosition();
+                desiredWingPosition = robot.LaChickenWing.getCurrentPosition();
                 startWingPosition = robot.LaChickenWing.getCurrentPosition();
-                currentWingPositionToIncrement += 27;
-                robot.LaChickenWing.setTargetPosition(currentWingPositionToIncrement);
+                desiredWingPosition += 15;
+                robot.LaChickenWing.setTargetPosition(desiredWingPosition);
                 robot.LaChickenWing.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.LaChickenWing.setPower(1);
 
-               if(currentWingPositionToIncrement == startWingPosition + 27)
-               {
-                   //robot.FingerGrab(0);
-                    telemetry.addData("The Chicken Finger will come out now", robot.LaChickenWing.getCurrentPosition());
-               }
+                while(robot.LaChickenWing.isBusy())
+                {
+                    telemetry.addData("Status:", "Is Busy");
+                    telemetry.update();
+
+                }
+
+                //robot.FingerGrab(.2);
+                telemetry.addData("Status", "Done while-ing");
 
                 telemetry.addData("Overall time:",  runtime.seconds());
                 telemetry.addData("Segment time:", segmentTime.seconds());

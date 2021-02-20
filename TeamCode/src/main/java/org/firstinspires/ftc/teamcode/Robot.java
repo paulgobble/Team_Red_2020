@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -68,7 +69,7 @@ public class Robot {
 
     /* Create other motors and servos */
     public Servo ChickenFinger = null;
-    public DcMotor LaChickenWing = null;
+    public DcMotorEx LaChickenWing = null;
     private DcMotor Intake = null;
 
 
@@ -128,7 +129,7 @@ public class Robot {
         //FeedBelt.setDirection(DcMotor.Direction.FORWARD);
 
         // Wobble target arm
-        LaChickenWing = hardwareMap.get(DcMotor.class, "Wing");
+        LaChickenWing = hardwareMap.get(DcMotorEx.class, "Wing");
         // Wobble targer servo
         ChickenFinger = hardwareMap.get(Servo.class, "Finger");
         //Lift.setDirection(DcMotor.Direction.FORWARD);
