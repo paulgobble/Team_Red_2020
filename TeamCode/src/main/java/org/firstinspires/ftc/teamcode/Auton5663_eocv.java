@@ -8,8 +8,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import java.util.Base64;
-
 @Autonomous(name="Auton5663_eocv", group="Autonomous")
 //@Disabled
 public class Auton5663_eocv extends LinearOpMode {
@@ -34,10 +32,6 @@ public class Auton5663_eocv extends LinearOpMode {
 
         telemetry.addData("Codebase", "v 1.9.8");
 
-        /*
-         * Initialize the drive system variables.
-         * The init() method of the hardware class does all the work here
-         */
         robot.setStreamingVideo(true);
 
         telemetry.addData("Video Streaming", "Started");
@@ -45,17 +39,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
         robot.hMap(hardwareMap);
 
-        // paste code here
         //Tell the driver that the encoders are resetting.
         telemetry.addData("Status:", "Initialized v1.9.8");
         telemetry.addData("Status", "Resetting Encoders");    //
         telemetry.update();
-
-        // Reverse the motor that runs backwards when connected directly to the battery
-        //robot.FRDrive.setDirection(DcMotor.Direction.FORWARD);
-        //robot.FLDrive.setDirection(DcMotor.Direction.REVERSE);
-        //robot.BRDrive.setDirection(DcMotor.Direction.FORWARD);
-        //robot.BLDrive.setDirection(DcMotor.Direction.REVERSE);
 
         //Reset all encoders to have a fresh start when the match starts.
         //Drive
@@ -102,6 +89,89 @@ public class Auton5663_eocv extends LinearOpMode {
 
     } // end runOpMode
 
+    /***********************
+     *                     *
+     *  Utility Functions  *
+     *                     *
+     ***********************/
+
+
+    //Set up encoderDrive function.
+    public void encoderDrive(double speed,
+                             double FLInches, double FRInches, double BLInches, double BRInches,
+                             double segmentTimeLimit) {
+        //Create targets for motors.
+        int newFLTarget;
+        int newFRTarget;
+        int newBLTarget;
+        int newBRTarget;
+
+        // Ensure that the opmode is still active.
+        if (opModeIsActive()) {
+
+            //Get new target positions.
+            newFLTarget = robot.FLDrive.getCurrentPosition() + (int)(FLInches * COUNTS_PER_INCH);
+            newFRTarget = robot.FRDrive.getCurrentPosition() + (int)(FRInches * COUNTS_PER_INCH);
+            newBLTarget = robot.BLDrive.getCurrentPosition() + (int)(BLInches * COUNTS_PER_INCH);
+            newBRTarget = robot.BRDrive.getCurrentPosition() + (int)(BRInches * COUNTS_PER_INCH);
+
+            //Set the new target positions.
+            robot.FLDrive.setTargetPosition(newFLTarget);
+            robot.FRDrive.setTargetPosition(newFRTarget);
+            robot.BLDrive.setTargetPosition(newBLTarget);
+            robot.BRDrive.setTargetPosition(newBRTarget);
+
+            //Set mode to run to position.
+            robot.FLDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.FRDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.BLDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.BRDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+            //Reset time.
+            segmentTime.reset();
+
+            //Apply power to motors.
+            robot.FLDrive.setPower(Math.abs(speed));
+            robot.FRDrive.setPower(Math.abs(speed));
+            robot.BLDrive.setPower(Math.abs(speed));
+            robot.BRDrive.setPower(Math.abs(speed));
+
+            //Detect whether or not the robot is running.
+            while (opModeIsActive() &&
+                    (segmentTime.seconds() < segmentTimeLimit) &&
+                    (robot.FLDrive.isBusy() && robot.FRDrive.isBusy()&&robot.BLDrive.isBusy()&&robot.BRDrive.isBusy())) {
+
+                //Tell driver what the robot is doing.
+                telemetry.addData("Path1",  "Running to %7d :%7d", newFLTarget,  newFRTarget, newBLTarget, newBRTarget);
+                telemetry.addData("Path2",  "Running at %7d :%7d",
+                        robot.FLDrive.getCurrentPosition(),
+                        robot.FRDrive.getCurrentPosition(),
+                        robot.BLDrive.getCurrentPosition(),
+                        robot.BRDrive.getCurrentPosition());
+                telemetry.update();
+            }
+
+            //Stop motors.
+            robot.FLDrive.setPower(0);
+            robot.FRDrive.setPower(0);
+            robot.BLDrive.setPower(0);
+            robot.BRDrive.setPower(0);
+
+            //Turn off RUN_TO_POSITION.
+            robot.FLDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.FRDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.BLDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.BRDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+    }
+
+
+    /*******************************
+     *                             *
+     *  Autonomous Drive Segments  *
+     *                             *
+     *******************************/
 
     public void watchAndReport(double segmentTimeLimit) {
 

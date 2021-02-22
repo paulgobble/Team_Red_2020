@@ -4,7 +4,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -302,10 +301,6 @@ public class Robot {
         double turnAdjust;
         double strafeAdjust;
 
-
-        double speed = 1;
-
-
         if ((forceFieldArmed) && (forceFieldTriggered)) {
             driveAdjust = 0;
             turnAdjust = 0;
@@ -316,10 +311,10 @@ public class Robot {
             strafeAdjust = masterPowerLimit;
         }
 
-        FRPower = ((drive * driveAdjust * driveDirectionModifyer) * speed + (strafe * strafeAdjust * driveDirectionModifyer) * speed + (turn * turnAdjust) * speed) ;
-        FLPower = ((drive * driveAdjust * driveDirectionModifyer) * speed - (strafe * strafeAdjust * driveDirectionModifyer) * speed - (turn * turnAdjust) * speed) ;
-        BRPower = ((drive * driveAdjust * driveDirectionModifyer) * speed - (strafe * strafeAdjust * driveDirectionModifyer) * speed + (turn * turnAdjust) * speed) ;
-        BLPower = ((drive * driveAdjust * driveDirectionModifyer) * speed + (strafe * strafeAdjust * driveDirectionModifyer) * speed - (turn * turnAdjust) * speed) ;
+        FRPower = ((drive * driveAdjust * driveDirectionModifyer) + (strafe * strafeAdjust * driveDirectionModifyer) + (turn * turnAdjust) ) ;
+        FLPower = ((drive * driveAdjust * driveDirectionModifyer) - (strafe * strafeAdjust * driveDirectionModifyer) - (turn * turnAdjust) ) ;
+        BRPower = ((drive * driveAdjust * driveDirectionModifyer) - (strafe * strafeAdjust * driveDirectionModifyer) + (turn * turnAdjust) ) ;
+        BLPower = ((drive * driveAdjust * driveDirectionModifyer) + (strafe * strafeAdjust * driveDirectionModifyer) - (turn * turnAdjust) ) ;
 
         FLDrive.setPower(FLPower);
         FRDrive.setPower(FRPower);
@@ -327,6 +322,14 @@ public class Robot {
         BRDrive.setPower(BRPower);
 
     } // end MechanumDrive
+
+
+
+
+
+
+
+
 
 
     /***********************************************
