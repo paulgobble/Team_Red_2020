@@ -32,13 +32,14 @@
 
 //Import all needed materials.
  import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
  import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
- import com.qualcomm.robotcore.hardware.DcMotor;
- import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 //v.1.1
 
  @Autonomous(name="Auto Test", group="Auto")
-
+@Disabled
  public class Auton5663_starter extends LinearOpMode {
 
      //Set up hardware.

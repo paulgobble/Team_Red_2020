@@ -22,6 +22,7 @@
 // package org.openftc.easyopencv.examples;
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -43,6 +44,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
  * the sample regions over the first 3 stones.
  */
 @TeleOp
+@Disabled
 public class SkystoneDeterminationExample extends LinearOpMode
 {
     OpenCvInternalCamera phoneCam;
