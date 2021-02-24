@@ -23,6 +23,9 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class Robot {
 
     /* Establish Essential Robot Modes */
@@ -429,7 +432,7 @@ public class Robot {
 
         Mat processedImage = new Mat();     // Matrix to contain the input image after it is converted to LCrCb colorspace
         Mat processedImageCr = new Mat();   // Matrix to contain just the Cb chanel
-        Mat targetZoneSample = new Mat();   // Matrix to contin the image cropped to the area where we expect to find the ring stack
+        Mat scanZoneSample = new Mat();   // Matrix to contin the image cropped to the area where we expect to find the ring stack
 
         final int leftMargin = 120;         // Left margin to be cropped off processedImageCr
         final int righMargin = 120;         // Rign margin to be cropped off
@@ -447,17 +450,43 @@ public class Robot {
             // extract just the Cb (?) channel to isolate the difference in red
             Core.extractChannel(processedImage, processedImageCr, 2);
 
-            // copy just target regon to a new matrix
-            targetZoneSample = processedImageCr.submat(
-                    new Rect(
-                            new Point(
-                                leftMargin,
-                                topMargin),
-                            new Point(
-                            input.cols()-righMargin,
-                            input.rows()-botMargin)));
+            // Compute the ideal center scan zone rectangle
+            final double frameWidth = input.cols();
+            final double frameHeight = input.rows();
+            Point upperLeft = new Point(leftMargin, topMargin);
+            Point lowerRight = new Point(frameWidth - righMargin, frameHeight - botMargin);
+            Rect centerScanRect = new Rect(upperLeft, lowerRight);
 
-            targetZoneAverageValue = (int) Core.mean(targetZoneSample).val[0];
+            int zoneWidth = centerScanRect.width;
+            int zoneHeight = centerScanRect.height;
+
+            //int thisX;
+            //int thisY;
+
+            int leftScanPadding = 10;
+            int rightScanPadding = 10;
+            int topScanPadding = 10;
+            int botScanPadding = 10;
+
+            ArrayList<Integer> scanValues = new ArrayList<Integer>(); // Create an ArrayList object
+
+            // loop through columns
+            for (int thisX = leftScanPadding; thisX < frameWidth - zoneWidth - rightScanPadding; thisX++) {
+
+                for (int thisY = topScanPadding; thisY < frameHeight - zoneHeight - botScanPadding; thisY++) {
+
+                    // copy just target regon to a new matrix
+                    scanZoneSample = processedImageCr.submat(new Rect(thisX, thisY, zoneWidth, zoneHeight));
+
+                    scanValues.add ((int) Core.mean(scanZoneSample).val[0]);
+
+                }
+
+            }
+
+            Collections.sort(scanValues);
+            targetZoneAverageValue = scanValues.get(0);
+
 
             if (targetZoneAverageValue > TZAV_Threshold_A) {
                 // no rings detected, so Target Zone A is selected

@@ -68,8 +68,9 @@ public class Auton5663_eocv extends LinearOpMode {
         
         runtime.reset();
 
-        watchAndReport(2);
+        watchAndReport(30);
 
+        /*
         telemetry.addData("Checkpoint", "Left Watch and Report");
         telemetry.addData("Chicken Wing Position", robot.LaChickenWing.getCurrentPosition());
         telemetry.update();
@@ -85,7 +86,7 @@ public class Auton5663_eocv extends LinearOpMode {
         captureWobbleTarget(5);
         telemetry.addData("Checkpoint", "Left Capture Wobble Target99");
         telemetry.addData("Chicken Wing Position", robot.FLDrive.getCurrentPosition());
-        telemetry.update();
+        telemetry.update(); */
 
     } // end runOpMode
 
