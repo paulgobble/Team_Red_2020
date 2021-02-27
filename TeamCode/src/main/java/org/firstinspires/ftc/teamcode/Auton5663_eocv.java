@@ -262,6 +262,7 @@ public class Auton5663_eocv extends LinearOpMode {
 
             while(opModeIsActive() && segmentTime.seconds() < segmentTimeLimit)
             {
+                //THis is a while loop within a while loop.
                 while (robot.FLDrive.isBusy() && robot.FRDrive.isBusy() && robot.BLDrive.isBusy() && robot.BRDrive.isBusy())
                 {
                     robot.FLDrive.getCurrentPosition();
