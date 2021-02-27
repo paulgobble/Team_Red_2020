@@ -32,7 +32,7 @@ public class Auton5663_eocv extends LinearOpMode {
 
         telemetry.addData("Codebase", "v 1.9.8");
 
-        robot.idTargetZone(Robot.TargetZones.X);
+        //robot.idTargetZone(Robot.TargetZones.X);
 
         robot.setStreamingVideo(true);
 

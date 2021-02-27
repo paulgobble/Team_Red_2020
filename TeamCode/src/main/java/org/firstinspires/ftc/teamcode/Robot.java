@@ -501,7 +501,7 @@ public class Robot {
             ElapsedTime scanTimer = new ElapsedTime();
 
             if(!scanVideoCompleted) {
-                scanTimer.reset();
+                scanTimer.reset();TargetZones.X
 
                 //idTargetZone(TargetZones.S);
 
