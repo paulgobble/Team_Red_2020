@@ -1,4 +1,4 @@
-// Version 1.9.8 (hello, Dylan?)
+// Version 1.9.8 (hello, Ryan?)
 
 package org.firstinspires.ftc.teamcode;
 
@@ -503,7 +503,7 @@ public class Robot {
             if(!scanVideoCompleted) {
                 scanTimer.reset();
 
-                idTargetZone(TargetZones.S);
+                //idTargetZone(TargetZones.S);
 
                 // loop through columns
                 for (int thisX = leftScanPadding; thisX < frameWidth - zoneWidth - rightScanPadding; thisX = thisX + scanStep) {
