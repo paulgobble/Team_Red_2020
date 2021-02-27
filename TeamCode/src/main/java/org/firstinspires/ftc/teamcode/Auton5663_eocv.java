@@ -72,20 +72,17 @@ public class Auton5663_eocv extends LinearOpMode {
 
         watchAndReport(2);
 
-        //sleep(28000);
-
-
         telemetry.addData("Checkpoint", "Left Watch and Report");
         telemetry.addData("Chicken Wing Position", robot.LaChickenWing.getCurrentPosition());
         telemetry.update();
-        sleep(3000);
+        sleep(1000);
         robot.LaChickenWing.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         prepChickenWing(3);
 
         telemetry.addData("Checkpoint", "Left Prep Chicken Wing");
         telemetry.addData("Chicken Wing Position", robot.LaChickenWing.getCurrentPosition());
         telemetry.update();
-        sleep(3000);
+        sleep(1000);
 
         captureWobbleTarget(5);
         telemetry.addData("Checkpoint", "Left Capture Wobble Target99");
@@ -190,6 +187,7 @@ public class Auton5663_eocv extends LinearOpMode {
 
                 // Display it for the driver.
                 telemetry.addData("Overall time:",  runtime.seconds());
+                telemetry.addData("Hello there", "HI");
                 telemetry.addData("Segment time:", segmentTime.seconds());
                 telemetry.addData("Scan time:", robot.getScanCompleteTime());
                 telemetry.addData("TZAV:", robot.getTargetZoneAverageValue());
