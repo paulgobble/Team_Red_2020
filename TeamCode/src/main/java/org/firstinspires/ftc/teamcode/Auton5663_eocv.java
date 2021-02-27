@@ -245,29 +245,37 @@ public class Auton5663_eocv extends LinearOpMode {
             int increasedMovePosition = 20;
             int desiredFLDrivePosition = robot.FLDrive.getCurrentPosition() + increasedMovePosition;
 
+            robot.FLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.FRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.BLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.BRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            robot.FLDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.FRDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.BLDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.BRDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
             segmentTime.reset();
+
+            encoderDrive(0.3, 30, 30, 30, 30, 0.3);
+
 
             while(opModeIsActive() && segmentTime.seconds() < segmentTimeLimit)
             {
-                if(robot.FLDrive.getCurrentPosition() < desiredFLDrivePosition)
+                while (robot.FLDrive.isBusy() && robot.FRDrive.isBusy() && robot.BLDrive.isBusy() && robot.BRDrive.isBusy())
                 {
-                    robot.FLDrive.setPower(-0.7);
-                    robot.FRDrive.setPower(-0.7);
-                    robot.BLDrive.setPower(-0.7);
-                    robot.BRDrive.setPower(-0.7);
+                    robot.FLDrive.getCurrentPosition();
+                    robot.FRDrive.getCurrentPosition();
+                    robot.BLDrive.getCurrentPosition();
+                    robot.BRDrive.getCurrentPosition();
+
+                    telemetry.addData("Overall time:",  runtime.seconds());
+                    telemetry.addData("Segment time:", segmentTime.seconds());
+                    telemetry.update();
                 }
-                else
-                {
-                    robot.FLDrive.setPower(0);
-                    robot.FRDrive.setPower(0);
-                    robot.BLDrive.setPower(0);
-                    robot.BRDrive.setPower(0);
-                    robot.FingerGrab(1);
-                }
-                telemetry.addData("Overall time:",  runtime.seconds());
-                telemetry.addData("Segment time:", segmentTime.seconds());
-                telemetry.update();
+                robot.FingerGrab(1);
             }
+
         }
     }
 }  // end class Auton5663_eocv
