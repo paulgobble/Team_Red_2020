@@ -32,6 +32,8 @@ public class Auton5663_eocv extends LinearOpMode {
 
         telemetry.addData("Codebase", "v 1.9.8");
 
+        robot.idTargetZone(Robot.TargetZones.X);
+
         robot.setStreamingVideo(true);
 
         telemetry.addData("Video Streaming", "Started");
@@ -68,7 +70,9 @@ public class Auton5663_eocv extends LinearOpMode {
         
         runtime.reset();
 
-        watchAndReport(30);
+        watchAndReport(2);
+
+        sleep(28000);
 
         /*
         telemetry.addData("Checkpoint", "Left Watch and Report");
@@ -187,11 +191,15 @@ public class Auton5663_eocv extends LinearOpMode {
                 // Display it for the driver.
                 telemetry.addData("Overall time:",  runtime.seconds());
                 telemetry.addData("Segment time:", segmentTime.seconds());
+                telemetry.addData("Scan time:", robot.getScanCompleteTime());
                 telemetry.addData("TZAV:", robot.getTargetZoneAverageValue());
                 telemetry.addData("Deciphered Target Zone", robot.getDecipheredTargetZone());
                 telemetry.update();
             }
-            //prepChickenWing(10);
+
+            // stop sampling video
+            robot.setStreamingVideo(false);
+
         }
     } // end watchAndReport
 

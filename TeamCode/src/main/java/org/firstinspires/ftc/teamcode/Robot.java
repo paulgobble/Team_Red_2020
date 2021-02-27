@@ -1,4 +1,4 @@
-// Version 1.9.8
+// Version 1.9.8 (hello, Dylan?)
 
 package org.firstinspires.ftc.teamcode;
 
@@ -38,17 +38,26 @@ public class Robot {
 
     private boolean streamingVideo;             // is the connection to the webcam open
 
+    private boolean scanVideoCompleted = false;      // Has the video pipeline completed one full scan and captured TAZVs
+
+    private double scanCompleteTime;               // store the length of time in seconds it took to complete the video scan
+
     /* Define Enumerator for possible TargetZones*/
     enum TargetZones {
-        A,
-        B,
-        C
+        A,  //no rings
+        B,  // one ring
+        C,  // four rings
+        S,  // scanning
+        X   // pre-scan
     }
 
     /* Tested Target Zone Average Values for stack of rings */
     private final double TZAV_0_Reading = 125;   // tested reading for no rings
     private final double TZAV_1_Reading = 110;   // tested reading for one ring
     private final double TZAV_4_Reading = 87;    // tested reading for four rings
+
+    /* Create an array to hold the sorted TZAVs */
+    private ArrayList<Integer> TZAVs_Array;
 
     /* Create integer to hold the Target Zone Average Value */
     private int targetZoneAverageValue;
@@ -236,7 +245,10 @@ public class Robot {
      *  streamingVideo      *
      ************************/
     public void setStreamingVideo(boolean onOrOff){
+
         streamingVideo = onOrOff;
+
+        //if(!onOrOff) webcam.closeCameraDevice();
     }
 
 
@@ -263,6 +275,16 @@ public class Robot {
 
     }
 
+
+    /***************************
+     *        GETTER           *
+     *  get the value of       *
+     *  scanCompleteTime       *
+     ***************************/
+    public double getScanCompleteTime() {
+
+        return scanCompleteTime;
+    }
 
     /*************************
      *  CarWash - start the  *
@@ -413,6 +435,11 @@ public class Robot {
             case C:
                 pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
                 break;
+            case S:
+                pattern = RevBlinkinLedDriver.BlinkinPattern.STROBE_WHITE;
+                break;
+            case X:
+                pattern = RevBlinkinLedDriver.BlinkinPattern.WHITE;
         }
 
         blinkinLedDriver.setPattern(pattern);
@@ -439,8 +466,19 @@ public class Robot {
         final int topMargin = 50;           // Top margin to be cropped off
         final int botMargin = 140;          // Bottom margin to be cropped off
 
+        final int leftScanPadding = 0;     // Left padding of frame not to be scanned
+        final int rightScanPadding = 0;    // Right padding of frame not to be scanned
+        final int topScanPadding = 10;      // Top padding of frame not to be scanned
+        final int botScanPadding = 120;      // Bottome padding of frame not to be scanned
+
+        final  int scanStep = 5;
+
         final double TZAV_Threshold_A = (TZAV_0_Reading + TZAV_1_Reading) / 2;  // Average of the 0 Ring and 1 Ring values to function as Threshold
         final double TZAV_Threshold_B = (TZAV_1_Reading + TZAV_4_Reading) / 2;  // Average of the 1 Ring and 4 Ring valuse to function as Threshold
+
+        ArrayList<Integer> these_TZAVs = new ArrayList<Integer>(); // Create an ArrayList object
+
+
 
         @Override
         public Mat processFrame(Mat input)
@@ -460,45 +498,52 @@ public class Robot {
             int zoneWidth = centerScanRect.width;
             int zoneHeight = centerScanRect.height;
 
-            //int thisX;
-            //int thisY;
+            ElapsedTime scanTimer = new ElapsedTime();
 
-            int leftScanPadding = 10;
-            int rightScanPadding = 10;
-            int topScanPadding = 10;
-            int botScanPadding = 10;
+            if(!scanVideoCompleted) {
+                scanTimer.reset();
 
-            ArrayList<Integer> scanValues = new ArrayList<Integer>(); // Create an ArrayList object
+                idTargetZone(TargetZones.S);
 
-            // loop through columns
-            for (int thisX = leftScanPadding; thisX < frameWidth - zoneWidth - rightScanPadding; thisX++) {
+                // loop through columns
+                for (int thisX = leftScanPadding; thisX < frameWidth - zoneWidth - rightScanPadding; thisX = thisX + scanStep) {
 
-                for (int thisY = topScanPadding; thisY < frameHeight - zoneHeight - botScanPadding; thisY++) {
+                    for (int thisY = topScanPadding; thisY < frameHeight - zoneHeight - botScanPadding; thisY = thisY + scanStep) {
 
-                    // copy just target regon to a new matrix
-                    scanZoneSample = processedImageCr.submat(new Rect(thisX, thisY, zoneWidth, zoneHeight));
+                        // copy just target regon to a new matrix
+                        scanZoneSample = processedImageCr.submat(new Rect(thisX, thisY, zoneWidth, zoneHeight));
+                        // convert the matrix single color channel averaged numeric value and add this value to an arrayList
+                        these_TZAVs.add((int) Core.mean(scanZoneSample).val[0]);
 
-                    scanValues.add ((int) Core.mean(scanZoneSample).val[0]);
+                    }
 
                 }
+                // capture the length of time it took to complete the scan
+                scanCompleteTime = scanTimer.seconds();
 
-            }
+                // Sort the arrayList of TZAVs so the greatest int member is in location 0
+                Collections.sort(these_TZAVs);
 
-            Collections.sort(scanValues);
-            targetZoneAverageValue = scanValues.get(0);
+                //TZAVs_Array = these_TZAVs;
+                targetZoneAverageValue = these_TZAVs.get(0);
 
+                if (targetZoneAverageValue > TZAV_Threshold_A) {
+                    // no rings detected, so Target Zone A is selected
+                    decipheredTargetZone = TargetZones.A;
+                } else if (targetZoneAverageValue > TZAV_Threshold_B) {
+                    // one ring detected, so Target Zone B is selected
+                    decipheredTargetZone = TargetZones.B;
+                } else{
+                    // four rings detected, so Target Zone C is selected
+                    decipheredTargetZone = TargetZones.C;
+                }
 
-            if (targetZoneAverageValue > TZAV_Threshold_A) {
-                // no rings detected, so Target Zone A is selected
-                decipheredTargetZone = TargetZones.A;
-            } else if (targetZoneAverageValue > TZAV_Threshold_B) {
-                // one ring detected, so Target Zone B is selected
-                decipheredTargetZone = TargetZones.B;
-            } else{
-                // four rings detected, so Target Zone C is selected
-                decipheredTargetZone = TargetZones.C;
-            }
-            idTargetZone(decipheredTargetZone);
+                idTargetZone(decipheredTargetZone);
+
+                scanVideoCompleted = true;
+
+            } // end if(streamingVideo)
+
 
             //  Draw a simple box around the area where we expect the target rings to be seen
             Imgproc.rectangle(
@@ -511,11 +556,20 @@ public class Robot {
                             input.rows()-botMargin),
                     new Scalar(255, 0, 0), 4);
 
-
-
+            //  Draw a second simple box around the area to be scanned
+            Imgproc.rectangle(
+                    processedImageCr,
+                    new Point(
+                            leftScanPadding,
+                            topScanPadding),
+                    new Point(
+                            input.cols()-rightScanPadding,
+                            input.rows()-botScanPadding),
+                    new Scalar(255, 0, 0), 4);
 
             return processedImageCr;
-        }
+
+        } // end processFrame
 
         @Override
         public void onViewportTapped()
@@ -531,7 +585,8 @@ public class Robot {
             {
                 webcam.resumeViewport();
             }
-        }
+        } // end onViewportTapped
+
     } // end nested Class RedPipeline
 
 
