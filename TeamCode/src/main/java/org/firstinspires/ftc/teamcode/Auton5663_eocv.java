@@ -255,7 +255,7 @@ public class Auton5663_eocv extends LinearOpMode {
 
             segmentTime.reset();
 
-            encoderDrive(0.3, 30, 30, 30, 30, 0.3);
+            encoderDrive(0.3, -30, -30, -30, -30, 0.3);
 
 
             while(opModeIsActive() && segmentTime.seconds() < segmentTimeLimit)
