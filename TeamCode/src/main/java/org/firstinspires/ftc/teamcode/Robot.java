@@ -57,7 +57,7 @@ public class Robot {
     private final double TZAV_4_Reading = 87;    // tested reading for four rings
 
     /* Create an array to hold the sorted TZAVs */
-    private ArrayList<Integer> TZAVs_Array;
+    //private ArrayList<Integer> TZAVs_Array;
 
     /* Create integer to hold the Target Zone Average Value */
     private int targetZoneAverageValue;
