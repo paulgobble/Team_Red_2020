@@ -38,6 +38,8 @@ public class Robot {
 
     private boolean streamingVideo;             // is the connection to the webcam open
 
+    private boolean allowVideoScan = false;           // is it OK to begin scanning the video pipeline
+
     private boolean scanVideoCompleted = false;      // Has the video pipeline completed one full scan and captured TAZVs
 
     private double scanCompleteTime;               // store the length of time in seconds it took to complete the video scan
@@ -169,11 +171,13 @@ public class Robot {
     } // end hMap
 
 
-    /************************
-     *        SETTER        *
-     *  Toggle the value of *
-     *  forwardDriveMode    *
-     ************************/
+    /*****************************
+     *                           *
+     *    Getters and Setters    *
+     *                           *
+     *****************************/
+
+    // SETTER - Toggle the value of forwardDriveMode
     public void setForwardDriveMode () {
         if (driveDirectionModifyer == 1) {
             driveDirectionModifyer = -1;
@@ -181,12 +185,7 @@ public class Robot {
             driveDirectionModifyer = 1;
         }
     }
-
-    /************************
-     *        GETTER        *
-     *  report the value of *
-     *  forwardDriveMode    *
-     ************************/
+    // Getter - report the valuse of driveDirectionModifyer
     public String getDirectionMode () {
         if (driveDirectionModifyer == 1) {
             return "FORWARD (Shooter)";
@@ -194,13 +193,7 @@ public class Robot {
             return "REVERSE (Wedge)";
         }
     }
-
-
-    /************************
-     *        SETTER        *
-     *  Toggle the value of *
-     *  forceFieldOn        *
-     ************************/
+    // Setter - set the valuse of forceFieldOn
     public void toggleForceField() {
 
         if (forceFieldArmed) {
@@ -209,12 +202,7 @@ public class Robot {
             forceFieldArmed = true;
         }
     }
-
-    /************************
-     *        GETTER        *
-     *  report the value of *
-     *  forceFieldOn        *
-     ************************/
+    // Getter - report the valuse of forceFieldOn
     public String isForceFieldOn() {
 
         if (forceFieldTriggered) {
@@ -225,66 +213,54 @@ public class Robot {
             return "OFF";
         }
     }
-
-
-    /************************
-     *        GETTER        *
-     *  report the value of *
-     *  FrontDistanceSensor *
-     ************************/
+    // Get the value of FrontDistanceSensor
     public double getFrontDistance () {
 
         return FrontDistanceSensor.getDistance(DistanceUnit.INCH);
 
     }
-
-
-    /************************
-     *        SETTER        *
-     *  Set the value of    *
-     *  streamingVideo      *
-     ************************/
+    // Setter - set the value of streamingVideo
     public void setStreamingVideo(boolean onOrOff){
 
         streamingVideo = onOrOff;
 
         //if(!onOrOff) webcam.closeCameraDevice();
     }
-
-
-    /***************************
-     *        GETTER           *
-     *  get the value of       *
-     *  targetZoneAverageValue *
-     ***************************/
+    // Getter - report the value of targetZoneAverageValue
     public int getTargetZoneAverageValue() {
 
         return targetZoneAverageValue;
 
     }
-
-
-    /***************************
-     *        GETTER           *
-     *  get the value of       *
-     *  desciferedTargetZone   *
-     ***************************/
+    // Getter - report the value of decipheredTargetZone
     public TargetZones getDecipheredTargetZone() {
 
         return decipheredTargetZone;
 
     }
-
-
-    /***************************
-     *        GETTER           *
-     *  get the value of       *
-     *  scanCompleteTime       *
-     ***************************/
+    // Getter - report the valure of scanCompleteTime
     public double getScanCompleteTime() {
 
         return scanCompleteTime;
     }
+    // Setter - receive the OK to start processing the video pipeline
+    public void startScanning(boolean startScan){
+
+        allowVideoScan = startScan;
+
+    }
+
+
+
+    public void StopRobot()
+    {
+        FLDrive.setPower(0);
+        FRDrive.setPower(0);
+        BLDrive.setPower(0);
+        BRDrive.setPower(0);
+    }
+
+
 
     /*************************
      *  CarWash - start the  *
@@ -295,15 +271,6 @@ public class Robot {
 
         Intake.setPower(speed);
 
-    }
-
-
-    public void StopRobot()
-    {
-        FLDrive.setPower(0);
-        FRDrive.setPower(0);
-        BLDrive.setPower(0);
-        BRDrive.setPower(0);
     }
 
 
@@ -350,13 +317,6 @@ public class Robot {
 
 
 
-
-
-
-
-
-
-
     /***********************************************
      * Shooter method responsible for Ring Shooter *
      * control. Current method implements two      *
@@ -370,11 +330,11 @@ public class Robot {
     } // end Shooter
 
 
-    /***********************************************
-     * Raise or lower La Chicke WIng               *
-     * wobble targert lifter                       *
-     * Accepts a sing argument for DC motor spoeed *
-     ***********************************************/
+    /******************************************
+     * Raise or lower La Chicke WIng          *
+     * wobble targert lifter                  *
+     * Accepts a argument for DC motor spoeed *
+     ******************************************/
     public void FlapWing(double wingSpeed) {
 
         LaChickenWing.setPower(wingSpeed);
@@ -382,18 +342,16 @@ public class Robot {
     }
 
 
-    /***********************************************
-     * open or close the servo on the                 *
-     * wobble targert lifter                          *
-     * Accepts a single argument for se *rvo position *
-     ***********************************************/
+    /************************************************
+     * open or close the servo on the               *
+     * wobble targert lifter                        *
+     * Accepts a single argument for servo position *
+     ************************************************/
     public void FingerGrab(double gripPosition) {
 
         ChickenFinger.setPosition(gripPosition);
 
     }
-
-
 
 
     /************************************
@@ -474,11 +432,9 @@ public class Robot {
         final  int scanStep = 5;
 
         final double TZAV_Threshold_A = (TZAV_0_Reading + TZAV_1_Reading) / 2;  // Average of the 0 Ring and 1 Ring values to function as Threshold
-        final double TZAV_Threshold_B = (TZAV_1_Reading + TZAV_4_Reading) / 2;  // Average of the 1 Ring and 4 Ring valuse to function as Threshold
+        final double TZAV_Threshold_B = (TZAV_1_Reading + TZAV_4_Reading) / 2;  // Average of the 1 Ring and 4 Ring values to function as Threshold
 
         ArrayList<Integer> these_TZAVs = new ArrayList<Integer>(); // Create an ArrayList object
-
-
 
         @Override
         public Mat processFrame(Mat input)
@@ -500,7 +456,7 @@ public class Robot {
 
             ElapsedTime scanTimer = new ElapsedTime();
 
-            if(!scanVideoCompleted) {
+            if(allowVideoScan && !scanVideoCompleted) {
                 scanTimer.reset();
 
                 //idTargetZone(TargetZones.S);
