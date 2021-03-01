@@ -118,6 +118,8 @@ public class TeleOp5663 extends OpMode
         // Have Robot update its status
         robot.updateFFStatus();
 
+        telemetry.addData("LShooter", robot.LShooter);
+        telemetry.addData("RShooter", robot.RShooter);
         // Report Telemetry Data
         TI_message = telemetry.addData("Elasped Time:", "%.1f", runtime.seconds());
         TI_driveOrientation = telemetry.addData("Drive Orientation:", robot.getDirectionMode());

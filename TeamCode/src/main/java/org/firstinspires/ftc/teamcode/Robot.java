@@ -76,8 +76,8 @@ public class Robot {
     public DcMotor BRDrive = null;
 
     /* Create DcMotors for shooter */
-    private DcMotor LShooter = null;
-    private DcMotor RShooter = null;
+    public DcMotor LShooter = null;
+    public DcMotor RShooter = null;
 
     /* Create other motors and servos */
     public Servo ChickenFinger = null;
