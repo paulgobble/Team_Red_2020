@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 @Autonomous(name="Auton5663_eocv", group="Autonomous")
 //@Disabled
 public class Auton5663_eocv extends LinearOpMode {
@@ -26,25 +28,33 @@ public class Auton5663_eocv extends LinearOpMode {
     static final double     LOW_SPEED             = 0.25;
     static final double     HIGH_SPEED              = 0.4;
 
+    /* Set up a consitent telemetry display */
+    Telemetry.Item TI_stageNo = telemetry.addData("Stage No.", "0");
+    Telemetry.Item TI_stageDesc = telemetry.addData("Stage desc.", "Waiting for start");
+    Telemetry.Item TI_elaspeTime = telemetry.addData("Elapsed Time", "%.3f", runtime);
+    Telemetry.Item TI_segmentTime = telemetry.addData("Segment Time", "%.3f", segmentTime);
+    Telemetry.Item TI_dataLine_1 = telemetry.addData("Version", "1.9.9");
+    Telemetry.Item TI_dataLine_2 = telemetry.addData("-", "-");
+    Telemetry.Item TI_dataLine_3 = telemetry.addData("-", "-");
+    Telemetry.Item TI_dataLine_4 = telemetry.addData("-", "-");
+    Telemetry.Item TI_dataLine_5 = telemetry.addData("-", "-");
+    Telemetry.Item TI_dataLine_6 = telemetry.addData("-", "-");
+
 
     @Override
     public void runOpMode() {
 
-        telemetry.addData("Codebase", "v 1.9.8");
+        robot.setStreamingVideo(true);
 
         //robot.idTargetZone(Robot.TargetZones.X);
 
-        robot.setStreamingVideo(true);
-
-        telemetry.addData("Video Streaming", "Started");
+        telemetry.setAutoClear(false);
+        TI_dataLine_2.setCaption("Video Streaming");
+        TI_dataLine_2.setValue("Started");
         telemetry.update();
+
 
         robot.hMap(hardwareMap);
-
-        //Tell the driver that the encoders are resetting.
-        telemetry.addData("Status:", "Initialized v1.9.8");
-        telemetry.addData("Status", "Resetting Encoders");    //
-        telemetry.update();
 
         //Reset all encoders to have a fresh start when the match starts.
         //Drive
@@ -60,11 +70,20 @@ public class Auton5663_eocv extends LinearOpMode {
         robot.BLDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.BRDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        telemetry.addData("FLDrive:",robot.FLDrive.getCurrentPosition());
-        telemetry.addData("FRDrive:", robot.FRDrive.getCurrentPosition());
-        telemetry.addData("BLDrive:", robot.BLDrive.getCurrentPosition());
-        telemetry.addData("BRDrive:", robot.BRDrive.getCurrentPosition());
+        //telemetry.addData("FLDrive:",robot.FLDrive.getCurrentPosition());
+        TI_dataLine_3.setCaption("FLDrive");
+        TI_dataLine_3.setValue(robot.FLDrive.getTargetPosition());
+        //telemetry.addData("FRDrive:", robot.FRDrive.getCurrentPosition());
+        TI_dataLine_4.setCaption("FRDrive");
+        TI_dataLine_4.setValue(robot.FRDrive.getCurrentPosition());
+        //telemetry.addData("BLDrive:", robot.BLDrive.getCurrentPosition());
+        TI_dataLine_5.setCaption("BLDrive");
+        TI_dataLine_5.setValue(robot.BLDrive.getCurrentPosition());
+        //telemetry.addData("BRDrive:", robot.BRDrive.getCurrentPosition());
+        TI_dataLine_6.setCaption("BRDrive");
+        TI_dataLine_6.setValue(robot.BRDrive.getCurrentPosition());
 
+        telemetry.update();
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         
@@ -179,24 +198,50 @@ public class Auton5663_eocv extends LinearOpMode {
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
-
             // reset the timeout time
             segmentTime.reset();
 
+            // allow the pipeline to scan the video
+            robot.startScanning(true);
+
+            // Telemetry
+            TI_stageNo.setValue("1");
+            TI_stageDesc.setValue("Watch and Report");
+            TI_dataLine_1.setCaption("VideoScan");
+            TI_dataLine_1.setValue("Started");
+            TI_dataLine_2.setCaption("-");
+            TI_dataLine_2.setValue("_");
+            TI_dataLine_3.setCaption("-");
+            TI_dataLine_3.setValue("-");
+            TI_dataLine_4.setCaption("-");
+            TI_dataLine_4.setValue("-");
+            TI_dataLine_5.setCaption("-");
+            TI_dataLine_5.setValue("-");
+            TI_dataLine_6.setCaption("-");
+            TI_dataLine_6.setValue("-");
+            telemetry.update();
+
             while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
 
-                // Display it for the driver.
-                telemetry.addData("Overall time:",  runtime.seconds());
-                telemetry.addData("Hello there", "HI");
-                telemetry.addData("Segment time:", segmentTime.seconds());
-                telemetry.addData("Scan time:", robot.getScanCompleteTime());
-                telemetry.addData("TZAV:", robot.getTargetZoneAverageValue());
-                telemetry.addData("Deciphered Target Zone", robot.getDecipheredTargetZone());
+                //telemetry.addData("Overall time:",  runtime.seconds());
+                TI_elaspeTime.setValue("%.3f", runtime.seconds());
+                //telemetry.addData("Segment time:", segmentTime.seconds());
+                TI_segmentTime.setValue("%.3f", segmentTime.seconds());
+                //telemetry.addData("Scan time:", robot.getScanCompleteTime());
+                TI_dataLine_2.setCaption("Scan Time");
+                TI_dataLine_2.setValue("%.3f", robot.getScanCompleteTime());
+                //telemetry.addData("TZAV:", robot.getTargetZoneAverageValue());
+                TI_dataLine_3.setCaption("TZAV");
+                TI_dataLine_3.setValue(robot.getTargetZoneAverageValue());
+                //telemetry.addData("Deciphered Target Zone", robot.getDecipheredTargetZone());
+                TI_dataLine_4.setCaption("Target Zone");
+                TI_dataLine_4.setValue(robot.getDecipheredTargetZone());
                 telemetry.update();
             }
 
             // stop sampling video
             robot.setStreamingVideo(false);
+            TI_dataLine_1.setValue("Stopped");
 
         }
     } // end watchAndReport
@@ -205,14 +250,29 @@ public class Auton5663_eocv extends LinearOpMode {
     {
         if(opModeIsActive())
         {
-            //robot.LaChickenWing.setPositionPIDFCoefficients(35);
+            segmentTime.reset();
 
             int increaseWingPosition = 1384;
             robot.LaChickenWing.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.LaChickenWing.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             int desiredWingPosition = robot.LaChickenWing.getCurrentPosition() + increaseWingPosition;
 
-            segmentTime.reset();
+            // Telemetry
+            TI_stageNo.setValue("2");
+            TI_stageDesc.setValue("Prep Chicken Wing");
+            TI_dataLine_1.setCaption("Increase Wing");
+            TI_dataLine_1.setValue(increaseWingPosition);
+            TI_dataLine_2.setCaption("-");
+            TI_dataLine_2.setValue("_");
+            TI_dataLine_3.setCaption("-");
+            TI_dataLine_3.setValue("-");
+            TI_dataLine_4.setCaption("-");
+            TI_dataLine_4.setValue("-");
+            TI_dataLine_5.setCaption("-");
+            TI_dataLine_5.setValue("-");
+            TI_dataLine_6.setCaption("-");
+            TI_dataLine_6.setValue("-");
+            telemetry.update();
 
             while(opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit))
             {
@@ -228,8 +288,10 @@ public class Auton5663_eocv extends LinearOpMode {
                     robot.FingerGrab(.2);
                 }
 
-                telemetry.addData("Overall time:",  runtime.seconds());
-                telemetry.addData("Segment time:", segmentTime.seconds());
+                //telemetry.addData("Overall time:",  runtime.seconds());
+                TI_elaspeTime.setValue("%.3f",runtime);
+                //telemetry.addData("Segment time:", segmentTime.seconds());
+                TI_segmentTime.setValue("%.3f", segmentTime);
                 telemetry.update();
             }
 
@@ -240,8 +302,7 @@ public class Auton5663_eocv extends LinearOpMode {
     {
         if(opModeIsActive())
         {
-            int increasedMovePosition = 20;
-            int desiredFLDrivePosition = robot.FLDrive.getCurrentPosition() + increasedMovePosition;
+            segmentTime.reset();
 
             robot.FLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.FRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -253,23 +314,46 @@ public class Auton5663_eocv extends LinearOpMode {
             robot.BLDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.BRDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            segmentTime.reset();
+            //int increasedMovePosition = 20;
+            //int desiredFLDrivePosition = robot.FLDrive.getCurrentPosition() + increasedMovePosition;
+
+            // Telemetry
+            TI_stageNo.setValue("3");
+            TI_stageDesc.setValue("Capture Target");
+            TI_dataLine_1.setCaption("-");
+            TI_dataLine_1.setValue("-");
+            TI_dataLine_2.setCaption("-");
+            TI_dataLine_2.setValue("_");
+            TI_dataLine_3.setCaption("FLDrive");
+            TI_dataLine_3.setValue("-");
+            TI_dataLine_4.setCaption("FRDrive");
+            TI_dataLine_4.setValue("-");
+            TI_dataLine_5.setCaption("BLDrive");
+            TI_dataLine_5.setValue("-");
+            TI_dataLine_6.setCaption("BRDrive");
+            TI_dataLine_6.setValue("-");
+            telemetry.update();
 
             encoderDrive(0.3, -30, -30, -30, -30, 0.3);
-
 
             while(opModeIsActive() && segmentTime.seconds() < segmentTimeLimit)
             {
                 //THis is a while loop within a while loop.
                 while (robot.FLDrive.isBusy() && robot.FRDrive.isBusy() && robot.BLDrive.isBusy() && robot.BRDrive.isBusy())
                 {
-                    robot.FLDrive.getCurrentPosition();
-                    robot.FRDrive.getCurrentPosition();
-                    robot.BLDrive.getCurrentPosition();
-                    robot.BRDrive.getCurrentPosition();
+                    //robot.FLDrive.getCurrentPosition();
+                    //robot.FRDrive.getCurrentPosition();
+                    //robot.BLDrive.getCurrentPosition();
+                    //robot.BRDrive.getCurrentPosition();
 
-                    telemetry.addData("Overall time:",  runtime.seconds());
-                    telemetry.addData("Segment time:", segmentTime.seconds());
+                    //telemetry.addData("Overall time:",  runtime.seconds());
+                    TI_elaspeTime.setValue("%.3f", runtime.seconds());
+                    //telemetry.addData("Segment time:", segmentTime.seconds());
+                    TI_segmentTime.setValue("%.3f", segmentTime.seconds());
+                    TI_dataLine_3.setValue(robot.FLDrive.getCurrentPosition());
+                    TI_dataLine_4.setValue(robot.FRDrive.getCurrentPosition());
+                    TI_dataLine_5.setValue(robot.BLDrive.getCurrentPosition());
+                    TI_dataLine_6.setValue(robot.BRDrive.getCurrentPosition());
                     telemetry.update();
                 }
                 robot.FingerGrab(1);
