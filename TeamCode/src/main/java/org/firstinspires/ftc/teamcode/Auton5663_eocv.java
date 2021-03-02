@@ -255,7 +255,7 @@ public class Auton5663_eocv extends LinearOpMode {
         {
             segmentTime.reset();
 
-            int increaseWingPosition = 1600;
+            int increaseWingPosition = 1500;
             robot.LaChickenWing.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.LaChickenWing.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             int desiredWingPosition = robot.LaChickenWing.getCurrentPosition() + increaseWingPosition;
@@ -385,7 +385,7 @@ public class Auton5663_eocv extends LinearOpMode {
         {
             while(opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit))
             {
-                robot.Shooter(1);
+                robot.Shooter(0.9);
                 sleep(1000);
                 robot.Intake.setPower(0.9);
             }
