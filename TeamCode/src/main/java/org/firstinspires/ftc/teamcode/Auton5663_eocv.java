@@ -112,6 +112,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
         sleep(1000);
 
+        MoveToWhiteLineForDecision(5);
+
+        sleep(1000);
+
     } // end runOpMode
 
     /***********************
