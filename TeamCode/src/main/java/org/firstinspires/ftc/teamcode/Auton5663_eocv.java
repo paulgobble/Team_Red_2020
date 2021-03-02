@@ -103,10 +103,14 @@ public class Auton5663_eocv extends LinearOpMode {
         telemetry.update();
         sleep(1000);
 
-        captureWobbleTarget(5);
+        captureWobbleTarget(3);
         telemetry.addData("Checkpoint", "Left Capture Wobble Target99");
         telemetry.addData("Chicken Wing Position", robot.FLDrive.getCurrentPosition());
         telemetry.update();
+
+        ShootForPowerShots(5);
+
+        sleep(1000);
 
     } // end runOpMode
 
@@ -118,9 +122,8 @@ public class Auton5663_eocv extends LinearOpMode {
 
 
     //Set up encoderDrive function.
-    public void encoderDrive(double speed,
-                             double FLInches, double FRInches, double BLInches, double BRInches,
-                             double segmentTimeLimit) {
+    public void encoderDrive(double speed, double FLInches, double FRInches, double BLInches, double BRInches, double segmentTimeLimit)
+    {
         //Create targets for motors.
         int newFLTarget;
         int newFRTarget;
@@ -341,10 +344,10 @@ public class Auton5663_eocv extends LinearOpMode {
                 //THis is a while loop within a while loop.
                 while (robot.FLDrive.isBusy() && robot.FRDrive.isBusy() && robot.BLDrive.isBusy() && robot.BRDrive.isBusy())
                 {
-                    //robot.FLDrive.getCurrentPosition();
-                    //robot.FRDrive.getCurrentPosition();
-                    //robot.BLDrive.getCurrentPosition();
-                    //robot.BRDrive.getCurrentPosition();
+                    robot.FLDrive.getCurrentPosition();
+                    robot.FRDrive.getCurrentPosition();
+                    robot.BLDrive.getCurrentPosition();
+                    robot.BRDrive.getCurrentPosition();
 
                     //telemetry.addData("Overall time:",  runtime.seconds());
                     TI_elaspeTime.setValue("%.3f", runtime.seconds());
@@ -357,8 +360,36 @@ public class Auton5663_eocv extends LinearOpMode {
                     telemetry.update();
                 }
                 robot.FingerGrab(1);
+                int increaseWingPosition = 1384;
+                int desiredWingPosition = robot.LaChickenWing.getCurrentPosition() + increaseWingPosition;
+
+                if(robot.LaChickenWing.getCurrentPosition() < desiredWingPosition)
+                {
+                    robot.LaChickenWing.setPower(0.35);
+                    //telemetry.addData("Current Wing Position", robot.LaChickenWing.getCurrentPosition());
+                    //telemetry.update();
+                }
+                else
+                {
+                    robot.LaChickenWing.setPower(0);
+                }
             }
 
         }
     }
+    public void ShootForPowerShots(double segmentTimeLimit)
+    {
+        segmentTime.reset();
+
+        if(opModeIsActive())
+        {
+            while(opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit))
+            {
+                robot.Shooter(0.75);
+                robot.Intake.setPower(0.9);
+            }
+
+        }
+    }
+
 }  // end class Auton5663_eocv
