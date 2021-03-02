@@ -386,6 +386,7 @@ public class Auton5663_eocv extends LinearOpMode {
             while(opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit))
             {
                 robot.Shooter(0.75);
+                sleep(1000);
                 robot.Intake.setPower(0.9);
             }
 
