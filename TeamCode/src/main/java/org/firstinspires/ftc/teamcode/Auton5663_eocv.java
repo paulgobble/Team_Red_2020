@@ -414,10 +414,12 @@ public class Auton5663_eocv extends LinearOpMode {
                     TI_dataLine_6.setValue(robot.BRDrive.getCurrentPosition());
                     telemetry.update();
                 }
-
-                robot.Shooter(0.75);
-                sleep(1000);
-                robot.Intake.setPower(0.9);
+                if(!robot.FLDrive.isBusy() && !robot.FRDrive.isBusy() && !robot.BLDrive.isBusy() && !robot.BRDrive.isBusy())
+                {
+                    robot.Shooter(1);
+                    sleep(1000);
+                    robot.Intake.setPower(0.9);
+                }
             }
 
         }
