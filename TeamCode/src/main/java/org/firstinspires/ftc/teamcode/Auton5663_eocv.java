@@ -108,7 +108,7 @@ public class Auton5663_eocv extends LinearOpMode {
         telemetry.addData("Chicken Wing Position", robot.FLDrive.getCurrentPosition());
         telemetry.update();
 
-        ShootForPowerShots(5);
+        ShootForPowerShots(3.5);
 
         sleep(1000);
 
@@ -392,5 +392,37 @@ public class Auton5663_eocv extends LinearOpMode {
 
         }
     }
+    public void MoveToWhiteLineForDecision(double segmentTimeLimit)
+    {
+        segmentTime.reset();
+
+        encoderDrive(0.3, -60, -60, -60, -60, 0.3);
+
+        if(opModeIsActive())
+        {
+            while (opModeIsActive() && segmentTime.seconds() < segmentTimeLimit)
+            {
+                while (robot.FLDrive.isBusy() && robot.FRDrive.isBusy() && robot.BLDrive.isBusy() && robot.BRDrive.isBusy())
+                {
+                    robot.FLDrive.getCurrentPosition();
+                    robot.FRDrive.getCurrentPosition();
+                    robot.BLDrive.getCurrentPosition();
+                    robot.BRDrive.getCurrentPosition();
+
+                    //telemetry.addData("Overall time:",  runtime.seconds());
+                    TI_elaspeTime.setValue("%.3f", runtime.seconds());
+                    //telemetry.addData("Segment time:", segmentTime.seconds());
+                    TI_segmentTime.setValue("%.3f", segmentTime.seconds());
+                    TI_dataLine_3.setValue(robot.FLDrive.getCurrentPosition());
+                    TI_dataLine_4.setValue(robot.FRDrive.getCurrentPosition());
+                    TI_dataLine_5.setValue(robot.BLDrive.getCurrentPosition());
+                    TI_dataLine_6.setValue(robot.BRDrive.getCurrentPosition());
+                    telemetry.update();
+                }
+            }
+        }
+
+    }
+
 
 }  // end class Auton5663_eocv
