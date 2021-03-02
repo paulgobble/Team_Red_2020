@@ -385,41 +385,9 @@ public class Auton5663_eocv extends LinearOpMode {
         {
             while(opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit))
             {
-                robot.FLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                robot.FRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                robot.BLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                robot.BRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-                robot.FLDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                robot.FRDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                robot.BLDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                robot.BRDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-                encoderDrive(0.3, -60, -60, -60, -60, 0.3);
-
-                while (robot.FLDrive.isBusy() && robot.FRDrive.isBusy() && robot.BLDrive.isBusy() && robot.BRDrive.isBusy())
-                {
-                    robot.FLDrive.getCurrentPosition();
-                    robot.FRDrive.getCurrentPosition();
-                    robot.BLDrive.getCurrentPosition();
-                    robot.BRDrive.getCurrentPosition();
-
-                    //telemetry.addData("Overall time:",  runtime.seconds());
-                    TI_elaspeTime.setValue("%.3f", runtime.seconds());
-                    //telemetry.addData("Segment time:", segmentTime.seconds());
-                    TI_segmentTime.setValue("%.3f", segmentTime.seconds());
-                    TI_dataLine_3.setValue(robot.FLDrive.getCurrentPosition());
-                    TI_dataLine_4.setValue(robot.FRDrive.getCurrentPosition());
-                    TI_dataLine_5.setValue(robot.BLDrive.getCurrentPosition());
-                    TI_dataLine_6.setValue(robot.BRDrive.getCurrentPosition());
-                    telemetry.update();
-                }
-                if(!robot.FLDrive.isBusy() && !robot.FRDrive.isBusy() && !robot.BLDrive.isBusy() && !robot.BRDrive.isBusy())
-                {
-                    robot.Shooter(1);
-                    sleep(1000);
-                    robot.Intake.setPower(0.9);
-                }
+                robot.Shooter(1);
+                sleep(1000);
+                robot.Intake.setPower(0.9);
             }
 
         }
