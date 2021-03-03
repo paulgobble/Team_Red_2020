@@ -1,5 +1,4 @@
-// Version 1.9.8
-//WIP
+// Version 1.9.9
 
 package org.firstinspires.ftc.teamcode;
 
@@ -230,17 +229,12 @@ public class Auton5663_eocv extends LinearOpMode {
 
             while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
 
-                //telemetry.addData("Overall time:",  runtime.seconds());
                 TI_elaspeTime.setValue("%.3f", runtime.seconds());
-                //telemetry.addData("Segment time:", segmentTime.seconds());
                 TI_segmentTime.setValue("%.3f", segmentTime.seconds());
-                //telemetry.addData("Scan time:", robot.getScanCompleteTime());
                 TI_dataLine_2.setCaption("Scan Time");
                 TI_dataLine_2.setValue("%.3f", robot.getScanCompleteTime());
-                //telemetry.addData("TZAV:", robot.getTargetZoneAverageValue());
                 TI_dataLine_3.setCaption("TZAV");
                 TI_dataLine_3.setValue(robot.getTargetZoneAverageValue());
-                //telemetry.addData("Deciphered Target Zone", robot.getDecipheredTargetZone());
                 TI_dataLine_4.setCaption("Target Zone");
                 TI_dataLine_4.setValue(robot.getDecipheredTargetZone());
                 telemetry.update();
@@ -427,6 +421,99 @@ public class Auton5663_eocv extends LinearOpMode {
         }
 
     }
+
+
+
+
+    /*******************************
+     *                             *
+     *      Specialist Segment     *
+     *      Method Template        *
+     *                             *
+     *******************************/
+    // STAGE 9999
+    public void specialist_segment_template(double segmentTimeLimit) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Method Set up code goes here
+
+            // Telemetry
+            TI_stageNo.setValue("9999");                // edit this
+            TI_stageDesc.setValue("Stage description");  // edit this
+            TI_dataLine_1.setCaption("-");
+            TI_dataLine_1.setValue("-");
+            TI_dataLine_2.setCaption("-");
+            TI_dataLine_2.setValue("_");
+            TI_dataLine_3.setCaption("-");
+            TI_dataLine_3.setValue("-");
+            TI_dataLine_4.setCaption("-");
+            TI_dataLine_4.setValue("-");
+            TI_dataLine_5.setCaption("-");
+            TI_dataLine_5.setValue("-");
+            TI_dataLine_6.setCaption("-");
+            TI_dataLine_6.setValue("-");
+            telemetry.update();
+
+            // Check if its safe to run this method
+            while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
+
+                // do stuff
+            }
+
+        }
+    } // end specialist template
+
+
+    /*******************************
+     *                             *
+     *      Drive Segment          *
+     *      Method Wrapper         *
+     *      Template               *
+     *                             *
+     *******************************/
+    // STAGE 9999
+    public void drive_segment_template(double segmentTimeLimit) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Drive Targets
+            double speed = .5;
+            double FL_Distance = 5;
+            double FR_distance = 5;
+            double BL_distance = 5;
+            double BR_distance = 5;
+
+            // Telemetry
+            TI_stageNo.setValue("9999");                // edit this
+            TI_stageDesc.setValue("Stage description");  // edit this
+            TI_dataLine_1.setCaption("-");
+            TI_dataLine_1.setValue("-");
+            TI_dataLine_2.setCaption("-");
+            TI_dataLine_2.setValue("_");
+            TI_dataLine_3.setCaption("-");
+            TI_dataLine_3.setValue("-");
+            TI_dataLine_4.setCaption("-");
+            TI_dataLine_4.setValue("-");
+            TI_dataLine_5.setCaption("-");
+            TI_dataLine_5.setValue("-");
+            TI_dataLine_6.setCaption("-");
+            TI_dataLine_6.setValue("-");
+            telemetry.update();
+
+            // call encoderDrive
+            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
+
+        }
+    } // end drive template
+
+
 
 
 }  // end class Auton5663_eocv
