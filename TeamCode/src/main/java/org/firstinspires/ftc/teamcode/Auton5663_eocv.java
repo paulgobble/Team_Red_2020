@@ -382,7 +382,8 @@ public class Auton5663_eocv extends LinearOpMode {
                 TI_segmentTime.setValue("%.3f", segmentTime.seconds());
 
             }
-
+            robot.Shooter(0);
+            robot.Intake.setPower(0);
         }
     } // end ShootForPowerShots
 
