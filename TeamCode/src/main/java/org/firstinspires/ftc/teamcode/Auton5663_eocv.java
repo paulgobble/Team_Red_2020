@@ -84,6 +84,8 @@ public class Auton5663_eocv extends LinearOpMode {
         
         runtime.reset();
 
+        //The Script (aka calling the functions)
+
         // Stage 01.1
         scanAndPrepChickenWing(5);  // was 3
 
@@ -100,7 +102,7 @@ public class Auton5663_eocv extends LinearOpMode {
         MoveToWhiteLineForDecision(5);  // was 5
 
         // Stage 04
-        strafeTest(5); // was 3
+        pivotDesicion(5); // was 3
 
         // UTILITY
         //pidfTuner_utility(4);
@@ -432,7 +434,7 @@ public class Auton5663_eocv extends LinearOpMode {
 
     // STAGE 04
     // Drive Segment
-    public void strafeTest(double segmentTimeLimit) {
+    public void pivotDesicion(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
@@ -441,8 +443,8 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Drive Targets
             double speed = .3;
-            double FL_Distance = -10;
-            double FR_distance = 10;
+            double FL_Distance = 10;
+            double FR_distance = -10;
             double BL_distance = 10;
             double BR_distance = -10;
 
