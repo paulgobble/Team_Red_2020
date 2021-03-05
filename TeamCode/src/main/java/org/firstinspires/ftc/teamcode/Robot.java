@@ -3,7 +3,9 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -72,10 +74,10 @@ public class Robot {
 
     /* Create DcMotors for drive */
     /* We had to make these public to work with Template Autono class */
-    public DcMotor FLDrive = null;
-    public DcMotor FRDrive = null;
-    public DcMotor BLDrive = null;
-    public DcMotor BRDrive = null;
+    public DcMotorEx FLDrive = null;
+    public DcMotorEx FRDrive = null;
+    public DcMotorEx BLDrive = null;
+    public DcMotorEx BRDrive = null;
 
     /* Create DcMotors for shooter */
     public DcMotor LShooter = null;
@@ -88,7 +90,9 @@ public class Robot {
 
 
     /* Create sensors */
-    private DistanceSensor FrontDistanceSensor = null; // NEW
+    private DistanceSensor FrontDistanceSensor = null;
+
+    private ColorSensor FrontRightColorSensor = null;
 
     private RevBlinkinLedDriver blinkinLedDriver = null;
     private RevBlinkinLedDriver.BlinkinPattern pattern = null;
@@ -119,10 +123,10 @@ public class Robot {
     public void hMap(HardwareMap hardwareMap) {
 
         //Drive Motors
-        FLDrive = hardwareMap.get(DcMotor.class, "FLDrive");
-        FRDrive = hardwareMap.get(DcMotor.class, "FRDrive");
-        BRDrive = hardwareMap.get(DcMotor.class, "BRDrive");
-        BLDrive = hardwareMap.get(DcMotor.class, "BLDrive");
+        FLDrive = hardwareMap.get(DcMotorEx.class, "FLDrive");
+        FRDrive = hardwareMap.get(DcMotorEx.class, "FRDrive");
+        BRDrive = hardwareMap.get(DcMotorEx.class, "BRDrive");
+        BLDrive = hardwareMap.get(DcMotorEx.class, "BLDrive");
         //Setting Drive DC Motors direction
         FLDrive.setDirection(DcMotor.Direction.FORWARD);
         FRDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -151,6 +155,7 @@ public class Robot {
 
         // Sensors
         FrontDistanceSensor = hardwareMap.get(DistanceSensor.class,"FrontDistanceSensor");
+        FrontRightColorSensor = hardwareMap.get(ColorSensor.class, "frColor");
         blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
 
         // webcam

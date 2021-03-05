@@ -5,6 +5,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -47,7 +48,7 @@ public class Auton5663_eocv extends LinearOpMode {
 
         //robot.idTargetZone(Robot.TargetZones.X);
 
-        telemetry.setAutoClear(false);
+        //telemetry.setAutoClear(false);
         TI_dataLine_2.setCaption("Video Streaming");
         TI_dataLine_2.setValue("Started");
         telemetry.update();
@@ -84,22 +85,25 @@ public class Auton5663_eocv extends LinearOpMode {
         runtime.reset();
 
         // Stage 01.1
-        scanAndPrepChickenWing(3);
+        scanAndPrepChickenWing(5);  // was 3
 
         // Stage 01.2
-        lungeForWobbleTarget (.5);
+        lungeForWobbleTarget (5);  // was .5
 
         //Stage 01.3
-        captureWobbleTarget(3);
+        captureWobbleTarget(5);  // was 3
 
         // Stage 02
-        ShootForPowerShots(3.5);
+        ShootForPowerShots(5); // was 3.5
 
         // Stage 03
-        MoveToWhiteLineForDecision(5);
+        MoveToWhiteLineForDecision(5);  // was 5
 
         // Stage 04
-        strafeTest(3);
+        strafeTest(5); // was 3
+
+        // UTILITY
+        //pidfTuner_utility(4);
         
     } // end runOpMode
 
@@ -267,11 +271,11 @@ public class Auton5663_eocv extends LinearOpMode {
             segmentTime.reset();
 
             // Drive Targets
-            double speed = .3;
-            double FL_Distance = -30;
-            double FR_distance = -30;
-            double BL_distance = -30;
-            double BR_distance = -30;
+            double speed = .2;
+            double FL_Distance = -5;
+            double FR_distance = -5;
+            double BL_distance = -5;
+            double BR_distance = -5;
 
             // Telemetry
             TI_stageNo.setValue("01.2");                // edit this
@@ -435,7 +439,7 @@ public class Auton5663_eocv extends LinearOpMode {
             segmentTime.reset();
 
             // Drive Targets
-            double speed = .5;
+            double speed = .3;
             double FL_Distance = -10;
             double FR_distance = 10;
             double BL_distance = 10;
@@ -454,7 +458,94 @@ public class Auton5663_eocv extends LinearOpMode {
             encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
 
         }
-    } // end drive template
+    } // end strafeTest
+
+
+
+
+    // Testing utlity for PIDF
+    // Specialist Segment
+    public void pidfTuner_utility(double segmentTimeLimit) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Method Set up code goes here
+            robot.FLDrive.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+            robot.FRDrive.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+            robot.BLDrive.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+            robot.BRDrive.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+
+
+            double currentVelocity;
+            double maxVelocity = 0.0;
+
+            double P;
+            double I;
+            double D;
+            double F;
+
+            // Telemetry
+            TI_stageNo.setValue("UTILITY");                // edit this
+            TI_stageDesc.setValue("PIDF Tuner");            // edit this
+            TI_dataLine_1.setCaption("-");
+            TI_dataLine_1.setValue("-");
+            TI_dataLine_2.setCaption("-");
+            TI_dataLine_2.setValue("_");
+            TI_dataLine_3.setCaption("-");
+            TI_dataLine_3.setValue("-");
+            TI_dataLine_4.setCaption("-");
+            TI_dataLine_4.setValue("-");
+            TI_dataLine_5.setCaption("-");
+            TI_dataLine_5.setValue("-");
+            TI_dataLine_6.setCaption("-");
+            TI_dataLine_6.setValue("-");
+            telemetry.update();
+
+            // Check if its safe to run this method
+            while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
+
+                currentVelocity = robot.BRDrive.getVelocity();
+
+                robot.FLDrive.setPower(1);
+                robot.FRDrive.setPower(1);
+                robot.BLDrive.setPower(1);
+                robot.BRDrive.setPower(1);
+
+                if (currentVelocity > maxVelocity) {
+                    maxVelocity = currentVelocity;
+                }
+
+                telemetry.addData("Motor", "BRDrive");
+                //telemetry.addData("current velocity", currentVelocity);
+                telemetry.addData("maximum velocity", maxVelocity);
+                telemetry.update();
+
+                F = 32767 / maxVelocity;
+                P = 0.1 * F;
+                I = 0.1 * P;
+                D = 0;
+
+                //telemetry.addData("P",  P);
+                //telemetry.addData("I", I );
+                //telemetry.addData("D", D);
+                telemetry.addData("F", F);
+
+                // update time telemetry readout
+                TI_elaspeTime.setValue("%.3f", runtime.seconds());
+                TI_segmentTime.setValue("%.3f", segmentTime.seconds());
+            }
+
+            robot.FLDrive.setPower(0);
+            robot.FRDrive.setPower(0);
+            robot.BLDrive.setPower(0);
+            robot.BRDrive.setPower(0);
+
+        }
+    } // end pidfTuner_utility
+
 
 
 
