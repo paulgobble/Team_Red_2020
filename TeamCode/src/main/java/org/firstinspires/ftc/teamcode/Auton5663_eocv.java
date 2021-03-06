@@ -343,6 +343,7 @@ public class Auton5663_eocv extends LinearOpMode {
 
             while(opModeIsActive() && segmentTime.seconds() < segmentTimeLimit)
             {
+                robot.FingerGrab(1);
 
                 int increaseWingPosition = 1000;
 
@@ -355,7 +356,6 @@ public class Auton5663_eocv extends LinearOpMode {
                 else
                 {
                     robot.LaChickenWing.setPower(0);
-                    robot.FingerGrab(1);
                 }
             }
 
