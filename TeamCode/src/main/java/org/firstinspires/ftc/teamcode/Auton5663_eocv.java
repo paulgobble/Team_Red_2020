@@ -102,7 +102,7 @@ public class Auton5663_eocv extends LinearOpMode {
         MoveToWhiteLineForDecision(5);  // was 5
 
         // Stage 04
-        pivotDesicion(5); // was 3
+        pivotForDesicion(5); // was 3
 
         // UTILITY
         //pidfTuner_utility(4);
@@ -434,7 +434,7 @@ public class Auton5663_eocv extends LinearOpMode {
 
     // STAGE 04
     // Drive Segment
-    public void pivotDesicion(double segmentTimeLimit) {
+    public void pivotForDesicion(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
