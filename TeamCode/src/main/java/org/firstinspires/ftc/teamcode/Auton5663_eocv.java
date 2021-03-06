@@ -772,10 +772,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Drive Targets
             double speed = .5;
-            double FL_Distance = -20;
-            double FR_distance = -20;
-            double BL_distance = -20;
-            double BR_distance = -20;
+            double FL_Distance = -22.5;
+            double FR_distance = -22.5;
+            double BL_distance = -22.5;
+            double BR_distance = -22.5;
 
             // Telemetry
             telemetry.addData("Stage No", "999");
@@ -845,11 +845,11 @@ public class Auton5663_eocv extends LinearOpMode {
             // Check if its safe to run this method
             while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
 
-                int increaseWingPosition = 1421;
+                int increaseWingPosition = 750;
 
-                //int desiredWingPosition = robot.LaChickenWing.getCurrentPosition() + increaseWingPosition;
+                int desiredWingPosition = robot.LaChickenWing.getCurrentPosition() + increaseWingPosition;
 
-                if(robot.LaChickenWing.getCurrentPosition() < increaseWingPosition)
+                if(robot.LaChickenWing.getCurrentPosition() < desiredWingPosition)
                 {
                     robot.LaChickenWing.setPower(0.35);
                 }
