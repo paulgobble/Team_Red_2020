@@ -116,7 +116,11 @@ public class Auton5663_eocv extends LinearOpMode {
 
             pivotForZoneA(3);
 
+            moveBackForDroppingTarget(3);
+
             dropWobbleTarget(2);
+
+            moveToWhiteLineForZoneA(3);
         break;
 
         case B:
@@ -688,6 +692,59 @@ public class Auton5663_eocv extends LinearOpMode {
 
         }
     } // end pivotForZoneA
+
+
+    public void moveBackForDroppingTarget (double segmentTimeLimit) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Drive Targets
+            double speed = .5;
+            double FL_Distance = -5;
+            double FR_distance = -5;
+            double BL_distance = -5;
+            double BR_distance = -5;
+
+            // Telemetry
+            telemetry.addData("Stage No", "999");
+            telemetry.addData("Stage Desc", "Drive stuff");
+            telemetry.update();
+
+            // call encoderDrive
+            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
+
+        }
+    } // end moveBackForDroppingTarget
+
+
+    public void moveToWhiteLineForZoneA(double segmentTimeLimit) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Drive Targets
+            double speed = .5;
+            double FL_Distance = 5;
+            double FR_distance = 5;
+            double BL_distance = 5;
+            double BR_distance = 5;
+
+            // Telemetry
+            telemetry.addData("Stage No", "999");
+            telemetry.addData("Stage Desc", "Drive stuff");
+            telemetry.update();
+
+            // call encoderDrive
+            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
+
+        }
+    } // end moveToWhiteLineForZoneA
+
 
 
 
