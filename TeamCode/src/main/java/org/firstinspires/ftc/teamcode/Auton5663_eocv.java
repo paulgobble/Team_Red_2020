@@ -347,11 +347,11 @@ public class Auton5663_eocv extends LinearOpMode {
 
                 if(robot.LaChickenWing.getCurrentPosition() < desiredWingPosition)
                 {
-                   // robot.LaChickenWing.setPower(0.35);
+                   robot.LaChickenWing.setPower(0.35);
                 }
                 else
                 {
-                   // robot.LaChickenWing.setPower(0);
+                   robot.LaChickenWing.setPower(0);
                 }
             }
 
@@ -574,10 +574,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Drive Targets
             double speed = .3;
-            double FL_Distance = -15;
-            double FR_distance = -15;
-            double BL_distance = -15;
-            double BR_distance = -15;
+            double FL_Distance = -20;
+            double FR_distance = -20;
+            double BL_distance = -20;
+            double BR_distance = -20;
 
             // Telemetry
             telemetry.addData("Stage No", "11 B");
