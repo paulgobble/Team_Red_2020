@@ -416,7 +416,7 @@ public class Auton5663_eocv extends LinearOpMode {
             segmentTime.reset();
 
             // Drive Targets
-            double speed = .6;
+            double speed = .65;
             double FL_Distance = -40;
             double FR_distance = -40;
             double BL_distance = -40;
