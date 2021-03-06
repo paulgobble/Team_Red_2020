@@ -155,6 +155,8 @@ public class Auton5663_eocv extends LinearOpMode {
 
             driveToZoneC(3);
 
+            pivotForZoneA(3);
+
             lowerChickenWing(3);
 
             dropWobbleTarget(2);
@@ -831,10 +833,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Drive Targets
             double speed = .5;
-            double FL_Distance = -30;
-            double FR_distance = -30;
-            double BL_distance = -30;
-            double BR_distance = -30;
+            double FL_Distance = -27.5;
+            double FR_distance = -27.5;
+            double BL_distance = -27.5;
+            double BR_distance = -27.5;
 
             // Telemetry
             telemetry.addData("Stage No", "999");
