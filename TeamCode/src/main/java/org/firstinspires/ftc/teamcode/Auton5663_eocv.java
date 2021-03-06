@@ -84,22 +84,22 @@ public class Auton5663_eocv extends LinearOpMode {
         // common actions taken before the Postscripts diverge
 
         // Stage 01.1
-        scanAndPrepChickenWing(30);  // was 3
+        scanAndPrepChickenWing(3);
 
         // Stage 01.2
-        //lungeForWobbleTarget(5);  // was .5
+        lungeForWobbleTarget(5);  // was .5
 
         //Stage 01.3
-        //captureWobbleTarget(3);  // was 3
+        captureWobbleTarget(3);  // was 3
 
         // Stage 02
-        //ShootForPowerShots(2.5); // was 3.5
+        ShootForPowerShots(2.5); // was 3.5
 
         // Stage 03.1
-        //MoveToWhiteLineForDecision(5);  // was 5
+        MoveToWhiteLineForDecision(5);  // was 5
 
         // Stage 03.2
-        //carefullyDriveAtopLine(3);
+        carefullyDriveAtopLine(3);
 
 
         // THE POSTSCRIPT (aka calling he functions unique
@@ -109,37 +109,37 @@ public class Auton5663_eocv extends LinearOpMode {
         case A:
             telemetry.addData("Postscript", "A");
             // Stage 10_A  (all Postscript stages start at 10)
-            //pivot_A(5);
+            pivot_A(5);
 
             // Postscript Stage 11_A
-            //driveToZone_A(3);
+            driveToZone_A(3);
 
-            //dropWobbleTarget(2);
+            dropWobbleTarget(2);
         break;
 
         case B:
             telemetry.addData("Postscript chose", "B");
             // Stage 10_B
-            //pivot_B_C(5);
+            pivot_B_C(5);
 
             // Postscript Stage 11_B
-            //driveToZone_B(3);
+            driveToZone_B(3);
 
-            //dropWobbleTarget(2);
+            dropWobbleTarget(2);
 
-            // Stege 11_B
+            // Stage 11_B
             // more B stuff
         break;
 
         case C:
             telemetry.addData("Postscript chosen", "C");
             // Stage 10_C
-            //pivot_B_C(5);
+            pivot_B_C(5);
 
             // Postscript Stage 11_C
-            //driveToZone_C(3);
+            driveToZone_C(3);
 
-            //dropWobbleTarget(2);
+            dropWobbleTarget(2);
 
             // Stage 11_C
             // bla bla bla
