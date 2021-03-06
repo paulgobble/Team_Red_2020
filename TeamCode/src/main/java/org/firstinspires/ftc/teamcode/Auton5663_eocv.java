@@ -766,9 +766,9 @@ public class Auton5663_eocv extends LinearOpMode {
 
                 int increaseWingPosition = 1421;
 
-                int desiredWingPosition = robot.LaChickenWing.getCurrentPosition() + increaseWingPosition;
+                //int desiredWingPosition = robot.LaChickenWing.getCurrentPosition() + increaseWingPosition;
 
-                if(robot.LaChickenWing.getCurrentPosition() > desiredWingPosition)
+                if(robot.LaChickenWing.getCurrentPosition() > increaseWingPosition)
                 {
                     robot.LaChickenWing.setPower(-0.35);
                 }
