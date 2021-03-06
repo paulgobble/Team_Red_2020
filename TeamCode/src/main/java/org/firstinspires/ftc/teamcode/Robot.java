@@ -56,9 +56,9 @@ public class Robot {
     }
 
     /* Tested Target Zone Average Values for stack of rings */
-    private final double TZAV_0_Reading = 114;   // tested reading for no rings - was 125
-    private final double TZAV_1_Reading = 112;   // tested reading for one ring - was 110
-    private final double TZAV_4_Reading = 96;    // tested reading for four rings - was 87
+    private final double TZAV_0_Reading = 113;   // tested reading for no rings - was 125
+    private final double TZAV_1_Reading = 114;   // tested reading for one ring - was 110
+    private final double TZAV_4_Reading = 106;    // tested reading for four rings - was 87
 
     /* Create an array to hold the sorted TZAVs */
     //private ArrayList<Integer> TZAVs_Array;
@@ -558,6 +558,3 @@ public class Robot {
 
 
 } // end Class Robot
-
-
-
