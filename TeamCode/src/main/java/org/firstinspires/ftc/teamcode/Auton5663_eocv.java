@@ -279,7 +279,7 @@ public class Auton5663_eocv extends LinearOpMode {
                 else
                 {
                     robot.LaChickenWing.setPower(0);
-                    robot.FingerGrab(.2);
+                    robot.FingerGrab(.6);
                 }
 
                 // update time telemetry readout
