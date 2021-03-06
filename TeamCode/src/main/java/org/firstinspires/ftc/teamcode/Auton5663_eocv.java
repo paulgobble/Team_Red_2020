@@ -685,7 +685,6 @@ public class Auton5663_eocv extends LinearOpMode {
         }
     } // end driveToZone_C
 
-
     public void pivotForZoneA(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
