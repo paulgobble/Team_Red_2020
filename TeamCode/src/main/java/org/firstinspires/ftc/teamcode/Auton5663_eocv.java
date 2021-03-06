@@ -153,6 +153,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
             rotateForC(3);
 
+            driveToZoneC(3);
+
+            lowerChickenWing(3);
+
             dropWobbleTarget(2);
 
             // Stage 11_C
