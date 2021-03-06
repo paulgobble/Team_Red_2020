@@ -347,11 +347,11 @@ public class Auton5663_eocv extends LinearOpMode {
 
                 if(robot.LaChickenWing.getCurrentPosition() < desiredWingPosition)
                 {
-                    robot.LaChickenWing.setPower(0.35);
+                   // robot.LaChickenWing.setPower(0.35);
                 }
                 else
                 {
-                    robot.LaChickenWing.setPower(0);
+                   // robot.LaChickenWing.setPower(0);
                 }
             }
 
