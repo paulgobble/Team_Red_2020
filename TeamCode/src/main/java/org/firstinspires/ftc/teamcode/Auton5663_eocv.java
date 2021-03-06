@@ -270,6 +270,8 @@ public class Auton5663_eocv extends LinearOpMode {
             telemetry.addData("VideoScan", "Started");
             telemetry.update();
 
+            sleep(1000);
+
             while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
 
                 if(robot.LaChickenWing.getCurrentPosition() < desiredWingPosition)
