@@ -176,7 +176,7 @@ public class TeleOp5663 extends OpMode
         boolean wingFlapDown = gamepad2.dpad_down;
         double wingSpeed = .5;
         if (wingFlapUp) {
-            //rasie the wing
+            //raise the wing
             robot.FlapWing(wingSpeed);
         } else if (wingFlapDown) {
             // lower the wing
