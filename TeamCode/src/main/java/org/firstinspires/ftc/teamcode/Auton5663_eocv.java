@@ -113,6 +113,8 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Postscript Stage 11_A
             driveToZone_A(3);
+
+            dropWobbleTarget(2);
         break;
 
         case B:
@@ -122,6 +124,8 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Postscript Stage 11_B
             driveToZone_B(3);
+
+            dropWobbleTarget(2);
 
             // Stege 11_B
             // more B stuff
@@ -134,6 +138,8 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Postscript Stage 11_C
             driveToZone_C(3);
+
+            dropWobbleTarget(2);
 
             // Stage 11_C
             // bla bla bla
@@ -589,7 +595,35 @@ public class Auton5663_eocv extends LinearOpMode {
         }
     } // end driveToZone_B
 
+    public void dropWobbleTarget(double segmentTimeLimit) {
 
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Method Set up code goes here
+
+            // Telemetry
+            telemetry.addData("Stage No", "888");
+            telemetry.addData("Stage Desc", "sepecist stuff");
+            telemetry.update();
+
+            // Check if its safe to run this method
+            while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
+
+                // Drop target
+
+                robot.FingerGrab(.6);
+
+                // update time telemetry readout
+                telemetry.addData("Runtime", "%.3f", runtime.seconds());
+                telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
+                telemetry.update();
+            }
+
+        }
+    } //End drop wobble target.
 
 
 
@@ -758,7 +792,6 @@ public class Auton5663_eocv extends LinearOpMode {
         }
     } // end specialist template
 
-
     /*******************************
      *                             *
      *      Drive Segment          *
@@ -792,7 +825,4 @@ public class Auton5663_eocv extends LinearOpMode {
 
         }
     } // end drive template
-
-
-
 }  // end class Auton5663_eocv
