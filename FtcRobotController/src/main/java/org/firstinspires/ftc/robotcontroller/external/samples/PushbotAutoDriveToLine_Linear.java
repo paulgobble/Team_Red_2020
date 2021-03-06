@@ -59,7 +59,7 @@ import com.qualcomm.robotcore.hardware.LightSensor;
 public class PushbotAutoDriveToLine_Linear extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwarePushbot         robot   = new HardwarePushbot();   // Use a Pushbot's hardware
+    Robot robot   = new Robot();   // Use a Pushbot's hardware
     LightSensor             lightSensor;      // Primary LEGO Light sensor,
     // OpticalDistanceSensor   lightSensor;   // Alternative MR ODS sensor
 

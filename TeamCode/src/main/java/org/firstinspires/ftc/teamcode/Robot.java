@@ -1,4 +1,4 @@
-// Version 1.9 vf.1
+// Version 1.9
 
 package org.firstinspires.ftc.teamcode;
 
@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.hardware.Webcam;
+
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Robot {
@@ -89,7 +89,7 @@ public class Robot {
 
         // Sensors
         FrontDistanceSensor = hardwareMap.get(DistanceSensor.class,"FrontDistanceSensor");
-        Scanning = hardwareMap.get(Webcam.class, "Scanning");
+
     } // end hMap
 
 
