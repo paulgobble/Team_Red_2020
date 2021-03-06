@@ -116,11 +116,13 @@ public class Auton5663_eocv extends LinearOpMode {
 
             pivotForZoneA(3);
 
-            moveBackForDroppingTarget(3);
+            //moveBackForDroppingTarget(3);
+
+            lowerChickenWing(3);
 
             dropWobbleTarget(2);
 
-            moveToWhiteLineForZoneA(3);
+            //moveToWhiteLineForZoneA(3);
         break;
 
         case B:
@@ -745,7 +747,45 @@ public class Auton5663_eocv extends LinearOpMode {
         }
     } // end moveToWhiteLineForZoneA
 
+    public void lowerChickenWing(double segmentTimeLimit) {
 
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Method Set up code goes here
+
+            // Telemetry
+            telemetry.addData("Stage No", "888");
+            telemetry.addData("Stage Desc", "sepecist stuff");
+            telemetry.update();
+
+            // Check if its safe to run this method
+            while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
+
+                int increaseWingPosition = -750;
+
+                int desiredWingPosition = robot.LaChickenWing.getCurrentPosition() + increaseWingPosition;
+
+                if(robot.LaChickenWing.getCurrentPosition() < desiredWingPosition)
+                {
+                    robot.LaChickenWing.setPower(0.35);
+                }
+                else
+                {
+                    robot.LaChickenWing.setPower(0);
+                }
+
+
+                // update time telemetry readout
+                telemetry.addData("Runtime", "%.3f", runtime.seconds());
+                telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
+                telemetry.update();
+            }
+
+        }
+    } // end lowerChickenWing
 
 
 
