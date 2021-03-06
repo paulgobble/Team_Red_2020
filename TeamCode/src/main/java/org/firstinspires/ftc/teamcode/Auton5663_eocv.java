@@ -161,6 +161,8 @@ public class Auton5663_eocv extends LinearOpMode {
 
             dropWobbleTarget(2);
 
+
+
             // Stage 11_C
             // bla bla bla
         break;
@@ -716,10 +718,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Drive Targets
             double speed = .5;
-            double FL_Distance = 40;
-            double FR_distance = -40;
-            double BL_distance = 40;
-            double BR_distance = -40;
+            double FL_Distance = 50;
+            double FR_distance = -50;
+            double BL_distance = 50;
+            double BR_distance = -50;
 
             // Telemetry
             telemetry.addData("Stage No", "999");
@@ -759,7 +761,7 @@ public class Auton5663_eocv extends LinearOpMode {
     } // end moveBackForDroppingTarget
 
 
-    public void moveToWhiteLineForZoneA(double segmentTimeLimit) {
+    public void moveToWhiteLineForZoneC(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
@@ -768,10 +770,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Drive Targets
             double speed = .5;
-            double FL_Distance = -5;
-            double FR_distance = -5;
-            double BL_distance = -5;
-            double BR_distance = -5;
+            double FL_Distance = -20;
+            double FR_distance = -20;
+            double BL_distance = -20;
+            double BR_distance = -20;
 
             // Telemetry
             telemetry.addData("Stage No", "999");
@@ -824,6 +826,45 @@ public class Auton5663_eocv extends LinearOpMode {
         }
     } // end lowerChickenWing
 
+    public void raiseChickenWing(double segmentTimeLimit) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Method Set up code goes here
+
+            // Telemetry
+            telemetry.addData("Stage No", "888");
+            telemetry.addData("Stage Desc", "sepecist stuff");
+            telemetry.update();
+
+            // Check if its safe to run this method
+            while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
+
+                int increaseWingPosition = 1421;
+
+                //int desiredWingPosition = robot.LaChickenWing.getCurrentPosition() + increaseWingPosition;
+
+                if(robot.LaChickenWing.getCurrentPosition() < increaseWingPosition)
+                {
+                    robot.LaChickenWing.setPower(0.35);
+                }
+                else
+                {
+                    robot.LaChickenWing.setPower(0);
+                }
+
+
+                // update time telemetry readout
+                telemetry.addData("Runtime", "%.3f", runtime.seconds());
+                telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
+                telemetry.update();
+            }
+
+        }
+    } // end lowerChickenWing
 
     public void rotateForC(double segmentTimeLimit) {
 
