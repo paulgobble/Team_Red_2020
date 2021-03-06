@@ -150,14 +150,8 @@ public class Auton5663_eocv extends LinearOpMode {
             // flamethrowers!
             // we probably wont need this final default case
     }
-
-
-
-
-
         // UTILITY
         //pidfTuner_utility(4);
-        
     } // end runOpMode
 
 
