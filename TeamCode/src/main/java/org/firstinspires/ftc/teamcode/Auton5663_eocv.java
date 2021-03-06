@@ -253,7 +253,7 @@ public class Auton5663_eocv extends LinearOpMode {
             robot.startScanning(true);
 
             // Prepair for flight!
-            int increaseWingPosition = 1500;
+            int increaseWingPosition = 1251;
             robot.LaChickenWing.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.LaChickenWing.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             int desiredWingPosition = robot.LaChickenWing.getCurrentPosition() + increaseWingPosition;
@@ -268,12 +268,12 @@ public class Auton5663_eocv extends LinearOpMode {
 
                 if(robot.LaChickenWing.getCurrentPosition() < desiredWingPosition)
                 {
-                    //robot.LaChickenWing.setPower(0.35);
+                    robot.LaChickenWing.setPower(0.35);
                 }
                 else
                 {
-                    //robot.LaChickenWing.setPower(0);
-                    //robot.FingerGrab(.6);
+                    robot.LaChickenWing.setPower(0);
+                    robot.FingerGrab(.6);
                 }
 
                 // update time telemetry readout
