@@ -114,6 +114,8 @@ public class Auton5663_eocv extends LinearOpMode {
             // Postscript Stage 11_A
             driveToZone_A(3);
 
+            pivotForZoneA(3);
+
             dropWobbleTarget(2);
         break;
 
@@ -662,7 +664,30 @@ public class Auton5663_eocv extends LinearOpMode {
     } // end driveToZone_C
 
 
+    public void pivotForZoneA(double segmentTimeLimit) {
 
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Drive Targets
+            double speed = .5;
+            double FL_Distance = 20;
+            double FR_distance = -20;
+            double BL_distance = 20;
+            double BR_distance = -20;
+
+            // Telemetry
+            telemetry.addData("Stage No", "999");
+            telemetry.addData("Stage Desc", "Drive stuff");
+            telemetry.update();
+
+            // call encoderDrive
+            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
+
+        }
+    } // end pivotForZoneA
 
 
 
