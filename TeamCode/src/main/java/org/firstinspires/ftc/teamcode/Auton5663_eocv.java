@@ -764,7 +764,7 @@ public class Auton5663_eocv extends LinearOpMode {
             // Check if its safe to run this method
             while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
 
-                int increaseWingPosition = -250;
+                int increaseWingPosition = -50;
 
                 int desiredWingPosition = robot.LaChickenWing.getCurrentPosition() + increaseWingPosition;
 
