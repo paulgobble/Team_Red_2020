@@ -8,8 +8,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-
 @Autonomous(name="Auton5663_eocv", group="Autonomous")
 //@Disabled
 public class Auton5663_eocv extends LinearOpMode {
@@ -28,7 +26,7 @@ public class Auton5663_eocv extends LinearOpMode {
     static final double     LOW_SPEED             = 0.25;
     static final double     HIGH_SPEED              = 0.4;
 
-    /* Set up a consistent telemetry display */
+    /* Set up a consistent telemetry display
     Telemetry.Item TI_stageNo = telemetry.addData("Stage No.", "0");
     Telemetry.Item TI_stageDesc = telemetry.addData("Stage desc.", "Waiting for start");
     Telemetry.Item TI_elaspeTime = telemetry.addData("Elapsed Time", "%.3f", runtime);
@@ -38,7 +36,8 @@ public class Auton5663_eocv extends LinearOpMode {
     Telemetry.Item TI_dataLine_3 = telemetry.addData("-", "-");
     Telemetry.Item TI_dataLine_4 = telemetry.addData("-", "-");
     Telemetry.Item TI_dataLine_5 = telemetry.addData("-", "-");
-    Telemetry.Item TI_dataLine_6 = telemetry.addData("-", "-");
+    Telemetry.Item TI_dataLine_6 = telemetry.addData("-", "-"); */
+
 
 
     @Override
@@ -49,8 +48,7 @@ public class Auton5663_eocv extends LinearOpMode {
         //robot.idTargetZone(Robot.TargetZones.X);
 
         //telemetry.setAutoClear(false);
-        TI_dataLine_2.setCaption("Video Streaming");
-        TI_dataLine_2.setValue("Started");
+        telemetry.addData("Video Streaming", "Started");
         telemetry.update();
 
         robot.hMap(hardwareMap);
@@ -69,40 +67,87 @@ public class Auton5663_eocv extends LinearOpMode {
         robot.BLDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.BRDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        TI_dataLine_3.setCaption("FLDrive");
-        TI_dataLine_3.setValue(robot.FLDrive.getTargetPosition());
-        TI_dataLine_4.setCaption("FRDrive");
-        TI_dataLine_4.setValue(robot.FRDrive.getCurrentPosition());
-        TI_dataLine_5.setCaption("BLDrive");
-        TI_dataLine_5.setValue(robot.BLDrive.getCurrentPosition());
-        TI_dataLine_6.setCaption("BRDrive");
-        TI_dataLine_6.setValue(robot.BRDrive.getCurrentPosition());
+        telemetry.addData("FLDrive", robot.FLDrive.getTargetPosition());
+        telemetry.addData("FRDrive", robot.FRDrive.getTargetPosition());
+        telemetry.addData("BLDrive", robot.BLDrive.getTargetPosition());
+        telemetry.addData("BRDrive", robot.BRDrive.getTargetPosition());
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        
+
         runtime.reset();
 
-        //The Script (aka calling the functions)
+        // THE SCRIPT (aka calling the functions)
+        // These are all stages / segments / methods
+        // that are executed regardless of how many rings are places,
+        // common actions taken before the Postscripts diverge
 
         // Stage 01.1
         scanAndPrepChickenWing(5);  // was 3
 
         // Stage 01.2
-        lungeForWobbleTarget (5);  // was .5
+        lungeForWobbleTarget(5);  // was .5
 
         //Stage 01.3
-        captureWobbleTarget(5);  // was 3
+        captureWobbleTarget(3);  // was 3
 
         // Stage 02
-        ShootForPowerShots(5); // was 3.5
+        ShootForPowerShots(2.5); // was 3.5
 
-        // Stage 03
+        // Stage 03.1
         MoveToWhiteLineForDecision(5);  // was 5
 
-        // Stage 04
-        pivotDesicion(5); // was 3
+        // Stage 03.2
+        carefullyDriveAtopLine(3);
+
+
+        // THE POSTSCRIPT (aka calling he functions unique
+        // to the the there possibel postscripts: A, B, or C
+
+        switch (robot.getDecipheredTargetZone()) {
+        case A:
+            telemetry.addData("Postscript", "A");
+            // Stage 10_A  (all Postscript stages start at 10)
+            pivot_A(5);
+
+            // Postscript Stage 11_A
+            driveToZone_A(3);
+        break;
+
+        case B:
+            telemetry.addData("Postscript chose", "B");
+            // Stage 10_B
+            pivot_B_C(5);
+
+            // Postscript Stage 11_B
+            driveToZone_B(3);
+
+            // Stege 11_B
+            // more B stuff
+        break;
+
+        case C:
+            telemetry.addData("Postscript chosen", "C");
+            // Stage 10_C
+            pivot_B_C(5);
+
+            // Postscript Stage 11_C
+            driveToZone_C(3);
+
+            // Stage 11_C
+            // bla bla bla
+        break;
+
+        default:
+            telemetry.addData("Postscript chose", "None");
+            // flamethrowers!
+            // we probably wont need this final default case
+    }
+
+
+
+
 
         // UTILITY
         //pidfTuner_utility(4);
@@ -162,14 +207,11 @@ public class Auton5663_eocv extends LinearOpMode {
                     (robot.FLDrive.isBusy() && robot.FRDrive.isBusy()&&robot.BLDrive.isBusy()&&robot.BRDrive.isBusy())) {
 
                 //Tell driver what the robot is doing.
-                TI_dataLine_3.setCaption("FLDrive");
-                TI_dataLine_3.setValue(robot.FLDrive.getTargetPosition());
-                TI_dataLine_4.setCaption("FRDrive");
-                TI_dataLine_4.setValue(robot.FRDrive.getCurrentPosition());
-                TI_dataLine_5.setCaption("BLDrive");
-                TI_dataLine_5.setValue(robot.BLDrive.getCurrentPosition());
-                TI_dataLine_6.setCaption("BRDrive");
-                TI_dataLine_6.setValue(robot.BRDrive.getCurrentPosition());
+
+                telemetry.addData("FLDrive", robot.FLDrive.getCurrentPosition());
+                telemetry.addData("FRDrive", robot.FRDrive.getCurrentPosition());
+                telemetry.addData("BLDrive", robot.BLDrive.getCurrentPosition());
+                telemetry.addData("BRDrive", robot.BRDrive.getCurrentPosition());
                 telemetry.update();
             }
 
@@ -194,9 +236,11 @@ public class Auton5663_eocv extends LinearOpMode {
      *                        *
      *  Autonomous  Segments  *
      *                        *
+     *        SCRIPT          *
+     *                        *
      **************************/
 
-    // Stage 01.1
+    // SCRIPT Stage 01.1
     // Specialist Segment
     public void scanAndPrepChickenWing(double segmentTimeLimit) {
 
@@ -215,20 +259,9 @@ public class Auton5663_eocv extends LinearOpMode {
             int desiredWingPosition = robot.LaChickenWing.getCurrentPosition() + increaseWingPosition;
 
             // Telemetry
-            TI_stageNo.setValue("1");
-            TI_stageDesc.setValue("Watch and Prep");
-            TI_dataLine_1.setCaption("VideoScan");
-            TI_dataLine_1.setValue("Started");
-            TI_dataLine_2.setCaption("Increase Wing by");
-            TI_dataLine_2.setValue(increaseWingPosition);
-            TI_dataLine_3.setCaption("-");
-            TI_dataLine_3.setValue("-");
-            TI_dataLine_4.setCaption("-");
-            TI_dataLine_4.setValue("-");
-            TI_dataLine_5.setCaption("-");
-            TI_dataLine_5.setValue("-");
-            TI_dataLine_6.setCaption("-");
-            TI_dataLine_6.setValue("-");
+            telemetry.addData("Stage No", "01.1");
+            telemetry.addData("Stage Desc","Scan and Prep");
+            telemetry.addData("VideoScan", "Started");
             telemetry.update();
 
             while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
@@ -244,26 +277,24 @@ public class Auton5663_eocv extends LinearOpMode {
                 }
 
                 // update time telemetry readout
-                TI_elaspeTime.setValue("%.3f", runtime.seconds());
-                TI_segmentTime.setValue("%.3f", segmentTime.seconds());
-                TI_dataLine_2.setCaption("Scan Time");
-                TI_dataLine_2.setValue("%.3f", robot.getScanCompleteTime());
-                TI_dataLine_3.setCaption("TZAV");
-                TI_dataLine_3.setValue(robot.getTargetZoneAverageValue());
-                TI_dataLine_4.setCaption("Target Zone");
-                TI_dataLine_4.setValue(robot.getDecipheredTargetZone());
+                telemetry.addData("Runtime", "%.3f", runtime.seconds());
+                telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
+                telemetry.addData("Final Scan time", "%.3f", robot.getScanCompleteTime());
+                telemetry.addData("TZAV", robot.getTargetZoneAverageValue());
+                telemetry.addData("Target Zone", robot.getDecipheredTargetZone());
                 telemetry.update();
             }
 
             // stop sampling video
             robot.setStreamingVideo(false);
-            TI_dataLine_1.setValue("Stopped");
+            telemetry.addData("VideoScan", "Stopped");
+            telemetry.update();
 
         }
     } // end scanAndPrepChickenWing
 
 
-    // STAGE 01.2
+    // SCRIPT STAGE 01.2
     // Drive Segment
     public void lungeForWobbleTarget(double segmentTimeLimit) {
 
@@ -280,12 +311,8 @@ public class Auton5663_eocv extends LinearOpMode {
             double BR_distance = -5;
 
             // Telemetry
-            TI_stageNo.setValue("01.2");                // edit this
-            TI_stageDesc.setValue("Lunge for Target");  // edit this
-            TI_dataLine_1.setCaption("-");
-            TI_dataLine_1.setValue("-");
-            TI_dataLine_2.setCaption("-");
-            TI_dataLine_2.setValue("_");
+            telemetry.addData("Stage No", "01.2");
+            telemetry.addData("Stage Desc", "Lunge for Wobble");
             telemetry.update();
 
             // call encoderDrive
@@ -295,7 +322,7 @@ public class Auton5663_eocv extends LinearOpMode {
     } // end lungeForWobbleTarget
 
 
-    // Stage 01.3
+    // SCRIPT Stage 01.3
     // Specialist Segment
     public void captureWobbleTarget(double segmentTimeLimit)
     {
@@ -304,23 +331,9 @@ public class Auton5663_eocv extends LinearOpMode {
             segmentTime.reset();
 
             // Telemetry
-            TI_stageNo.setValue("3");
-            TI_stageDesc.setValue("Capture Target");
-            TI_dataLine_1.setCaption("-");
-            TI_dataLine_1.setValue("-");
-            TI_dataLine_2.setCaption("-");
-            TI_dataLine_2.setValue("_");
-            TI_dataLine_3.setCaption("FLDrive");
-            TI_dataLine_3.setValue("-");
-            TI_dataLine_4.setCaption("FRDrive");
-            TI_dataLine_4.setValue("-");
-            TI_dataLine_5.setCaption("BLDrive");
-            TI_dataLine_5.setValue("-");
-            TI_dataLine_6.setCaption("BRDrive");
-            TI_dataLine_6.setValue("-");
+            telemetry.addData("Stage No", "01.3");
+            telemetry.addData("Stage Desc", "Capture Wobble");
             telemetry.update();
-
-            //encoderDrive(0.3, -30, -30, -30, -30, 0.3);
 
             while(opModeIsActive() && segmentTime.seconds() < segmentTimeLimit)
             {
@@ -344,7 +357,7 @@ public class Auton5663_eocv extends LinearOpMode {
         }
     }
 
-    // STAGE 02
+    // SCRIPT STAGE 02
     // Specialist Segment
     public void ShootForPowerShots(double segmentTimeLimit) {
 
@@ -356,20 +369,8 @@ public class Auton5663_eocv extends LinearOpMode {
             // Method Set up code goes here
 
             // Telemetry
-            TI_stageNo.setValue("02");                // edit this
-            TI_stageDesc.setValue("Power Shot!");  // edit this
-            TI_dataLine_1.setCaption("-");
-            TI_dataLine_1.setValue("-");
-            TI_dataLine_2.setCaption("-");
-            TI_dataLine_2.setValue("_");
-            TI_dataLine_3.setCaption("-");
-            TI_dataLine_3.setValue("-");
-            TI_dataLine_4.setCaption("-");
-            TI_dataLine_4.setValue("-");
-            TI_dataLine_5.setCaption("-");
-            TI_dataLine_5.setValue("-");
-            TI_dataLine_6.setCaption("-");
-            TI_dataLine_6.setValue("-");
+            telemetry.addData("Stage No", "02");
+            telemetry.addData("Stage Desc", "Shoot for Power");
             telemetry.update();
 
             // Check if its safe to run this method
@@ -380,8 +381,9 @@ public class Auton5663_eocv extends LinearOpMode {
                 robot.Intake.setPower(0.9);
 
                 // update time telemetry readout
-                TI_elaspeTime.setValue("%.3f", runtime.seconds());
-                TI_segmentTime.setValue("%.3f", segmentTime.seconds());
+                telemetry.addData("Runtime", "%.3f", runtime.seconds());
+                telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
+                telemetry.update();
 
             }
             robot.Shooter(0);
@@ -390,8 +392,9 @@ public class Auton5663_eocv extends LinearOpMode {
     } // end ShootForPowerShots
 
 
-    // STAGE 03
+    // SCRIPT STAGE 03.1
     // Drive Segment
+    // Drive quickly and stop just shy of White line
     public void MoveToWhiteLineForDecision(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
@@ -400,27 +403,15 @@ public class Auton5663_eocv extends LinearOpMode {
             segmentTime.reset();
 
             // Drive Targets
-            double speed = .3;
-            double FL_Distance = -60;
-            double FR_distance = -60;
-            double BL_distance = -60;
-            double BR_distance = -60;
+            double speed = .7;
+            double FL_Distance = -40;
+            double FR_distance = -40;
+            double BL_distance = -40;
+            double BR_distance = -40;
 
             // Telemetry
-            TI_stageNo.setValue("03");                // edit this
-            TI_stageDesc.setValue("Drive to line");  // edit this
-            TI_dataLine_1.setCaption("-");
-            TI_dataLine_1.setValue("-");
-            TI_dataLine_2.setCaption("-");
-            TI_dataLine_2.setValue("_");
-            TI_dataLine_3.setCaption("-");
-            TI_dataLine_3.setValue("-");
-            TI_dataLine_4.setCaption("-");
-            TI_dataLine_4.setValue("-");
-            TI_dataLine_5.setCaption("-");
-            TI_dataLine_5.setValue("-");
-            TI_dataLine_6.setCaption("-");
-            TI_dataLine_6.setValue("-");
+            telemetry.addData("Stage No", "03.1");
+            telemetry.addData("Stage Desc", "Move to White Line");
             telemetry.update();
 
             // call encoderDrive
@@ -431,10 +422,121 @@ public class Auton5663_eocv extends LinearOpMode {
 
 
 
+    // SCRIPT STAGE 3.2
+    // Specialist Segment
+    // Drive slowly until the front right color sensor see the whiteline
+    public void carefullyDriveAtopLine(double segmentTimeLimit) {
 
-    // STAGE 04
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Method Set up code goes here
+
+            // Telemetry
+            telemetry.addData("Stage No", "03.2");
+            telemetry.addData("Stage Desc", "Drive Carefully atop line");
+            telemetry.update();
+
+            // Check if its safe to run this method
+            while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
+
+                // do stuff
+                while (robot.getFRColor_alpha() < 20) {
+
+                    robot.MecanumDrive(0.2, 0, 0);
+
+                }
+
+                // update time telemetry readout
+                telemetry.addData("Runtime", "%.3f", runtime.seconds());
+                telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
+                telemetry.update();
+            }
+
+        }
+    } // end specialist template
+
+
+
+
+    /**************************
+     *                        *
+     *  Autonomous  Segments  *
+     *                        *
+     *    POSTSCRIPT A        *
+     *                        *
+     **************************/
+
+
+    // POSTSCRIPT STAGE 10_A
     // Drive Segment
-    public void pivotDesicion(double segmentTimeLimit) {
+    public void pivot_A(double segmentTimeLimit) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Drive Targets
+            double speed = .3;
+            double FL_Distance = 21;
+            double FR_distance = -21;
+            double BL_distance = 21;
+            double BR_distance = -21;
+
+            // Telemetry
+            telemetry.addData("Stage No", "10 A");
+            telemetry.addData("Stage Desc", "Pivot to Box A");
+            telemetry.update();
+
+            // call encoderDrive
+            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
+
+        }
+    } // end pivot_A
+
+    // STAGE 11 A
+    // Drive Segment
+    public void driveToZone_A(double segmentTimeLimit) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Drive Targets
+            double speed = .3;
+            double FL_Distance = -20;
+            double FR_distance = -20;
+            double BL_distance = -20;
+            double BR_distance = -20;
+
+            // Telemetry
+            telemetry.addData("Stage No", "11 A");
+            telemetry.addData("Stage Desc", "Drive to A zone");
+            telemetry.update();
+
+            // call encoderDrive
+            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
+
+        }
+    } // end driveToZone_A
+
+
+
+    /**************************
+     *                        *
+     *  Autonomous  Segments  *
+     *                        *
+     *    POSTSCRIPT B        *
+     *                        *
+     **************************/
+
+    // POSTSCRIPT STAGE 10_B_C
+    // Drive Segment
+    public void pivot_B_C(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
@@ -449,22 +551,98 @@ public class Auton5663_eocv extends LinearOpMode {
             double BR_distance = -17.5;
 
             // Telemetry
-            TI_stageNo.setValue("04");                // edit this
-            TI_stageDesc.setValue("Strafe Test");  // edit this
-            TI_dataLine_1.setCaption("-");
-            TI_dataLine_1.setValue("-");
-            TI_dataLine_2.setCaption("-");
-            TI_dataLine_2.setValue("_");
+            telemetry.addData("Stage No", "10 B C");
+            telemetry.addData("Stage Desc", "Pivot to Box B or C");
             telemetry.update();
 
             // call encoderDrive
             encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
 
         }
-    } // end strafeTest
+    } // end pivot_B
+
+
+    // STAGE 11 B
+    // Drive Segment
+    public void driveToZone_B(double segmentTimeLimit) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Drive Targets
+            double speed = .3;
+            double FL_Distance = -15;
+            double FR_distance = -15;
+            double BL_distance = -15;
+            double BR_distance = -15;
+
+            // Telemetry
+            telemetry.addData("Stage No", "11 B");
+            telemetry.addData("Stage Desc", "Drive to B zone");
+            telemetry.update();
+
+            // call encoderDrive
+            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
+
+        }
+    } // end driveToZone_B
 
 
 
+
+
+    /**************************
+     *                        *
+     *  Autonomous  Segments  *
+     *                        *
+     *    POSTSCRIPT C        *
+     *                        *
+     **************************/
+
+    // POSTSCRIPT STAGE 10_B_C
+    // Drive Segment
+    // see Postscript B
+
+    // STAGE 11 C
+    // Drive Segment
+    public void driveToZone_C(double segmentTimeLimit) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Drive Targets
+            double speed = .3;
+            double FL_Distance = -30;
+            double FR_distance = -30;
+            double BL_distance = -30;
+            double BR_distance = -30;
+
+            // Telemetry
+            telemetry.addData("Stage No", "11 C");
+            telemetry.addData("Stage Desc", "Drive to C zone");
+            telemetry.update();
+
+            // call encoderDrive
+            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
+
+        }
+    } // end driveToZone_C
+
+
+
+
+
+
+
+    /**************************
+     *                        *
+     *  OFF SCRIPT UTILITIES  *
+     *                        *
+     **************************/
 
     // Testing utlity for PIDF
     // Specialist Segment
@@ -491,20 +669,8 @@ public class Auton5663_eocv extends LinearOpMode {
             double F;
 
             // Telemetry
-            TI_stageNo.setValue("UTILITY");                // edit this
-            TI_stageDesc.setValue("PIDF Tuner");            // edit this
-            TI_dataLine_1.setCaption("-");
-            TI_dataLine_1.setValue("-");
-            TI_dataLine_2.setCaption("-");
-            TI_dataLine_2.setValue("_");
-            TI_dataLine_3.setCaption("-");
-            TI_dataLine_3.setValue("-");
-            TI_dataLine_4.setCaption("-");
-            TI_dataLine_4.setValue("-");
-            TI_dataLine_5.setCaption("-");
-            TI_dataLine_5.setValue("-");
-            TI_dataLine_6.setCaption("-");
-            TI_dataLine_6.setValue("-");
+            telemetry.addData("Stage No", "UTILITY");
+            telemetry.addData("Stage Desc", "PIDF Tuner");
             telemetry.update();
 
             // Check if its safe to run this method
@@ -537,8 +703,9 @@ public class Auton5663_eocv extends LinearOpMode {
                 telemetry.addData("F", F);
 
                 // update time telemetry readout
-                TI_elaspeTime.setValue("%.3f", runtime.seconds());
-                TI_segmentTime.setValue("%.3f", segmentTime.seconds());
+                telemetry.addData("Runtime", "%.3f", runtime.seconds());
+                telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
+                telemetry.update();
             }
 
             robot.FLDrive.setPower(0);
@@ -573,20 +740,8 @@ public class Auton5663_eocv extends LinearOpMode {
             // Method Set up code goes here
 
             // Telemetry
-            TI_stageNo.setValue("8888");                // edit this
-            TI_stageDesc.setValue("Stage description");  // edit this
-            TI_dataLine_1.setCaption("-");
-            TI_dataLine_1.setValue("-");
-            TI_dataLine_2.setCaption("-");
-            TI_dataLine_2.setValue("_");
-            TI_dataLine_3.setCaption("-");
-            TI_dataLine_3.setValue("-");
-            TI_dataLine_4.setCaption("-");
-            TI_dataLine_4.setValue("-");
-            TI_dataLine_5.setCaption("-");
-            TI_dataLine_5.setValue("-");
-            TI_dataLine_6.setCaption("-");
-            TI_dataLine_6.setValue("-");
+            telemetry.addData("Stage No", "888");
+            telemetry.addData("Stage Desc", "sepecist stuff");
             telemetry.update();
 
             // Check if its safe to run this method
@@ -595,8 +750,9 @@ public class Auton5663_eocv extends LinearOpMode {
                 // do stuff
 
                 // update time telemetry readout
-                TI_elaspeTime.setValue("%.3f", runtime.seconds());
-                TI_segmentTime.setValue("%.3f", segmentTime.seconds());
+                telemetry.addData("Runtime", "%.3f", runtime.seconds());
+                telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
+                telemetry.update();
             }
 
         }
@@ -627,12 +783,8 @@ public class Auton5663_eocv extends LinearOpMode {
             double BR_distance = 5;
 
             // Telemetry
-            TI_stageNo.setValue("9999");                // edit this
-            TI_stageDesc.setValue("Stage description");  // edit this
-            TI_dataLine_1.setCaption("-");
-            TI_dataLine_1.setValue("-");
-            TI_dataLine_2.setCaption("-");
-            TI_dataLine_2.setValue("_");
+            telemetry.addData("Stage No", "999");
+            telemetry.addData("Stage Desc", "Drive stuff");
             telemetry.update();
 
             // call encoderDrive

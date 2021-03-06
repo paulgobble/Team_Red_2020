@@ -56,9 +56,9 @@ public class Robot {
     }
 
     /* Tested Target Zone Average Values for stack of rings */
-    private final double TZAV_0_Reading = 125;   // tested reading for no rings
-    private final double TZAV_1_Reading = 110;   // tested reading for one ring
-    private final double TZAV_4_Reading = 87;    // tested reading for four rings
+    private final double TZAV_0_Reading = 114;   // tested reading for no rings - was 125
+    private final double TZAV_1_Reading = 112;   // tested reading for one ring - was 110
+    private final double TZAV_4_Reading = 96;    // tested reading for four rings - was 87
 
     /* Create an array to hold the sorted TZAVs */
     //private ArrayList<Integer> TZAVs_Array;
@@ -254,7 +254,12 @@ public class Robot {
         allowVideoScan = startScan;
 
     }
+    // Getter - return the alpha value of the floor facing color sensor
+    public double getFRColor_alpha(){
 
+        return FrontRightColorSensor.alpha();
+
+    }
 
 
     public void StopRobot()
@@ -424,10 +429,10 @@ public class Robot {
         Mat processedImageCr = new Mat();   // Matrix to contain just the Cb chanel
         Mat scanZoneSample = new Mat();   // Matrix to contin the image cropped to the area where we expect to find the ring stack
 
-        final int leftMargin = 120;         // Left margin to be cropped off processedImageCr
-        final int righMargin = 120;         // Rign margin to be cropped off
-        final int topMargin = 50;           // Top margin to be cropped off
-        final int botMargin = 140;          // Bottom margin to be cropped off
+        final int leftMargin = 90;         // Left margin to be cropped off processedImageCr
+        final int righMargin = 170;         // Rign margin to be cropped off
+        final int topMargin = 60;           // Top margin to be cropped off
+        final int botMargin = 130;          // Bottom margin to be cropped off
 
         final int leftScanPadding = 0;     // Left padding of frame not to be scanned
         final int rightScanPadding = 0;    // Right padding of frame not to be scanned
@@ -501,7 +506,7 @@ public class Robot {
 
                 idTargetZone(decipheredTargetZone);
 
-                scanVideoCompleted = true;
+                //scanVideoCompleted = true;  // commented out for debugging
 
             } // end if(streamingVideo)
 
