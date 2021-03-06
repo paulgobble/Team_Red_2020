@@ -155,7 +155,7 @@ public class Auton5663_eocv extends LinearOpMode {
 
             driveToZoneC(3);
 
-            pivotForZoneA(3);
+            pivotForZoneC(3);
 
             lowerChickenWing(3);
 
