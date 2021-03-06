@@ -707,6 +707,31 @@ public class Auton5663_eocv extends LinearOpMode {
         }
     } // end pivotForZoneA
 
+    public void pivotForZoneC(double segmentTimeLimit) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Drive Targets
+            double speed = .5;
+            double FL_Distance = 40;
+            double FR_distance = -40;
+            double BL_distance = 40;
+            double BR_distance = -40;
+
+            // Telemetry
+            telemetry.addData("Stage No", "999");
+            telemetry.addData("Stage Desc", "Drive stuff");
+            telemetry.update();
+
+            // call encoderDrive
+            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
+
+        }
+    } // end pivotForZoneC
+
 
     public void strafeFor_B_ToWhiteLine (double segmentTimeLimit) {
 
