@@ -56,9 +56,9 @@ public class Robot {
     }
 
     /* Tested Target Zone Average Values for stack of rings */
-    private final double TZAV_0_Reading = 115;   // tested reading for no rings - was 125
-    private final double TZAV_1_Reading = 114.9;   // tested reading for one ring - was 110
-    private final double TZAV_4_Reading = 95;    // tested reading for four rings - was 87
+    private final double TZAV_0_Reading = 113;   // tested reading for no rings - was 125
+    private final double TZAV_1_Reading = 105;   // tested reading for one ring - was 110
+    private final double TZAV_4_Reading = 46;    // tested reading for four rings - was 87
 
     /* Create an array to hold the sorted TZAVs */
     //private ArrayList<Integer> TZAVs_Array;
@@ -427,7 +427,12 @@ public class Robot {
 
         Mat processedImage = new Mat();     // Matrix to contain the input image after it is converted to LCrCb colorspace
         Mat processedImageCr = new Mat();   // Matrix to contain just the Cb chanel
+        Mat thresholdImage = new Mat();
         Mat scanZoneSample = new Mat();   // Matrix to contin the image cropped to the area where we expect to find the ring stack
+
+        final double thresholdValue = 100;
+        final double MAX_BINARY_VALUE = 255;
+        //final int thresholdType = 5;
 
         final int leftMargin = 90;         // Left margin to be cropped off processedImageCr
         final int righMargin = 170;         // Rign margin to be cropped off
@@ -454,6 +459,9 @@ public class Robot {
             // extract just the Cb (?) channel to isolate the difference in red
             Core.extractChannel(processedImage, processedImageCr, 2);
 
+            // use the threshold Imgproc threshold method to enhance the visual separation between rings and mat floor
+            Imgproc.threshold(processedImageCr, thresholdImage,thresholdValue, MAX_BINARY_VALUE, Imgproc.THRESH_TOZERO);
+
             // Compute the ideal center scan zone rectangle
             final double frameWidth = input.cols();
             final double frameHeight = input.rows();
@@ -477,7 +485,7 @@ public class Robot {
                     for (int thisY = topScanPadding; thisY < frameHeight - zoneHeight - botScanPadding; thisY = thisY + scanStep) {
 
                         // copy just target regon to a new matrix
-                        scanZoneSample = processedImageCr.submat(new Rect(thisX, thisY, zoneWidth, zoneHeight));
+                        scanZoneSample = thresholdImage.submat(new Rect(thisX, thisY, zoneWidth, zoneHeight));
                         // convert the matrix single color channel averaged numeric value and add this value to an arrayList
                         these_TZAVs.add((int) Core.mean(scanZoneSample).val[0]);
 
@@ -513,7 +521,7 @@ public class Robot {
 
             //  Draw a simple box around the area where we expect the target rings to be seen
             Imgproc.rectangle(
-                    processedImageCr,
+                    thresholdImage,
                     new Point(
                             leftMargin,
                             topMargin),
@@ -524,7 +532,7 @@ public class Robot {
 
             //  Draw a second simple box around the area to be scanned
             Imgproc.rectangle(
-                    processedImageCr,
+                    thresholdImage,
                     new Point(
                             leftScanPadding,
                             topScanPadding),
@@ -533,7 +541,7 @@ public class Robot {
                             input.rows()-botScanPadding),
                     new Scalar(255, 0, 0), 4);
 
-            return processedImageCr;
+            return thresholdImage;
 
         } // end processFrame
 
