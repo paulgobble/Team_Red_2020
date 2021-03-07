@@ -1,4 +1,4 @@
-// Version 1.9.9
+// Version 2.0
 
 package org.firstinspires.ftc.teamcode;
 
@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.internal.system.Deadline;
 
 import java.util.concurrent.TimeUnit;
@@ -24,7 +23,7 @@ public class TeleOp5663 extends OpMode
 
     private Deadline buttonPressLimit;
 
-    /* Telemetry items */
+    /* Telemetry items
     private Telemetry.Item TI_message;
     private Telemetry.Item TI_driveOrientation;
     private Telemetry.Item TI_forceFieldMode;
@@ -33,7 +32,7 @@ public class TeleOp5663 extends OpMode
     private Telemetry.Item TI_FLDrive;
     private Telemetry.Item TI_FRDrive;
     private Telemetry.Item TI_BLDrive;
-    private Telemetry.Item TI_BRDrive;
+    private Telemetry.Item TI_BRDrive; */
 
 
 
@@ -48,15 +47,15 @@ public class TeleOp5663 extends OpMode
 
         robot.hMap(hardwareMap);
 
-        TI_message = telemetry.addData("Status:", "Initialized v1.9.9");
-        TI_driveOrientation = telemetry.addData("Drive Orientation:", "Forward");
-        TI_forceFieldMode = telemetry.addData("Force Field:", "Off");
-        TI_frontDistance = telemetry.addData("Front Distance:", "-------");
+        telemetry.addData("Status:", "Initialized v2.0");
+        telemetry.addData("Drive Orientation:", "Forward");
+        telemetry.addData("Force Field:", "Off");
+        telemetry.addData("Front Distance:", "-------");
 
-        TI_FLDrive = telemetry.addData("FLDrive:",robot.FLDrive.getCurrentPosition());
-        TI_FRDrive = telemetry.addData("FRDrive:", robot.FRDrive.getCurrentPosition());
-        TI_BLDrive = telemetry.addData("BLDrive:", robot.BLDrive.getCurrentPosition());
-        TI_BRDrive = telemetry.addData("BRDrive:", robot.BRDrive.getCurrentPosition());
+        telemetry.addData("FLDrive:",robot.FLDrive.getCurrentPosition());
+        telemetry.addData("FRDrive:", robot.FRDrive.getCurrentPosition());
+        telemetry.addData("BLDrive:", robot.BLDrive.getCurrentPosition());
+        telemetry.addData("BRDrive:", robot.BRDrive.getCurrentPosition());
 
         buttonPressLimit = new Deadline(ButtonLockout, TimeUnit.MILLISECONDS);
 
@@ -93,7 +92,7 @@ public class TeleOp5663 extends OpMode
     @Override
     public void start(){
         runtime.reset();
-        TI_message = telemetry.addData("Status", "S T A R T !!");
+        telemetry.addData("Status", "S T A R T !!");
 
         robot.LaChickenWing.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.LaChickenWing.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -119,16 +118,16 @@ public class TeleOp5663 extends OpMode
         robot.updateFFStatus();
 
         // Report Telemetry Data
-        TI_message = telemetry.addData("Elasped Time:", "%.1f", runtime.seconds());
-        TI_driveOrientation = telemetry.addData("Drive Orientation:", robot.getDirectionMode());
-        TI_forceFieldMode = telemetry.addData("Forcefield:", robot.isForceFieldOn());
-        TI_frontDistance = telemetry.addData("Front Distance:","%.1f", robot.getFrontDistance());
+        telemetry.addData("Elasped Time:", "%.1f", runtime.seconds());
+        telemetry.addData("Drive Orientation:", robot.getDirectionMode());
+        telemetry.addData("Forcefield:", robot.isForceFieldOn());
+        telemetry.addData("Front Distance:","%.1f", robot.getFrontDistance());
 
         //Send telemetry message to monitor encoder values
-        TI_FLDrive = telemetry.addData("FLDrive:",robot.FLDrive.getCurrentPosition());
-        TI_FRDrive = telemetry.addData("FRDrive:", robot.FRDrive.getCurrentPosition());
-        TI_BLDrive = telemetry.addData("BLDrive:", robot.BLDrive.getCurrentPosition());
-        TI_BRDrive = telemetry.addData("BRDrive:", robot.BRDrive.getCurrentPosition());
+        telemetry.addData("FLDrive:",robot.FLDrive.getCurrentPosition());
+        telemetry.addData("FRDrive:", robot.FRDrive.getCurrentPosition());
+        telemetry.addData("BLDrive:", robot.BLDrive.getCurrentPosition());
+        telemetry.addData("BRDrive:", robot.BRDrive.getCurrentPosition());
 
         telemetry.update();
 
@@ -226,8 +225,8 @@ public class TeleOp5663 extends OpMode
             robot.setForwardDriveMode();
             buttonPressLimit.reset();
         } else if (gamepad1.b) {
-            robot.toggleForceField();
-            buttonPressLimit.reset();
+            //robot.toggleForceField();
+            //buttonPressLimit.reset();
         }
 
     } // End handleButtons
