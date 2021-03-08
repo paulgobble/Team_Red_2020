@@ -129,8 +129,6 @@ public class Auton5663_eocv extends LinearOpMode {
             // Postscropt Stage 15_A
             raiseChickenWing(3);
 
-            pivot_180(3);
-
             //moveToWhiteLineForZoneA(3);
         break;
 
