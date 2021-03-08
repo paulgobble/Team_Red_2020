@@ -907,6 +907,8 @@ public class Auton5663_eocv extends LinearOpMode {
             // call encoderDrive
             encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
 
+            sleep(2000);
+
         }
     } // end moveToWhiteLineForZoneA
 
