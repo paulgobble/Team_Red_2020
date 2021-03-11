@@ -414,12 +414,14 @@ public class Auton5663_eocv extends LinearOpMode {
             // reset the segment timer
             segmentTime.reset();
 
+            boolean canFire = true;
+
             // Method Set up code goes here
             double speed = .65;
-            double FL_Distance1 = -5;
-            double FR_distance1 = 5;
-            double BL_distance1 = -5;
-            double BR_distance1 = 5;
+            double FL_Distance1 = 7.5;
+            double FR_distance1 = -7.5;
+            double BL_distance1 = 7.5;
+            double BR_distance1 = -7.5;
 
             double FL_Distance2 = -15;
             double FR_distance2 = 15;
@@ -432,14 +434,15 @@ public class Auton5663_eocv extends LinearOpMode {
             telemetry.update();
 
             // Check if its safe to run this method
-            while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
+            while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit) && canFire ) {
 
                 robot.Shooter(0.85);
                 sleep(1000);
                 encoderDrive(speed, FL_Distance1, FR_distance1, BL_distance1, BR_distance1, segmentTimeLimit);
                 robot.Intake.setPower(0.9);
                 encoderDrive(speed, FL_Distance2, FR_distance2, BL_distance2, BR_distance2, segmentTimeLimit);
-
+                sleep(1000);
+                canFire = false;
                 // update time telemetry readout
                 telemetry.addData("Runtime", "%.3f", runtime.seconds());
                 telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
