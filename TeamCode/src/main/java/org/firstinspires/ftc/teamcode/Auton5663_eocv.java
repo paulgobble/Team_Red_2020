@@ -622,10 +622,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Drive Targets
             double speed = .3;
-            double FL_Distance = -12.5; // was 20
-            double FR_distance = -12.5;
-            double BL_distance = -12.5;
-            double BR_distance = -12.5;
+            double FL_Distance = -11.5; // was 20
+            double FR_distance = -11.5;
+            double BL_distance = -11.5;
+            double BR_distance = -11.5;
 
             // Telemetry
             telemetry.addData("Stage No", "11 A");
