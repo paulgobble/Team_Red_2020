@@ -436,7 +436,7 @@ public class Auton5663_eocv extends LinearOpMode {
             // Check if its safe to run this method
             while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit) && canFire ) {
 
-                robot.Shooter(0.79);
+                robot.Shooter(0.825);
                 sleep(1000);
                 robot.Intake.setPower(0.9);
                 encoderDrive(speed, FL_Distance2, FR_distance2, BL_distance2, BR_distance2, segmentTimeLimit);
