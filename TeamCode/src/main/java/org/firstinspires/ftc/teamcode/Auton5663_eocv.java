@@ -418,10 +418,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Method Set up code goes here
             double speed = .275;
-            double FL_Distance1 = 7.5;
-            double FR_distance1 = -7.5;
-            double BL_distance1 = 7.5;
-            double BR_distance1 = -7.5;
+            double FL_Distance1 = 1.5;
+            double FR_distance1 = -1.5;
+            double BL_distance1 = 1.5;
+            double BR_distance1 = -1.5;
 
             double FL_Distance2 = -3;
             double FR_distance2 = 3;
@@ -440,6 +440,8 @@ public class Auton5663_eocv extends LinearOpMode {
                 sleep(1000);
                 robot.Intake.setPower(0.9);
                 encoderDrive(speed, FL_Distance2, FR_distance2, BL_distance2, BR_distance2, segmentTimeLimit);
+                sleep(1000);
+                encoderDrive(speed, FL_Distance1, FR_distance1, BL_distance1, BR_distance1, segmentTimeLimit);
                 sleep(1000);
                 canFire = false;
                 // update time telemetry readout
