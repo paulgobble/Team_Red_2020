@@ -180,6 +180,7 @@ public class TeleOp5663 extends OpMode
         } else if (wingFlapDown) {
             // lower the wing
             robot.FlapWing(wingSpeed * -1);
+            robot.FingerGrab(1);
         } else {
             // do nothing
             robot.FlapWing(0);
