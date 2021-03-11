@@ -417,7 +417,7 @@ public class Auton5663_eocv extends LinearOpMode {
             boolean canFire = true;
 
             // Method Set up code goes here
-            double speed = .65;
+            double speed = .35;
             double FL_Distance1 = 7.5;
             double FR_distance1 = -7.5;
             double BL_distance1 = 7.5;
