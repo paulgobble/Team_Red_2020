@@ -7,6 +7,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
+
+import java.util.Random;
 
 @Autonomous(name="Auton5663_eocv", group="Autonomous")
 //@Disabled
@@ -95,17 +98,6 @@ public class Auton5663_eocv extends LinearOpMode {
         // Stage 02
         ShootForPowerShots(2.5); // was 3.5
 
-        rotateLeftToShoot(1);
-
-        ShootForPowerShots(2.5);
-
-        rotateRightToShoot(1);
-
-        rotateRightToShoot(1);
-
-        ShootForPowerShots(2.5);
-
-        rotateLeftToShoot(1);
         // Stage 03.1
         MoveToWhiteLineForDecision(3);  // was 5
 
@@ -423,7 +415,16 @@ public class Auton5663_eocv extends LinearOpMode {
             segmentTime.reset();
 
             // Method Set up code goes here
-            boolean canFire = true;
+            double speed = .65;
+            double FL_Distance1 = -5;
+            double FR_distance1 = 5;
+            double BL_distance1 = -5;
+            double BR_distance1 = 5;
+
+            double FL_Distance2 = -15;
+            double FR_distance2 = 15;
+            double BL_distance2 = -15;
+            double BR_distance2 = 15;
 
             // Telemetry
             telemetry.addData("Stage No", "02");
@@ -431,13 +432,13 @@ public class Auton5663_eocv extends LinearOpMode {
             telemetry.update();
 
             // Check if its safe to run this method
-            while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit && canFire)) {
+            while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
 
                 robot.Shooter(0.85);
                 sleep(1000);
+                encoderDrive(speed, FL_Distance1, FR_distance1, BL_distance1, BR_distance1, segmentTimeLimit);
                 robot.Intake.setPower(0.9);
-                sleep(1000);
-                canFire = false;
+                encoderDrive(speed, FL_Distance2, FR_distance2, BL_distance2, BR_distance2, segmentTimeLimit);
 
                 // update time telemetry readout
                 telemetry.addData("Runtime", "%.3f", runtime.seconds());
@@ -449,56 +450,6 @@ public class Auton5663_eocv extends LinearOpMode {
             robot.Intake.setPower(0);
         }
     } // end ShootForPowerShots
-
-    public void rotateRightToShoot(double segmentTimeLimit) {
-
-        // Ensure that the opmode is still active
-        if (opModeIsActive()) {
-            // reset the segment timer
-            segmentTime.reset();
-
-            // Drive Targets
-            double speed = .5;
-            double FL_Distance = 5;
-            double FR_distance = -5;
-            double BL_distance = 5;
-            double BR_distance = -5;
-
-            // Telemetry
-            telemetry.addData("Stage No", "999");
-            telemetry.addData("Stage Desc", "Drive stuff");
-            telemetry.update();
-
-            // call encoderDrive
-            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
-
-        }
-    } // end rotateRightToShoot
-
-    public void rotateLeftToShoot(double segmentTimeLimit) {
-
-        // Ensure that the opmode is still active
-        if (opModeIsActive()) {
-            // reset the segment timer
-            segmentTime.reset();
-
-            // Drive Targets
-            double speed = .5;
-            double FL_Distance = -5;
-            double FR_distance = 5;
-            double BL_distance = -5;
-            double BR_distance = 5;
-
-            // Telemetry
-            telemetry.addData("Stage No", "999");
-            telemetry.addData("Stage Desc", "Drive stuff");
-            telemetry.update();
-
-            // call encoderDrive
-            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
-
-        }
-    } // end rotateLeftToShoot
 
     // SCRIPT STAGE 03.1
     // Drive Segment
