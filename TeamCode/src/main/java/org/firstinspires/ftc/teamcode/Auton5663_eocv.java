@@ -417,16 +417,16 @@ public class Auton5663_eocv extends LinearOpMode {
             boolean canFire = true;
 
             // Method Set up code goes here
-            double speed = .35;
+            double speed = .275;
             double FL_Distance1 = 7.5;
             double FR_distance1 = -7.5;
             double BL_distance1 = 7.5;
             double BR_distance1 = -7.5;
 
-            double FL_Distance2 = -7.5;
-            double FR_distance2 = 7.5;
-            double BL_distance2 = -7.5;
-            double BR_distance2 = 7.5;
+            double FL_Distance2 = -4;
+            double FR_distance2 = 4;
+            double BL_distance2 = -4;
+            double BR_distance2 = 4;
 
             // Telemetry
             telemetry.addData("Stage No", "02");
