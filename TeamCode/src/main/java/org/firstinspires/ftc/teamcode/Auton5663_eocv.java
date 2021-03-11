@@ -423,10 +423,10 @@ public class Auton5663_eocv extends LinearOpMode {
             double BL_distance1 = 7.5;
             double BR_distance1 = -7.5;
 
-            double FL_Distance2 = -4;
-            double FR_distance2 = 4;
-            double BL_distance2 = -4;
-            double BR_distance2 = 4;
+            double FL_Distance2 = -3;
+            double FR_distance2 = 3;
+            double BL_distance2 = -3;
+            double BR_distance2 = 3;
 
             // Telemetry
             telemetry.addData("Stage No", "02");
