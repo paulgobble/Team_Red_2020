@@ -162,19 +162,19 @@ public class Auton5663_eocv extends LinearOpMode {
         case C:
             telemetry.addData("Postscript chosen", "C");
             // Stage 10_C
-            pivot_B_C(5);
+            pivot_B_C(2);
 
             // Postscript Stage 11_C
             driveToZone_C(3);
 
             // Stage 12_C
-            rotateForC(3);
+            rotateForC(2.5);
 
             // Stage 13_C
             driveToZoneC(3);
 
             // Stage 14_C
-            pivotForZoneC(3);
+            pivotForZoneC(2.5);
 
             // Stage 15_C
             lowerChickenWing(3);
