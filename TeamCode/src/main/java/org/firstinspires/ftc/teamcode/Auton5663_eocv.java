@@ -180,10 +180,10 @@ public class Auton5663_eocv extends LinearOpMode {
             lowerChickenWing(3);
 
             // Stage 16_C
-            dropWobbleTarget(2);
+            dropWobbleTarget(1);
 
             // Stage 17_C
-            raiseChickenWing(3);
+            raiseChickenWing(2);
 
             // Stage 18_C
             moveToWhiteLineForZoneC(4);
