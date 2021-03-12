@@ -418,20 +418,15 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Method Set up code goes here
             double speed = .275;
-            double FL_Distance1 = 1.5;
-            double FR_distance1 = -1.5;
-            double BL_distance1 = 1.5;
-            double BR_distance1 = -1.5;
+            double FL_Distance1 = 1.25;
+            double FR_distance1 = -1.25;
+            double BL_distance1 = 1.25;
+            double BR_distance1 = -1.25;
 
-            double FL_Distance2 = -3;
-            double FR_distance2 = 3;
-            double BL_distance2 = -3;
-            double BR_distance2 = 3;
-
-            double FL_Distance3 = 3;
-            double FR_distance3 = -3;
-            double BL_distance3 = 3;
-            double BR_distance3 = -3;
+            double FL_Distance2 = -5.75;
+            double FR_distance2 = 5.75;
+            double BL_distance2 = -5.75;
+            double BR_distance2 = 5.75;
 
             // Telemetry
             telemetry.addData("Stage No", "02");
@@ -447,7 +442,6 @@ public class Auton5663_eocv extends LinearOpMode {
                 encoderDrive(speed, FL_Distance2, FR_distance2, BL_distance2, BR_distance2, segmentTimeLimit);
                 sleep(1000);
                 encoderDrive(speed, FL_Distance1, FR_distance1, BL_distance1, BR_distance1, segmentTimeLimit);
-                encoderDrive(speed, FL_Distance3, FR_distance3, BL_distance3, BR_distance3, segmentTimeLimit);
                 sleep(1000);
                 canFire = false;
                 // update time telemetry readout
@@ -1008,10 +1002,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Drive Targets
             double speed = .3; // was .5
-            double FL_Distance = -30; // was 30
-            double FR_distance = -30;
-            double BL_distance = -30;
-            double BR_distance = -30;
+            double FL_Distance = -32.5; // was 30
+            double FR_distance = -32.5;
+            double BL_distance = -32.5;
+            double BR_distance = -32.5;
 
             // Telemetry
             telemetry.addData("Stage No", "13_C");
