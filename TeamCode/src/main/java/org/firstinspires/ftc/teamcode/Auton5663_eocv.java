@@ -127,7 +127,7 @@ public class Auton5663_eocv extends LinearOpMode {
             lowerChickenWing(3);
 
             // Postscript Stage 14_A
-            dropWobbleTarget(2);
+            dropWobbleTarget(1);
 
             // Postscropt Stage 15_A
             raiseChickenWing(3);
