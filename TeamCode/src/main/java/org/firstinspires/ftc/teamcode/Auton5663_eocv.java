@@ -96,7 +96,7 @@ public class Auton5663_eocv extends LinearOpMode {
         captureWobbleTarget(3);  // was 3
 
         // Stage 02
-        ShootForPowerShots(2.5); // was 3.5
+        ShootForPowerShots(4); // was 3.5
 
         // Stage 03.1
         MoveToWhiteLineForDecision(3);  // was 5
@@ -437,7 +437,7 @@ public class Auton5663_eocv extends LinearOpMode {
             while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit) && canFire ) {
 
                 robot.Shooter(0.825);
-                sleep(1000);
+                sleep(2000);
                 robot.Intake.setPower(0.9);
                 encoderDrive(speed, FL_Distance2, FR_distance2, BL_distance2, BR_distance2, segmentTimeLimit);
                 sleep(1000);
