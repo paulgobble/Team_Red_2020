@@ -428,6 +428,11 @@ public class Auton5663_eocv extends LinearOpMode {
             double BL_distance2 = -3;
             double BR_distance2 = 3;
 
+            double FL_Distance3 = 3;
+            double FR_distance3 = -3;
+            double BL_distance3 = 3;
+            double BR_distance3 = -3;
+
             // Telemetry
             telemetry.addData("Stage No", "02");
             telemetry.addData("Stage Desc", "Shoot for Power");
@@ -442,6 +447,7 @@ public class Auton5663_eocv extends LinearOpMode {
                 encoderDrive(speed, FL_Distance2, FR_distance2, BL_distance2, BR_distance2, segmentTimeLimit);
                 sleep(1000);
                 encoderDrive(speed, FL_Distance1, FR_distance1, BL_distance1, BR_distance1, segmentTimeLimit);
+                encoderDrive(speed, FL_Distance3, FR_distance3, BL_distance3, BR_distance3, segmentTimeLimit);
                 sleep(1000);
                 canFire = false;
                 // update time telemetry readout
