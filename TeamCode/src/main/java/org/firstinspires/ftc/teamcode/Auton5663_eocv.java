@@ -87,22 +87,22 @@ public class Auton5663_eocv extends LinearOpMode {
         // common actions taken before the Postscripts diverge
 
         // Stage 01.1
-        scanAndPrepChickenWing(3);
+        scanAndPrepChickenWing(2.75);
 
         // Stage 01.2
-        lungeForWobbleTarget(5);  // was .5
+        lungeForWobbleTarget(2.75);  // was .5
 
         //Stage 01.3
-        captureWobbleTarget(3);  // was 3
+        captureWobbleTarget(2.75);  // was 3
 
         // Stage 02
         ShootForPowerShots(3.5); // was 3.5
 
         // Stage 03.1
-        MoveToWhiteLineForDecision(3);  // was 5
+        MoveToWhiteLineForDecision(2.75);  // was 5
 
         // Stage 03.2
-        carefullyDriveAtopLine(2);
+        carefullyDriveAtopLine(1);
 
 
         // THE POSTSCRIPT (aka calling he functions unique
