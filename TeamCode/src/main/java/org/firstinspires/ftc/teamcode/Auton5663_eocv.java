@@ -1,4 +1,4 @@
-// Version 1.9.9
+// Version 2.0 Novi
 
 package org.firstinspires.ftc.teamcode;
 
@@ -7,9 +7,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
-
-import java.util.Random;
 
 @Autonomous(name="Auton5663_eocv", group="Autonomous")
 //@Disabled

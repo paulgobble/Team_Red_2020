@@ -1,4 +1,4 @@
-// Version 2.0
+// Version 2.0 Novi
 
 package org.firstinspires.ftc.teamcode;
 
@@ -47,7 +47,7 @@ public class TeleOp5663 extends OpMode
 
         robot.hMap(hardwareMap);
 
-        telemetry.addData("Status:", "Initialized v2.0");
+        telemetry.addData("Status:", "Initialized v2.0 Novi");
         telemetry.addData("Drive Orientation:", "Forward");
         telemetry.addData("Force Field:", "Off");
         telemetry.addData("Front Distance:", "-------");
