@@ -30,7 +30,6 @@ import java.util.Collections;
 
 public class Robot {
 
-    //This is a change
     /* Establish Essential Robot Modes */
     private int driveDirectionModifyer = 1;     // What do we consider "Forward"
 

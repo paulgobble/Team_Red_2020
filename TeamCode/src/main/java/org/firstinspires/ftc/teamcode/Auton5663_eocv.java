@@ -1,4 +1,4 @@
-// Version 1.9.9
+// Version 2.0
 
 package org.firstinspires.ftc.teamcode;
 
@@ -7,9 +7,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
-
-import java.util.Random;
 
 @Autonomous(name="Auton5663_eocv", group="Autonomous")
 //@Disabled
@@ -28,19 +25,6 @@ public class Auton5663_eocv extends LinearOpMode {
             (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double     LOW_SPEED             = 0.25;
     static final double     HIGH_SPEED              = 0.4;
-
-    /* Set up a consistent telemetry display
-    Telemetry.Item TI_stageNo = telemetry.addData("Stage No.", "0");
-    Telemetry.Item TI_stageDesc = telemetry.addData("Stage desc.", "Waiting for start");
-    Telemetry.Item TI_elaspeTime = telemetry.addData("Elapsed Time", "%.3f", runtime);
-    Telemetry.Item TI_segmentTime = telemetry.addData("Segment Time", "%.3f", segmentTime);
-    Telemetry.Item TI_dataLine_1 = telemetry.addData("Version", "1.9.9");
-    Telemetry.Item TI_dataLine_2 = telemetry.addData("-", "-");
-    Telemetry.Item TI_dataLine_3 = telemetry.addData("-", "-");
-    Telemetry.Item TI_dataLine_4 = telemetry.addData("-", "-");
-    Telemetry.Item TI_dataLine_5 = telemetry.addData("-", "-");
-    Telemetry.Item TI_dataLine_6 = telemetry.addData("-", "-"); */
-
 
 
     @Override

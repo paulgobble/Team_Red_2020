@@ -23,20 +23,6 @@ public class TeleOp5663 extends OpMode
 
     private Deadline buttonPressLimit;
 
-    /* Telemetry items
-    private Telemetry.Item TI_message;
-    private Telemetry.Item TI_driveOrientation;
-    private Telemetry.Item TI_forceFieldMode;
-    private Telemetry.Item TI_frontDistance;
-
-    private Telemetry.Item TI_FLDrive;
-    private Telemetry.Item TI_FRDrive;
-    private Telemetry.Item TI_BLDrive;
-    private Telemetry.Item TI_BRDrive; */
-
-
-
-
 
     /***********************************************
      * This method is run ONCE when drivers hits INIT
