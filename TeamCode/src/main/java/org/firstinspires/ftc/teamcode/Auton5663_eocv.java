@@ -87,7 +87,8 @@ public class Auton5663_eocv extends LinearOpMode {
         MoveToWhiteLineForDecision(2.75);  // was 5
 
         // Stage 03.2
-        carefullyDriveAtopLine(2); // was 1
+        //Let's see if this is the problem
+        //carefullyDriveAtopLine(2); // was 1
 
 
         // THE POSTSCRIPT (aka calling he functions unique
