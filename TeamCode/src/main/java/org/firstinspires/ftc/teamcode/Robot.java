@@ -261,6 +261,12 @@ public class Robot {
 
     }
 
+    public int getFRColor_blue(){
+
+        return  FrontRightColorSensor.blue();
+
+    }
+
 
     public void StopRobot()
     {

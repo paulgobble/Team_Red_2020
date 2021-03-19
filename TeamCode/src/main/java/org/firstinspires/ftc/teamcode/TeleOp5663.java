@@ -104,6 +104,9 @@ public class TeleOp5663 extends OpMode
         robot.updateFFStatus();
 
         // Report Telemetry Data
+        telemetry.addData("Color, Aplah", robot.getFRColor_alpha());
+        telemetry.addData("Color, Blue", robot.getFRColor_blue());
+
         telemetry.addData("Elasped Time:", "%.1f", runtime.seconds());
         telemetry.addData("Drive Orientation:", robot.getDirectionMode());
         telemetry.addData("Forcefield:", robot.isForceFieldOn());

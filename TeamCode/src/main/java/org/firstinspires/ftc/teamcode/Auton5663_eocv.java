@@ -34,6 +34,7 @@ public class Auton5663_eocv extends LinearOpMode {
 
         //robot.idTargetZone(Robot.TargetZones.X);
 
+
         //telemetry.setAutoClear(false);
         telemetry.addData("Video Streaming", "Started");
         telemetry.update();
@@ -86,7 +87,7 @@ public class Auton5663_eocv extends LinearOpMode {
         MoveToWhiteLineForDecision(2.75);  // was 5
 
         // Stage 03.2
-        carefullyDriveAtopLine(1);
+        carefullyDriveAtopLine(2); // was 1
 
 
         // THE POSTSCRIPT (aka calling he functions unique
@@ -99,14 +100,18 @@ public class Auton5663_eocv extends LinearOpMode {
             pivot_A(5);
 
             // Postscript Stage 11_A
-            driveToZone_A(3);
+            driveToZone_A(4);
+
+            // Postscript Stage 11.5_A
+            driveToZone_A_stage_2(4);
 
             // Postscript Stage 12_A
-            pivotForZoneA(3);
+            pivotForZoneA(4);
 
-            driveToZone_A2(3);
+            backIntoZoneA(4);
 
             //moveBackForDroppingTarget(3);
+
             // Postscript Stage 13_A
             lowerChickenWing(3);
 
@@ -459,10 +464,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Drive Targets
             double speed = .65;
-            double FL_Distance = -41;
-            double FR_distance = -41;
-            double BL_distance = -41;
-            double BR_distance = -41;
+            double FL_Distance = -37; // was -41, then exparimented with carefullyDriveAtopLine
+            double FR_distance = -37;
+            double BL_distance = -40;
+            double BR_distance = -40;
 
             // Telemetry
             telemetry.addData("Stage No", "03.1");
@@ -498,11 +503,25 @@ public class Auton5663_eocv extends LinearOpMode {
             while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
 
                 // do stuff
-                while (robot.getFRColor_alpha() < 20) {
 
-                    robot.MecanumDrive(0.2, 0, 0);
+                telemetry.addData("Color, Aplah", robot.getFRColor_alpha());
+                telemetry.update();
+
+                if (robot.getFRColor_alpha() < 400) {
+
+                    robot.MecanumDrive(-0.2, 0, 0);
+
+                } else {
+
+                    robot.MecanumDrive(0, 0, 0);
 
                 }
+
+                //while (robot.getFRColor_alpha() < 700) {
+                //
+                //    robot.MecanumDrive(-0.2, 0, 0);
+                //
+                //}
 
                 // update time telemetry readout
                 telemetry.addData("Runtime", "%.3f", runtime.seconds());
@@ -535,7 +554,7 @@ public class Auton5663_eocv extends LinearOpMode {
             segmentTime.reset();
 
             // Drive Targets
-            double speed = .3;
+            double speed = .2; // was .2
             double FL_Distance = 21;
             double FR_distance = -21;
             double BL_distance = 21;
@@ -589,10 +608,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Drive Targets
             double speed = .3;
-            double FL_Distance = -25; // was 20
-            double FR_distance = -25;
-            double BL_distance = -25;
-            double BR_distance = -25;
+            double FL_Distance = -20; // was -25
+            double FR_distance = -20;
+            double BL_distance = -20;
+            double BR_distance = -20;
 
             // Telemetry
             telemetry.addData("Stage No", "11 A");
@@ -605,7 +624,61 @@ public class Auton5663_eocv extends LinearOpMode {
         }
     } // end driveToZone_A
 
-    public void driveToZone_A2(double segmentTimeLimit) {
+
+
+
+
+    // SCRIPT STAGE 11.5 A
+    // Specialist Segment
+    // Drive slowly until the front right color sensor see the blue tape
+    public void driveToZone_A_stage_2(double segmentTimeLimit) {
+
+        boolean allDone = false;
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Method Set up code goes here
+
+            // Telemetry
+            telemetry.addData("Stage No", "11.5 A");
+            telemetry.addData("Stage Desc", "driveToZone_A_stage_2");
+            telemetry.update();
+
+            // Check if its safe to run this method
+            while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
+
+                // do stuff
+
+                if ((robot.getFRColor_blue() < 300) && (!allDone)) {
+
+                    robot.MecanumDrive(-0.2, 0, 0);
+
+                } else {
+
+                    robot.MecanumDrive(0, 0, 0);
+                    allDone = true;
+                }
+
+
+                // update time telemetry readout
+                telemetry.addData("Runtime", "%.3f", runtime.seconds());
+                telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
+                telemetry.update();
+            }
+
+        }
+    } // end driveToZone_A_stage_2
+
+
+
+
+
+
+
+    public void backIntoZoneA(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
@@ -614,10 +687,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Drive Targets
             double speed = .3;
-            double FL_Distance = -11.5; // was 20
-            double FR_distance = -11.5;
-            double BL_distance = -11.5;
-            double BR_distance = -11.5;
+            double FL_Distance = 7; // was -11.5
+            double FR_distance = 7;
+            double BL_distance = 7;
+            double BR_distance = 7;
 
             // Telemetry
             telemetry.addData("Stage No", "11 A");
@@ -640,11 +713,11 @@ public class Auton5663_eocv extends LinearOpMode {
             segmentTime.reset();
 
             // Drive Targets
-            double speed = .5;
-            double FL_Distance = 22;
-            double FR_distance = -22;
-            double BL_distance = 22;
-            double BR_distance = -22;
+            double speed = .2;
+            double FL_Distance = 20; // was 22
+            double FR_distance = -20;
+            double BL_distance = 20;
+            double BR_distance = -20;
 
             // Telemetry
             telemetry.addData("Stage No", "12_A");
