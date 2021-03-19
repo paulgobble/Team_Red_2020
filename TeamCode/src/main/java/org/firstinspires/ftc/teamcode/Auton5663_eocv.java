@@ -514,14 +514,11 @@ public class Auton5663_eocv extends LinearOpMode {
                 } else {
 
                     robot.MecanumDrive(0, 0, 0);
+                    break; // untested
 
                 }
 
-                //while (robot.getFRColor_alpha() < 700) {
-                //
-                //    robot.MecanumDrive(-0.2, 0, 0);
-                //
-                //}
+
 
                 // update time telemetry readout
                 telemetry.addData("Runtime", "%.3f", runtime.seconds());
@@ -633,7 +630,7 @@ public class Auton5663_eocv extends LinearOpMode {
     // Drive slowly until the front right color sensor see the blue tape
     public void driveToZone_A_stage_2(double segmentTimeLimit) {
 
-        boolean allDone = false;
+        //boolean allDone = false;   relpaced this by using a break statement
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
@@ -652,14 +649,15 @@ public class Auton5663_eocv extends LinearOpMode {
 
                 // do stuff
 
-                if ((robot.getFRColor_blue() < 300) && (!allDone)) {
+                if ((robot.getFRColor_blue() < 300)) {  // && (!allDone)
 
                     robot.MecanumDrive(-0.2, 0, 0);
 
                 } else {
 
                     robot.MecanumDrive(0, 0, 0);
-                    allDone = true;
+                    //allDone = true;
+                    break;
                 }
 
 
@@ -671,11 +669,6 @@ public class Auton5663_eocv extends LinearOpMode {
 
         }
     } // end driveToZone_A_stage_2
-
-
-
-
-
 
 
     public void backIntoZoneA(double segmentTimeLimit) {
