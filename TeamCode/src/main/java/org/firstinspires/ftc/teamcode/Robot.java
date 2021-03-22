@@ -31,6 +31,10 @@ import java.util.Collections;
 public class Robot {
 
     /* Establish Essential Robot Modes */
+
+    /* Create Elapsed runtimer */
+    //private ElapsedTime runtime = new ElapsedTime();
+
     private int driveDirectionModifyer = 1;     // What do we consider "Forward"
 
     private boolean forceFieldArmed = false;    // Has the force field system been activated by pilot
@@ -39,21 +43,9 @@ public class Robot {
     private final double stopDistance = 14.0;
 
     private boolean streamingVideo;             // is the connection to the webcam open
-
     private boolean allowVideoScan = false;           // is it OK to begin scanning the video pipeline
-
     private boolean scanVideoCompleted = false;      // Has the video pipeline completed one full scan and captured TAZVs
-
     private double scanCompleteTime;               // store the length of time in seconds it took to complete the video scan
-
-    /* Define Enumerator for possible TargetZones*/
-    enum TargetZones {
-        A,  //no rings
-        B,  // one ring
-        C,  // four rings
-        S,  // scanning
-        X   // pre-scan
-    }
 
     /* Tested Target Zone Average Values for stack of rings */
     private final double TZAV_0_Reading = 113;   // tested reading for no rings - was 125
@@ -66,11 +58,17 @@ public class Robot {
     /* Create integer to hold the Target Zone Average Value */
     private int targetZoneAverageValue;
 
+    /* Define Enumerator for possible TargetZones*/
+    enum TargetZones {
+        A,  //no rings
+        B,  // one ring
+        C,  // four rings
+        S,  // scanning
+        X   // pre-scan
+    }
+
     /* Create enum TargetZones to store the deciphered Target Zone */
     private TargetZones decipheredTargetZone;
-
-    /* Create Elapsed runtimer */
-    private ElapsedTime runtime = new ElapsedTime();
 
     /* Create DcMotors for drive */
     /* We had to make these public to work with Template Autono class */
@@ -88,17 +86,17 @@ public class Robot {
     public DcMotor LaChickenWing = null;
     public DcMotor Intake = null;
 
-
     /* Create sensors */
     private DistanceSensor FrontDistanceSensor = null;
-
     private ColorSensor FrontRightColorSensor = null;
-
-    private RevBlinkinLedDriver blinkinLedDriver = null;
-    private RevBlinkinLedDriver.BlinkinPattern pattern = null;
 
     /* Create a webcam */
     OpenCvCamera webcam;
+
+    /* Create LED Light Driver */
+    private RevBlinkinLedDriver blinkinLedDriver = null;
+    private RevBlinkinLedDriver.BlinkinPattern pattern = null;
+
 
     /* Create Hardware Map */
     HardwareMap hMap =  null;
@@ -144,14 +142,13 @@ public class Robot {
         Intake = hardwareMap.get(DcMotor.class, "Intake");
         //Setting Ring Intake DC Motor direction
         Intake.setDirection(DcMotor.Direction.REVERSE);
-        //FeedBelt.setDirection(DcMotor.Direction.FORWARD);
 
-        // Wobble target arm
+        // Wobble target arm, aka La Chicken Wing
         LaChickenWing = hardwareMap.get(DcMotor.class, "Wing");
         LaChickenWing.setDirection(DcMotorSimple.Direction.FORWARD);
-        // Wobble targer servo
+
+        // Wobble targer graber servo, AKA Chicken Finger & Chicken Kicker
         ChickenFinger = hardwareMap.get(Servo.class, "Finger");
-        //Lift.setDirection(DcMotor.Direction.FORWARD);
 
         // Sensors
         FrontDistanceSensor = hardwareMap.get(DistanceSensor.class,"FrontDistanceSensor");
@@ -182,6 +179,10 @@ public class Robot {
      *                           *
      *****************************/
 
+    // GETTER - get Robot's runtime
+    //public double getRuntime (){
+    //    return runtime.seconds();
+    //}
     // SETTER - Toggle the value of forwardDriveMode
     public void setForwardDriveMode () {
         if (driveDirectionModifyer == 1) {
@@ -207,7 +208,7 @@ public class Robot {
             forceFieldArmed = true;
         }
     }
-    // Getter - report the valuse of forceFieldOn
+    // Getter - report the value of forceFieldOn
     public String isForceFieldOn() {
 
         if (forceFieldTriggered) {
@@ -218,7 +219,7 @@ public class Robot {
             return "OFF";
         }
     }
-    // Get the value of FrontDistanceSensor
+    // Getter - Get the value of FrontDistanceSensor
     public double getFrontDistance () {
 
         return FrontDistanceSensor.getDistance(DistanceUnit.INCH);
@@ -260,12 +261,15 @@ public class Robot {
         return FrontRightColorSensor.alpha();
 
     }
-
+    // Getter - return the blue value of the floor facing color sensor
     public int getFRColor_blue(){
 
         return  FrontRightColorSensor.blue();
 
     }
+
+
+
 
 
     public void StopRobot()
@@ -404,10 +408,10 @@ public class Robot {
                 pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
                 break;
             case B:
-                pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
+                pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
                 break;
             case C:
-                pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
+                pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
                 break;
             case S:
                 pattern = RevBlinkinLedDriver.BlinkinPattern.STROBE_WHITE;
