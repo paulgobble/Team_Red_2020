@@ -495,18 +495,21 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Method Set up code goes here
             double speed = .275;
-            double FL_Distance1 = 1;
-            double FR_distance1 = -1;
+            //way one
+            double FL_Distance1 = -1;
+            double FR_distance1 = 1;
             double BL_distance1 = 1;
             double BR_distance1 = -1;
 
+            //way 2
             double FL_Distance2 = -5;
             double FR_distance2 = 5;
-            double BL_distance2 = -5;
-            double BR_distance2 = 5.;
+            double BL_distance2 = 5;
+            double BR_distance2 = -5.;
 
-            double FL_Distance3 = 4.;
-            double FR_distance3 = -4;
+            //way 1
+            double FL_Distance3 = -4.;
+            double FR_distance3 = 4;
             double BL_distance3 = 4;
             double BR_distance3 = -4;
 
