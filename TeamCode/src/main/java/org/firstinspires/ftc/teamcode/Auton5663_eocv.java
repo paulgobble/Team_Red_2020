@@ -554,10 +554,22 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Drive Targets
             double speed = .65;
-            double FL_Distance = -37; // was -41, then exparimented with carefullyDriveAtopLine
-            double FR_distance = -37;
-            double BL_distance = -37;
-            double BR_distance = -37;
+            double FL_Distance = -1; // was -41, then exparimented with carefullyDriveAtopLine
+            double FR_distance = -1;
+            double BL_distance = -1;
+            double BR_distance = -1;
+
+            if(robot.getFRColor_alpha() < 400)
+            {
+                encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
+            }
+            else
+            {
+                robot.FRDrive.setPower(0);
+                robot.FLDrive.setPower(0);
+                robot.BRDrive.setPower(0);
+                robot.BLDrive.setPower(0);
+            }
 
             // Telemetry
             explainYourself(mode.Reset);
@@ -566,7 +578,7 @@ public class Auton5663_eocv extends LinearOpMode {
             explainYourself(mode.Transmit);
 
             // call encoderDrive
-            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
+            //encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
 
         }
     } // end MoveToWhiteLineForDecision
