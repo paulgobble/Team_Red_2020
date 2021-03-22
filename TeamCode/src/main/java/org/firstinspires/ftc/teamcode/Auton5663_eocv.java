@@ -1,5 +1,5 @@
 // Version 1.9.9
-//goodbye
+
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
