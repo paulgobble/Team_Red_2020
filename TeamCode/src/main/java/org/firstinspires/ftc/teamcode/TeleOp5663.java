@@ -121,16 +121,27 @@ public class TeleOp5663 extends OpMode
 
         telemetry.update();
 
-        boolean popBackWheels = gamepad2.x;
+        boolean popBackWheels = gamepad2.y;
 
         if(popBackWheels)
         {
-            robot.LShooter.setPower(1);
-            robot.RShooter.setPower(1);
+            robot.LShooter.setPower(-1);
+            robot.RShooter.setPower(-1);
         }
         else
         {
             robot.RShooter.setPower(0);
+            robot.LShooter.setPower(0);
+        }
+
+        boolean popBackIntake = gamepad2.a;
+
+        if(popBackIntake)
+        {
+            robot.Intake.setPower(-1);
+        }
+        else
+        {
             robot.LShooter.setPower(0);
         }
 
