@@ -460,7 +460,6 @@ public class Auton5663_eocv extends LinearOpMode {
         }
     }
 
-
     // SCRIPT STAGE 02
     // Specialist Segment
     public void ShootForPowerShots(double segmentTimeLimit) {
@@ -477,20 +476,20 @@ public class Auton5663_eocv extends LinearOpMode {
             //way 1
             double FL_Distance1 = 1;
             double FR_distance1 = -1;
-            double BL_distance1 = 1;
-            double BR_distance1 = -1;
+            double BL_distance1 = -1;
+            double BR_distance1 = 1;
 
             //way 2
-            double FL_Distance2 = 5;
-            double FR_distance2 = -5;
+            double FL_Distance2 = -5;
+            double FR_distance2 = 5;
             double BL_distance2 = 5;
             double BR_distance2 = -5.;
 
             //way 3
-            double FL_Distance3 = -1.;
-            double FR_distance3 = 1;
-            double BL_distance3 = -1;
-            double BR_distance3 = 1;
+            double FL_Distance3 = 4.;
+            double FR_distance3 = -4;
+            double BL_distance3 = -4;
+            double BR_distance3 = 4;
 
             // Telemetry
             explainYourself(mode.Reset);
@@ -503,24 +502,25 @@ public class Auton5663_eocv extends LinearOpMode {
 
                 robot.Shooter(0.825);
                 sleep(1500);
-                encoderDrive(speed, FL_Distance1, FR_distance1, BL_distance1, BR_distance1, segmentTimeLimit);
-                sleep(1000);
                 robot.Intake.setPower(0.9);
                 encoderDrive(speed, FL_Distance2, FR_distance2, BL_distance2, BR_distance2, segmentTimeLimit);
+                sleep(1000);
+                encoderDrive(speed, FL_Distance1, FR_distance1, BL_distance1, BR_distance1, segmentTimeLimit);
                 sleep(1000);
                 encoderDrive(speed, FL_Distance3, FR_distance3, BL_distance3, BR_distance3, segmentTimeLimit);
                 sleep(1000);
                 canFire = false;
 
                 // update time telemetry readout
-                explainYourself(mode.Transmit);
+                //telemetry.addData("Runtime", "%.3f", runtime.seconds());
+                //telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
+                explainYourself(mode.Transmit); //telemetry.update();
 
             }
             robot.Shooter(0);
             robot.Intake.setPower(0);
         }
     } // end ShootForPowerShots
-
 
     // SCRIPT STAGE 03.1
     // Drive Segment
