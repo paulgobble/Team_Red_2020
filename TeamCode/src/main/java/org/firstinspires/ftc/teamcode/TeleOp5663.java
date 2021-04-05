@@ -144,17 +144,6 @@ public class TeleOp5663 extends OpMode
             robot.LShooter.setPower(0);
         }
 
-        boolean popBackIntake = gamepad2.a;
-
-        if(popBackIntake)
-        {
-            robot.Intake.setPower(-1);
-        }
-        else
-        {
-            robot.LShooter.setPower(0);
-        }
-
         // Input, compute, and send drive input data
         double driveNormal = gamepad1.left_stick_y; // Drive value entered on the left "normal drive" joystick
         double driveCreep = gamepad1.right_stick_y; // Drive value entered on the right "creep" joystick
