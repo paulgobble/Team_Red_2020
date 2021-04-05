@@ -87,7 +87,7 @@ public class Robot {
     public Servo ChickenFinger = null;
     public DcMotor LaChickenWing = null;
     public DcMotor Intake = null;
-
+    public Servo ChickenNeck = null;
 
     /* Create sensors */
     private DistanceSensor FrontDistanceSensor = null;

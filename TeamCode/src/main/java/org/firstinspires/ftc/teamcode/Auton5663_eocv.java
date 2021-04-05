@@ -1178,5 +1178,6 @@ public class Auton5663_eocv extends LinearOpMode {
             encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
 
         }
+        robot.ChickenNeck.setPosition(1);
     } // end drive template
 }  // end class Auton5663_eocv
