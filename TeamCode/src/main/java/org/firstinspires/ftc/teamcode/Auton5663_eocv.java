@@ -13,7 +13,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class Auton5663_eocv extends LinearOpMode {
 
     /* Declare OpMode members. */
-    Robot robot   = new Robot();
+    Robot robot = new Robot();
+
     private ElapsedTime runtime = new ElapsedTime();
     private ElapsedTime segmentTime = new ElapsedTime();
 
@@ -23,8 +24,7 @@ public class Auton5663_eocv extends LinearOpMode {
     static final double     WHEEL_DIAMETER_INCHES   = 3.93734 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
-    //static final double     LOW_SPEED             = 0.25;
-    //static final double     HIGH_SPEED              = 0.4;
+
 
     /* Store data for telemetry */
     private String stageNo = "0";
@@ -51,11 +51,6 @@ public class Auton5663_eocv extends LinearOpMode {
 
         //robot.idTargetZone(Robot.TargetZones.X);
 
-
-        //telemetry.setAutoClear(false);
-        //telemetry.addData("Video Streaming", "Started");
-        //telemetry.update();
-
         robot.hMap(hardwareMap);
 
         //Reset all encoders to have a fresh start when the match starts.
@@ -71,12 +66,6 @@ public class Auton5663_eocv extends LinearOpMode {
         robot.FRDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.BLDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.BRDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        //telemetry.addData("FLDrive", robot.FLDrive.getTargetPosition());
-        //telemetry.addData("FRDrive", robot.FRDrive.getTargetPosition());
-        //telemetry.addData("BLDrive", robot.BLDrive.getTargetPosition());
-        //telemetry.addData("BRDrive", robot.BRDrive.getTargetPosition());
-        //telemetry.update();
 
         // Telemetry
         explainYourself(mode.Transmit);
@@ -257,13 +246,9 @@ public class Auton5663_eocv extends LinearOpMode {
                     (segmentTime.seconds() < segmentTimeLimit) &&
                     (robot.FLDrive.isBusy() && robot.FRDrive.isBusy()&&robot.BLDrive.isBusy()&&robot.BRDrive.isBusy())) {
 
-                //Tell driver what the robot is doing.
+                //Telemetry
                 explainYourself(mode.Transmit);
-                //telemetry.addData("FLDrive", robot.FLDrive.getCurrentPosition());
-                //telemetry.addData("FRDrive", robot.FRDrive.getCurrentPosition());
-                //telemetry.addData("BLDrive", robot.BLDrive.getCurrentPosition());
-                //telemetry.addData("BRDrive", robot.BRDrive.getCurrentPosition());
-                //telemetry.update();
+
             }
 
             //Stop motors.
@@ -393,11 +378,6 @@ public class Auton5663_eocv extends LinearOpMode {
                     robot.FingerGrab(.6);
                 }
 
-                // update time telemetry readout
-                //telemetry.addData("Runtime", "%.3f", runtime.seconds());
-                //telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
-                //telemetry.addData("Final Scan time", "%.3f", robot.getScanCompleteTime());
-
                 flexLine_2_caption = "TZAV"; //telemetry.addData("TZAV", robot.getTargetZoneAverageValue());
                 flexLine_2_value = String.valueOf(robot.getTargetZoneAverageValue());
                 flexLine_3_caption = "Target Zone"; //telemetry.addData("Target Zone", robot.getDecipheredTargetZone());
@@ -409,7 +389,6 @@ public class Auton5663_eocv extends LinearOpMode {
             robot.setStreamingVideo(false);
             flexLine_1_value = "stopped"; // telemetry.addData("VideoScan", "Stopped");
             explainYourself(mode.Transmit); //telemetry.update();
-
 
         }
     } // end scanAndPrepChickenWing
@@ -534,9 +513,7 @@ public class Auton5663_eocv extends LinearOpMode {
                 canFire = false;
 
                 // update time telemetry readout
-                //telemetry.addData("Runtime", "%.3f", runtime.seconds());
-                //telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
-                explainYourself(mode.Transmit); //telemetry.update();
+                explainYourself(mode.Transmit);
 
             }
             robot.Shooter(0);
@@ -620,13 +597,9 @@ public class Auton5663_eocv extends LinearOpMode {
 
                 }
 
-                flexLine_1_value = String.valueOf(robot.getFRColor_alpha()); //telemetry.addData("Color, Aplah", robot.getFRColor_alpha());
-                explainYourself(mode.Transmit);// telemetry.update();
-
-                // update time telemetry readout
-                //telemetry.addData("Runtime", "%.3f", runtime.seconds());
-                //telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
-                //telemetry.update();
+                // Telemetry
+                flexLine_1_value = String.valueOf(robot.getFRColor_alpha());
+                explainYourself(mode.Transmit);
             }
 
         }
@@ -709,8 +682,6 @@ public class Auton5663_eocv extends LinearOpMode {
     // Drive slowly until the front right color sensor see the blue tape
     public void driveToZone_A_stage_2(double segmentTimeLimit) {
 
-        //boolean allDone = false;   relpaced this by using a break statement
-
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
             // reset the segment timer
@@ -740,11 +711,8 @@ public class Auton5663_eocv extends LinearOpMode {
                     break;
                 }
 
-
                 // update time telemetry readout
-                // telemetry.addData("Runtime", "%.3f", runtime.seconds());
-                // telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
-                explainYourself(mode.Transmit); // telemetry.update();
+                explainYourself(mode.Transmit);
             }
 
         }
@@ -846,9 +814,7 @@ public class Auton5663_eocv extends LinearOpMode {
                 }
 
                 // update time telemetry readout
-                // telemetry.addData("Runtime", "%.3f", runtime.seconds());
-                // telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
-                explainYourself(mode.Transmit);// telemetry.update();
+                explainYourself(mode.Transmit);
             }
 
         }
@@ -857,6 +823,7 @@ public class Auton5663_eocv extends LinearOpMode {
 
     // Postscript Stage 21_Z
     // Specialsit Segment
+    // Release the Wobble Target
     public void releaseWobbleTarget(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
@@ -879,9 +846,7 @@ public class Auton5663_eocv extends LinearOpMode {
                 robot.FingerGrab(.6);
 
                 // update time telemetry readout
-                // telemetry.addData("Runtime", "%.3f", runtime.seconds());
-                // telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
-                explainYourself(mode.Transmit);// telemetry.update();
+                explainYourself(mode.Transmit);
             }
 
         }
@@ -921,9 +886,7 @@ public class Auton5663_eocv extends LinearOpMode {
 
 
                 // update time telemetry readout
-                // telemetry.addData("Runtime", "%.3f", runtime.seconds());
-                // telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
-                explainYourself(mode.Transmit); // telemetry.update();
+                explainYourself(mode.Transmit);
             }
 
         }
@@ -1000,6 +963,7 @@ public class Auton5663_eocv extends LinearOpMode {
 
     // Postscript Stage 23_B
     // Drive segment
+    // Strafe to the White line
     public void strafeFor_B_ToWhiteLine (double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
@@ -1188,15 +1152,6 @@ public class Auton5663_eocv extends LinearOpMode {
 
 
 
-
-
-
-
-
-
-
-
-
     /**************************
      *                        *
      *  OFF SCRIPT UTILITIES  *
@@ -1289,6 +1244,7 @@ public class Auton5663_eocv extends LinearOpMode {
      *******************************/
     // STAGE 8888
     // Specialist Segment
+    // Short descruption
     public void specialist_segment_template(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
@@ -1299,9 +1255,10 @@ public class Auton5663_eocv extends LinearOpMode {
             // Method Set up code goes here
 
             // Telemetry
-            telemetry.addData("Stage No", "888");
-            telemetry.addData("Stage Desc", "sepecist stuff");
-            telemetry.update();
+            explainYourself(mode.Reset);
+            stageNo = "8888";
+            stageDescription = "Utterances";
+            explainYourself(mode.Transmit);
 
             // Check if its safe to run this method
             while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
@@ -1309,9 +1266,7 @@ public class Auton5663_eocv extends LinearOpMode {
                 // do stuff
 
                 // update time telemetry readout
-                telemetry.addData("Runtime", "%.3f", runtime.seconds());
-                telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
-                telemetry.update();
+                explainYourself(mode.Transmit);
             }
 
         }
@@ -1341,9 +1296,10 @@ public class Auton5663_eocv extends LinearOpMode {
             double BR_distance = 5;
 
             // Telemetry
-            telemetry.addData("Stage No", "999");
-            telemetry.addData("Stage Desc", "Drive stuff");
-            telemetry.update();
+            explainYourself(mode.Reset);
+            stageNo = "9999";
+            stageDescription = "Words";
+            explainYourself(mode.Transmit);
 
             // call encoderDrive
             encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);

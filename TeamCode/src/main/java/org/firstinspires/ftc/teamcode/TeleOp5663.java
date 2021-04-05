@@ -17,7 +17,7 @@ public class TeleOp5663 extends OpMode
     //hello there
     Robot robot = new Robot();
 
-    private ElapsedTime runtime = new ElapsedTime(); //do we need ElaspedTime in both Robot and TeleOP
+    private ElapsedTime runtime = new ElapsedTime();
 
     /* Rate limit gamepad button presses to every 500ms. */
     private final static int ButtonLockout = 500;
@@ -34,17 +34,22 @@ public class TeleOp5663 extends OpMode
 
         robot.hMap(hardwareMap);
 
-        telemetry.addData("Status:", "Initialized v2.0");
-        telemetry.addData("Drive Orientation:", "Forward");
-        telemetry.addData("Force Field:", "Off");
-        telemetry.addData("Front Distance:", "-------");
+        // telemetry
+        explainYourself();
 
-        telemetry.addData("FLDrive:",robot.FLDrive.getCurrentPosition());
-        telemetry.addData("FRDrive:", robot.FRDrive.getCurrentPosition());
-        telemetry.addData("BLDrive:", robot.BLDrive.getCurrentPosition());
-        telemetry.addData("BRDrive:", robot.BRDrive.getCurrentPosition());
+        //telemetry.addData("Status:", "Initialized v2.0");
+        //telemetry.addData("Drive Orientation:", "Forward");
+        //telemetry.addData("Force Field:", "Off");
+        //telemetry.addData("Front Distance:", "-------");
+
+        //telemetry.addData("FLDrive:",robot.FLDrive.getCurrentPosition());
+        //telemetry.addData("FRDrive:", robot.FRDrive.getCurrentPosition());
+        //telemetry.addData("BLDrive:", robot.BLDrive.getCurrentPosition());
+        //telemetry.addData("BRDrive:", robot.BRDrive.getCurrentPosition());
 
         buttonPressLimit = new Deadline(ButtonLockout, TimeUnit.MILLISECONDS);
+
+        robot.idTargetZone(Robot.TargetZones.X); // Turn white light on at init
 
     } // end init
 
@@ -79,13 +84,17 @@ public class TeleOp5663 extends OpMode
     @Override
     public void start(){
         runtime.reset();
-        telemetry.addData("Status", "S T A R T !!");
+
+        // telemetry
+        //telemetry.addData("Status", "S T A R T !!");
+        explainYourself();
+
+        robot.idTargetZone(Robot.TargetZones.A); // Turn the lights Red to look cool
 
         robot.LaChickenWing.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.LaChickenWing.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         robot.FingerGrab(1);
-        //robot.ReportStatus("Status:", "S T A R T !");
     } // end start
 
 
@@ -96,8 +105,9 @@ public class TeleOp5663 extends OpMode
     @Override
     public void loop(){
 
+        robot.idTargetZone(Robot.TargetZones.A); // Turn the lights Red to look cool
 
-        telemetry.addData("Current Wing Position", robot.LaChickenWing.getCurrentPosition());
+        //telemetry.addData("Current Wing Position", robot.LaChickenWing.getCurrentPosition());
         // handle toggle button input
         handleButtons();
 
@@ -105,21 +115,22 @@ public class TeleOp5663 extends OpMode
         robot.updateFFStatus();
 
         // Report Telemetry Data
-        telemetry.addData("Color, Aplah", robot.getFRColor_alpha());
-        telemetry.addData("Color, Blue", robot.getFRColor_blue());
+        explainYourself();
+        //telemetry.addData("Color, Aplah", robot.getFRColor_alpha());
+        //telemetry.addData("Color, Blue", robot.getFRColor_blue());
 
-        telemetry.addData("Elasped Time:", "%.1f", runtime.seconds());
-        telemetry.addData("Drive Orientation:", robot.getDirectionMode());
-        telemetry.addData("Forcefield:", robot.isForceFieldOn());
-        telemetry.addData("Front Distance:","%.1f", robot.getFrontDistance());
+        //telemetry.addData("Elasped Time:", "%.1f", runtime.seconds());
+        //telemetry.addData("Drive Orientation:", robot.getDirectionMode());
+        //telemetry.addData("Forcefield:", robot.isForceFieldOn());
+        //telemetry.addData("Front Distance:","%.1f", robot.getFrontDistance());
 
         //Send telemetry message to monitor encoder values
-        telemetry.addData("FLDrive:",robot.FLDrive.getCurrentPosition());
-        telemetry.addData("FRDrive:", robot.FRDrive.getCurrentPosition());
-        telemetry.addData("BLDrive:", robot.BLDrive.getCurrentPosition());
-        telemetry.addData("BRDrive:", robot.BRDrive.getCurrentPosition());
+        //telemetry.addData("FLDrive:",robot.FLDrive.getCurrentPosition());
+        //telemetry.addData("FRDrive:", robot.FRDrive.getCurrentPosition());
+        //telemetry.addData("BLDrive:", robot.BLDrive.getCurrentPosition());
+        //telemetry.addData("BRDrive:", robot.BRDrive.getCurrentPosition());
 
-        telemetry.update();
+        //telemetry.update();
 
         boolean popBackWheels = gamepad2.y;
 
@@ -246,5 +257,50 @@ public class TeleOp5663 extends OpMode
 
     } // End handleButtons
 
+
+    /*******************
+     * Method to unify *
+     * telemetry       *
+     *******************/
+    public void explainYourself(){
+
+        telemetry.addLine("Runtime | ")
+                .addData("TOTAL", "%.3f", runtime.seconds())
+                .addData("SEGMENT", "-");
+
+        telemetry.addLine("Stage | ")
+                .addData("No.", "99")
+                .addData("-", "TeleOp");
+
+        telemetry.addData("Drive Orientation", robot.getDirectionMode());
+
+        telemetry.addLine("Colors | ")
+                .addData("Alpha", robot.getFRColor_alpha())
+                .addData("Blue", robot.getFRColor_blue());
+
+        telemetry.addData("Front Distance", robot.getFrontDistance());
+
+        telemetry.addLine("Shooters | ")
+                .addData("Left", robot.LShooter.getPower())
+                .addData("Right", robot.RShooter.getPower());
+
+        telemetry.addLine("FLDrive | ")
+                .addData("Current", "|%05d|", robot.FLDrive.getCurrentPosition())
+                .addData("Target", "none");
+        telemetry.addLine("FRDrive | ")
+                .addData("Current", "|%05d|", robot.FRDrive.getCurrentPosition())
+                .addData("Target", "none");
+        telemetry.addLine("BLDrive | ")
+                .addData("Current", "|%05d|", robot.BLDrive.getCurrentPosition())
+                .addData("Target", "none");
+        telemetry.addLine("BRDrive | ")
+                .addData("Current", "|%05d|", robot.BRDrive.getCurrentPosition())
+                .addData("Target", "none");
+
+        telemetry.addData("Code Version", "2.0 Novi + Color Sensors");
+
+        telemetry.update();
+
+    } // end explainYourself
 
 } // End class TeleOp5663
