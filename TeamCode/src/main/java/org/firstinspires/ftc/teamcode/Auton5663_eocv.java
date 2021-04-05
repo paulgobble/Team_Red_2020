@@ -146,7 +146,7 @@ public class Auton5663_eocv extends LinearOpMode {
         case B:
             //telemetry.addData("Postscript chose", "B");
             // Stage 10_B
-            pivot_B_C(5);
+            pivot_B_C(3);
 
             // Postscript Stage 11_B
             driveToZone_B(3);
@@ -495,19 +495,19 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Method Set up code goes here
             double speed = .275;
-            //way one
+            //way 1
             double FL_Distance1 = -1;
             double FR_distance1 = 1;
             double BL_distance1 = 1;
             double BR_distance1 = -1;
 
             //way 2
-            double FL_Distance2 = -5;
-            double FR_distance2 = 5;
-            double BL_distance2 = 5;
-            double BR_distance2 = -5.;
+            double FL_Distance2 = 5;
+            double FR_distance2 = -5;
+            double BL_distance2 = -5;
+            double BR_distance2 = 5.;
 
-            //way 1
+            //way 3
             double FL_Distance3 = -4.;
             double FR_distance3 = 4;
             double BL_distance3 = 4;
