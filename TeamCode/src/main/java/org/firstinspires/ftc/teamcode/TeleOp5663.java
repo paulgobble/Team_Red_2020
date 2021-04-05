@@ -104,6 +104,7 @@ public class TeleOp5663 extends OpMode
     @Override
     public void loop(){
 
+        robot.idTargetZone(Robot.TargetZones.A); // Turn the lights Red to look cool
 
         //telemetry.addData("Current Wing Position", robot.LaChickenWing.getCurrentPosition());
         // handle toggle button input
