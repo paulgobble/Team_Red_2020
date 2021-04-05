@@ -475,22 +475,22 @@ public class Auton5663_eocv extends LinearOpMode {
             // Method Set up code goes here
             double speed = .275;
             //way 1
-            double FL_Distance1 = -1;
-            double FR_distance1 = 1;
+            double FL_Distance1 = 1;
+            double FR_distance1 = -1;
             double BL_distance1 = 1;
             double BR_distance1 = -1;
 
             //way 2
             double FL_Distance2 = 5;
             double FR_distance2 = -5;
-            double BL_distance2 = -5;
-            double BR_distance2 = 5.;
+            double BL_distance2 = 5;
+            double BR_distance2 = -5.;
 
             //way 3
-            double FL_Distance3 = -4.;
-            double FR_distance3 = 4;
-            double BL_distance3 = 4;
-            double BR_distance3 = -4;
+            double FL_Distance3 = -1.;
+            double FR_distance3 = 1;
+            double BL_distance3 = -1;
+            double BR_distance3 = 1;
 
             // Telemetry
             explainYourself(mode.Reset);
@@ -502,14 +502,13 @@ public class Auton5663_eocv extends LinearOpMode {
             while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit) && canFire ) {
 
                 robot.Shooter(0.825);
+                sleep(1500);
+                encoderDrive(speed, FL_Distance1, FR_distance1, BL_distance1, BR_distance1, segmentTimeLimit);
+                robot.Intake.setPower(0.9);
                 encoderDrive(speed, FL_Distance2, FR_distance2, BL_distance2, BR_distance2, segmentTimeLimit);
                 sleep(1000);
-                encoderDrive(speed, FL_Distance1, FR_distance1, BL_distance1, BR_distance1, segmentTimeLimit);
-                sleep(500);
-                robot.Intake.setPower(0.9);
-                sleep(100);
                 encoderDrive(speed, FL_Distance3, FR_distance3, BL_distance3, BR_distance3, segmentTimeLimit);
-                sleep(1500);
+                sleep(1000);
                 canFire = false;
 
                 // update time telemetry readout
