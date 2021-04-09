@@ -474,32 +474,25 @@ public class Auton5663_eocv extends LinearOpMode {
             // Method Set up code goes here
             double speed = .275;
             //way 1
-            double FLDrive_Distance1 = -1;
-            double FRDrive_Distance1 = 1;
-            double BLDrive_Distance1 = 1;
-            double BRDrive_Distance1 = -1;
+            double FLDrive_Distance1 = -2;
+            double FRDrive_Distance1 = 2;
+            double BLDrive_Distance1 = 2;
+            double BRDrive_Distance1 = -2;
+
+            double Drive_Distance1 = -1;
+            double Drive_Distance12 = 1;
 
 
             //way 2
-            double FLDrive_Distance2 = 4;
-            double FRDrive_Distance2 = -4;
-            double BLDrive_Distance2 = -4;
-            double BRDrive_Distance2 = 4;
+            double Drive_Distance2 = -6;
 
 
 
             //way 3
-            double FLDrive_Distance3 = -5;
-            double FRDrive_Distance3 = 5;
-            double BLDrive_Distance3 = 5;
-            double BRDrive_Distance3 = -5;
+            double Drive_Distance3 = 5;
 
 
-            double driveDesiredPosition1 = robot.LaChickenWing.getCurrentPosition() + FLDrive_Distance1;
-            double driveDesiredPosition2 = robot.LaChickenWing.getCurrentPosition() + FLDrive_Distance2;
-            double driveDesiredPosition3 = robot.LaChickenWing.getCurrentPosition() + FLDrive_Distance3;
-
-            // Telemetry
+           // Telemetry
             explainYourself(mode.Reset);
             stageNo = "02";
             stageDescription = "Sweep Power Shot";
@@ -508,28 +501,14 @@ public class Auton5663_eocv extends LinearOpMode {
             // Check if its safe to run this method
             while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit) && canFire ) {
 
-                if(robot.FLDrive.getCurrentPosition() < driveDesiredPosition1)
-                {
-                    encoderDrive(speed, FLDrive_Distance1, FRDrive_Distance1, BLDrive_Distance1, BRDrive_Distance1, segmentTimeLimit);
-                }
-                else
-                {
-                    if(robot.FLDrive.getCurrentPosition() < driveDesiredPosition2)
-                    {
-                        encoderDrive(speed, FLDrive_Distance2, FRDrive_Distance2, BLDrive_Distance2, BRDrive_Distance2, segmentTimeLimit);
-                    }
-                    else
-                    {
-                        if(robot.FLDrive.getCurrentPosition() < driveDesiredPosition3)
-                        {
-                            encoderDrive(speed, FLDrive_Distance3, FRDrive_Distance3, BLDrive_Distance3, BRDrive_Distance3, segmentTimeLimit);
-                        }
-                    }
-                }
+                encoderDrive(speed, -Drive_Distance1, Drive_Distance1, -Drive_Distance1, Drive_Distance1, 0.4);
 
-                // Update time telemetry readout
-                //Telemetry.addData("Runtime", "%.3f", runtime.seconds());
-                //Telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
+
+
+                encoderDrive(speed, Drive_Distance2, -Drive_Distance2, Drive_Distance2, -Drive_Distance2, 0.4);
+                // update time telemetry readout
+                //telemetry.addData("Runtime", "%.3f", runtime.seconds());
+                //telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
                 explainYourself(mode.Transmit); //telemetry.update();
 
             }
