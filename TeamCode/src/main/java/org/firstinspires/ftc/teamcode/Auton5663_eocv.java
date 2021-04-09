@@ -541,14 +541,14 @@ public class Auton5663_eocv extends LinearOpMode {
 
             if(robot.getFRColor_alpha() < 400)
             {
-                encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
-            }
-            else
-            {
                 robot.FRDrive.setPower(0);
                 robot.FLDrive.setPower(0);
                 robot.BRDrive.setPower(0);
                 robot.BLDrive.setPower(0);
+            }
+            else
+            {
+                encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
             }
 
             // Telemetry
