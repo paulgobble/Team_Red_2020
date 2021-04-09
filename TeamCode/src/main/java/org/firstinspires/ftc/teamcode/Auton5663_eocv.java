@@ -474,20 +474,30 @@ public class Auton5663_eocv extends LinearOpMode {
             // Method Set up code goes here
             double speed = .275;
             //way 1
-            double Drive_Distance1 = 2;
+            double FLDrive_Distance1 = -2;
+            double FRDrive_Distance1 = 2;
+            double BLDrive_Distance1 = 2;
+            double BRDrive_Distance1 = -2;
 
 
             //way 2
-            double Drive_Distance2 = -6;
+            double FLDrive_Distance2 = 6;
+            double FRDrive_Distance2 = -6;
+            double BLDrive_Distance2 = -6;
+            double BRDrive_Distance2 = 6;
+
 
 
             //way 3
-            double Drive_Distance3 = 5;
+            double FLDrive_Distance3 = -5;
+            double FRDrive_Distance3 = 5;
+            double BLDrive_Distance3 = 5;
+            double BRDrive_Distance3 = -5;
 
 
-            double driveDesiredPosition1 = robot.LaChickenWing.getCurrentPosition() + Drive_Distance1;
-            double driveDesiredPosition2 = robot.LaChickenWing.getCurrentPosition() + Drive_Distance2;
-            double driveDesiredPosition3 = robot.LaChickenWing.getCurrentPosition() + Drive_Distance3;
+            double driveDesiredPosition1 = robot.LaChickenWing.getCurrentPosition() + FLDrive_Distance1;
+            double driveDesiredPosition2 = robot.LaChickenWing.getCurrentPosition() + FLDrive_Distance2;
+            double driveDesiredPosition3 = robot.LaChickenWing.getCurrentPosition() + FLDrive_Distance3;
 
             // Telemetry
             explainYourself(mode.Reset);
@@ -500,19 +510,19 @@ public class Auton5663_eocv extends LinearOpMode {
 
                 if(robot.FLDrive.getCurrentPosition() < driveDesiredPosition1)
                 {
-                    encoderDrive(speed, Drive_Distance1, Drive_Distance1, Drive_Distance1, Drive_Distance1, segmentTimeLimit);
+                    encoderDrive(speed, FLDrive_Distance1, FRDrive_Distance1, BLDrive_Distance1, BRDrive_Distance1, segmentTimeLimit);
                 }
                 else
                 {
                     if(robot.FLDrive.getCurrentPosition() < driveDesiredPosition2)
                     {
-                        encoderDrive(speed, Drive_Distance2, Drive_Distance2, Drive_Distance2, Drive_Distance2, segmentTimeLimit);
+                        encoderDrive(speed, FLDrive_Distance2, FRDrive_Distance2, BLDrive_Distance2, BRDrive_Distance2, segmentTimeLimit);
                     }
                     else
                     {
                         if(robot.FLDrive.getCurrentPosition() < driveDesiredPosition3)
                         {
-                            encoderDrive(speed, Drive_Distance3, Drive_Distance3, Drive_Distance3, Drive_Distance3, segmentTimeLimit);
+                            encoderDrive(speed, FLDrive_Distance3, FRDrive_Distance3, BLDrive_Distance3, BRDrive_Distance3, segmentTimeLimit);
                         }
                     }
                 }
