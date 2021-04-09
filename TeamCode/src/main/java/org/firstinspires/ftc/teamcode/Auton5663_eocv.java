@@ -474,22 +474,22 @@ public class Auton5663_eocv extends LinearOpMode {
             // Method Set up code goes here
             double speed = .275;
             //way 1
-            double FL_Distance1 = 1;
-            double FR_distance1 = -1;
-            double BL_distance1 = -1;
-            double BR_distance1 = 1;
+            double FL_Distance1 = 2;
+            double FR_distance1 = -2;
+            double BL_distance1 = -2;
+            double BR_distance1 = 2;
 
             //way 2
-            double FL_Distance2 = -5;
-            double FR_distance2 = 5;
-            double BL_distance2 = 5;
-            double BR_distance2 = -5.;
+            double FL_Distance2 = -6;
+            double FR_distance2 = 6;
+            double BL_distance2 = 6;
+            double BR_distance2 = -6;
 
             //way 3
-            double FL_Distance3 = 4.;
-            double FR_distance3 = -4;
-            double BL_distance3 = -4;
-            double BR_distance3 = 4;
+            double FL_Distance3 = 5;
+            double FR_distance3 = -5;
+            double BL_distance3 = -5;
+            double BR_distance3 = 5;
 
             // Telemetry
             explainYourself(mode.Reset);
@@ -507,7 +507,7 @@ public class Auton5663_eocv extends LinearOpMode {
                 sleep(1000);
                 encoderDrive(speed, FL_Distance1, FR_distance1, BL_distance1, BR_distance1, segmentTimeLimit);
                 sleep(1000);
-                encoderDrive(speed, FL_Distance3, FR_distance3, BL_distance3, BR_distance3, segmentTimeLimit);
+                //encoderDrive(speed, FL_Distance3, FR_distance3, BL_distance3, BR_distance3, segmentTimeLimit);
                 sleep(1000);
                 canFire = false;
 
