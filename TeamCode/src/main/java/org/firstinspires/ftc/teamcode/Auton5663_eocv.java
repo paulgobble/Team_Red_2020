@@ -93,7 +93,7 @@ public class Auton5663_eocv extends LinearOpMode {
         ShootForPowerShots(3.5); // was 3.5
 
         // Stage 03.1
-        MoveToWhiteLineForDecision(2.75);  // was 5
+        MoveToWhiteLineForDecision(5);  // was 5
 
         // Stage 03.2
         //Let's see if this is the problem
@@ -507,7 +507,7 @@ public class Auton5663_eocv extends LinearOpMode {
                 sleep(1000);
                 encoderDrive(speed, FL_Distance1, FR_distance1, BL_distance1, BR_distance1, segmentTimeLimit);
                 sleep(1000);
-                //encoderDrive(speed, FL_Distance3, FR_distance3, BL_distance3, BR_distance3, segmentTimeLimit);
+                encoderDrive(speed, FL_Distance3, FR_distance3, BL_distance3, BR_distance3, segmentTimeLimit);
                 sleep(1000);
                 canFire = false;
 
