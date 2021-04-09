@@ -534,10 +534,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Drive Targets
             double speed = .65;
-            double FL_Distance = -1; // was -41, then exparimented with carefullyDriveAtopLine
-            double FR_distance = -1;
-            double BL_distance = -1;
-            double BR_distance = -1;
+            double FL_Distance = -41; // was -41, then exparimented with carefullyDriveAtopLine
+            double FR_distance = -41;
+            double BL_distance = -41;
+            double BR_distance = -41;
 
             if(robot.getFRColor_alpha() < 400)
             {
