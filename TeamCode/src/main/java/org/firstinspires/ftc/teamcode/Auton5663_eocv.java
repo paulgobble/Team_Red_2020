@@ -55,10 +55,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
         //Reset all encoders to have a fresh start when the match starts.
         //Drive
-        robot.FLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.FRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.BLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.BRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //robot.FLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //robot.FRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //robot.BLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //robot.BRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         //Turn off RUN_TO_POSITION.
         //Drive
