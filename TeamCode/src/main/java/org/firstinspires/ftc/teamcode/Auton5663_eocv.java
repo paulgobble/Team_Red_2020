@@ -474,17 +474,17 @@ public class Auton5663_eocv extends LinearOpMode {
             // Method Set up code goes here
             double speed = .275;
             //way 1
-            double FLDrive_Distance1 = -2;
-            double FRDrive_Distance1 = 2;
-            double BLDrive_Distance1 = 2;
-            double BRDrive_Distance1 = -2;
+            double FLDrive_Distance1 = -1;
+            double FRDrive_Distance1 = 1;
+            double BLDrive_Distance1 = 1;
+            double BRDrive_Distance1 = -1;
 
 
             //way 2
-            double FLDrive_Distance2 = 6;
-            double FRDrive_Distance2 = -6;
-            double BLDrive_Distance2 = -6;
-            double BRDrive_Distance2 = 6;
+            double FLDrive_Distance2 = 4;
+            double FRDrive_Distance2 = -4;
+            double BLDrive_Distance2 = -4;
+            double BRDrive_Distance2 = 4;
 
 
 
@@ -527,9 +527,9 @@ public class Auton5663_eocv extends LinearOpMode {
                     }
                 }
 
-                // update time telemetry readout
-                //telemetry.addData("Runtime", "%.3f", runtime.seconds());
-                //telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
+                // Update time telemetry readout
+                //Telemetry.addData("Runtime", "%.3f", runtime.seconds());
+                //Telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
                 explainYourself(mode.Transmit); //telemetry.update();
 
             }
