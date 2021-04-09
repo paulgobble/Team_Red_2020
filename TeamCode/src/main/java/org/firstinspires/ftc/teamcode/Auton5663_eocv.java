@@ -474,22 +474,20 @@ public class Auton5663_eocv extends LinearOpMode {
             // Method Set up code goes here
             double speed = .275;
             //way 1
-            double FL_Distance1 = 2;
-            double FR_distance1 = -2;
-            double BL_distance1 = -2;
-            double BR_distance1 = 2;
+            double Drive_Distance1 = 2;
+
 
             //way 2
-            double FL_Distance2 = -6;
-            double FR_distance2 = 6;
-            double BL_distance2 = 6;
-            double BR_distance2 = -6;
+            double Drive_Distance2 = -6;
+
 
             //way 3
-            double FL_Distance3 = 5;
-            double FR_distance3 = -5;
-            double BL_distance3 = -5;
-            double BR_distance3 = 5;
+            double Drive_Distance3 = 5;
+
+
+            double driveDesiredPosition1 = robot.LaChickenWing.getCurrentPosition() + Drive_Distance1;
+            double driveDesiredPosition2 = robot.LaChickenWing.getCurrentPosition() + Drive_Distance2;
+            double driveDesiredPosition3 = robot.LaChickenWing.getCurrentPosition() + Drive_Distance3;
 
             // Telemetry
             explainYourself(mode.Reset);
@@ -500,16 +498,24 @@ public class Auton5663_eocv extends LinearOpMode {
             // Check if its safe to run this method
             while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit) && canFire ) {
 
-                robot.Shooter(0.825);
-                sleep(1500);
-                robot.Intake.setPower(0.9);
-                encoderDrive(speed, FL_Distance2, FR_distance2, BL_distance2, BR_distance2, segmentTimeLimit);
-                sleep(1000);
-                encoderDrive(speed, FL_Distance1, FR_distance1, BL_distance1, BR_distance1, segmentTimeLimit);
-                sleep(1000);
-                encoderDrive(speed, FL_Distance3, FR_distance3, BL_distance3, BR_distance3, segmentTimeLimit);
-                sleep(1000);
-                canFire = false;
+                if(robot.FLDrive.getCurrentPosition() < driveDesiredPosition1)
+                {
+                    encoderDrive(speed, Drive_Distance1, Drive_Distance1, Drive_Distance1, Drive_Distance1, segmentTimeLimit);
+                }
+                else
+                {
+                    if(robot.FLDrive.getCurrentPosition() < driveDesiredPosition2)
+                    {
+                        encoderDrive(speed, Drive_Distance2, Drive_Distance2, Drive_Distance2, Drive_Distance2, segmentTimeLimit);
+                    }
+                    else
+                    {
+                        if(robot.FLDrive.getCurrentPosition() < driveDesiredPosition3)
+                        {
+                            encoderDrive(speed, Drive_Distance3, Drive_Distance3, Drive_Distance3, Drive_Distance3, segmentTimeLimit);
+                        }
+                    }
+                }
 
                 // update time telemetry readout
                 //telemetry.addData("Runtime", "%.3f", runtime.seconds());
@@ -539,17 +545,19 @@ public class Auton5663_eocv extends LinearOpMode {
             double BL_distance = -41;
             double BR_distance = -41;
 
+
             if(robot.getFRColor_alpha() < 400)
+            {
+                encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
+            }
+            else
             {
                 robot.FRDrive.setPower(0);
                 robot.FLDrive.setPower(0);
                 robot.BRDrive.setPower(0);
                 robot.BLDrive.setPower(0);
             }
-            else
-            {
-                encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
-            }
+
 
             // Telemetry
             explainYourself(mode.Reset);
