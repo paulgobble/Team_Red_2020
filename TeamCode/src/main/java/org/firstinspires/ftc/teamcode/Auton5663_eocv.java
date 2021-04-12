@@ -470,7 +470,7 @@ public class Auton5663_eocv extends LinearOpMode {
             segmentTime.reset();
 
             // Method Set up code goes here
-            boolean canFire = true;
+            boolean canFire = false;
 
             // Telemetry
             explainYourself(mode.Reset);
@@ -485,7 +485,7 @@ public class Auton5663_eocv extends LinearOpMode {
             // Check if its safe to run this method
             while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit) && canFire ) {
 
-                robot.MecanumDrive(0, 0.2,0);
+                robot.MecanumDrive(0, 0.375,0);
 
 
                 if(canFire == true)
@@ -494,7 +494,7 @@ public class Auton5663_eocv extends LinearOpMode {
                 }
                 else
                 {
-                    sleep(1500);
+                    sleep(500);
                     canFire = true;
                 }
 
