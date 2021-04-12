@@ -90,7 +90,7 @@ public class Auton5663_eocv extends LinearOpMode {
         captureWobbleTarget(2.75);  // was 3
 
         // Stage 02
-        ShootForPowerShots(4); // was 3.5
+        ShootForPowerShots(3.5); // was 3.5
 
         // Stage 03.1
         MoveToWhiteLineForDecision(5);  // was 5
@@ -98,6 +98,7 @@ public class Auton5663_eocv extends LinearOpMode {
         // Stage 03.2
         //Let's see if this is the problem
         carefullyDriveAtopLine(2); // was 1
+        StrafeBack(3);  // was 5
 
 
         // THE POSTSCRIPT (aka calling he functions unique
@@ -202,6 +203,8 @@ public class Auton5663_eocv extends LinearOpMode {
      *   Internal opMode Functions   *
      *                               *
      *********************************/
+
+
 
     public void encoderDrive(double speed, double FLInches, double FRInches, double BLInches, double BRInches, double segmentTimeLimit)
     {
@@ -393,7 +396,6 @@ public class Auton5663_eocv extends LinearOpMode {
         }
     } // end scanAndPrepChickenWing
 
-
     // SCRIPT STAGE 01.2
     // Drive Segment
     public void lungeForWobbleTarget(double segmentTimeLimit) {
@@ -421,6 +423,38 @@ public class Auton5663_eocv extends LinearOpMode {
 
         }
     } // end lungeForWobbleTarget
+
+
+    // SCRIPT Stage 01.3
+    // Specialist Segment
+    public void StrafeBack(double segmentTimeLimit)
+    {
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Drive Targets
+            double speed = .65;
+            double FL_Distance = -4; // was -41, then exparimented with carefullyDriveAtopLine
+            double FR_distance = 4;
+            double BL_distance = 4;
+            double BR_distance = -4;
+
+
+            // Telemetry
+            explainYourself(mode.Reset);
+            stageNo = "03.1";
+            stageDescription = "Race up to White Line";
+            explainYourself(mode.Transmit);
+
+            // call encoderDrive
+            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
+
+        }
+    }
+
+
 
 
     // SCRIPT Stage 01.3
