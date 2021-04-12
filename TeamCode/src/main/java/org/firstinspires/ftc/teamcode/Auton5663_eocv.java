@@ -90,7 +90,7 @@ public class Auton5663_eocv extends LinearOpMode {
         captureWobbleTarget(2.75);  // was 3
 
         // Stage 02
-        ShootForPowerShots(5); // was 3.5
+        ShootForPowerShots(4); // was 3.5
 
         // Stage 03.1
         MoveToWhiteLineForDecision(5);  // was 5
@@ -488,7 +488,7 @@ public class Auton5663_eocv extends LinearOpMode {
                 robot.MecanumDrive(0, 0.375,0);
 
 
-                if(canFire == true)
+                if(canFire)
                 {
                     robot.Intake.setPower(.8);
                 }
