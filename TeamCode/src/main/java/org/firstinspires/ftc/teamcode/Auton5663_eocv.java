@@ -469,37 +469,17 @@ public class Auton5663_eocv extends LinearOpMode {
             // reset the segment timer
             segmentTime.reset();
 
+            // Method Set up code goes here
             boolean canFire = true;
 
-            // Method Set up code goes here
-            double speed = .275;
-            //way 1
-            double FLDrive_Distance1 = -2;
-            double FRDrive_Distance1 = 2;
-            double BLDrive_Distance1 = 2;
-            double BRDrive_Distance1 = -2;
-
-            double Drive_Distance1 = -1;
-            double Drive_Distance12 = 1;
-
-
-            //way 2
-            double Drive_Distance2 = -6;
-
-
-
-            //way 3
-            double Drive_Distance3 = 5;
-
-
-           // Telemetry
+            // Telemetry
             explainYourself(mode.Reset);
             stageNo = "02";
             stageDescription = "Sweep Power Shot";
             explainYourself(mode.Transmit);
 
             robot.Shooter(.75);
-            sleep(1000);
+            sleep(1500);
 
 
             // Check if its safe to run this method
