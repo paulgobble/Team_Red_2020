@@ -525,6 +525,8 @@ public class Auton5663_eocv extends LinearOpMode {
                 if(canFire)
                 {
                     robot.Intake.setPower(.8);
+                    sleep(1000);
+                    canFire = false;
                 }
                 else
                 {
