@@ -494,7 +494,7 @@ public class Auton5663_eocv extends LinearOpMode {
                 }
                 else
                 {
-                    sleep(500);
+                    sleep(1500);
                     canFire = true;
                 }
 
