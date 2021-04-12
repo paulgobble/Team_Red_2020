@@ -97,7 +97,7 @@ public class Auton5663_eocv extends LinearOpMode {
 
         // Stage 03.2
         //Let's see if this is the problem
-        //carefullyDriveAtopLine(2); // was 1
+        carefullyDriveAtopLine(2); // was 1
 
 
         // THE POSTSCRIPT (aka calling he functions unique
@@ -498,14 +498,19 @@ public class Auton5663_eocv extends LinearOpMode {
             stageDescription = "Sweep Power Shot";
             explainYourself(mode.Transmit);
 
+            robot.Shooter(.75);
+            sleep(1000);
+
+
             // Check if its safe to run this method
             while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit) && canFire ) {
 
-                encoderDrive(speed, -Drive_Distance1, Drive_Distance1, -Drive_Distance1, Drive_Distance1, 0.4);
+                robot.MecanumDrive(0, 0.1,0);
 
+                robot.Intake.setPower(.8);
 
-
-                encoderDrive(speed, Drive_Distance2, -Drive_Distance2, Drive_Distance2, -Drive_Distance2, 0.4);
+                //encoderDrive(speed, -Drive_Distance1, Drive_Distance1, -Drive_Distance1, Drive_Distance1, 0.4);
+                //encoderDrive(speed, Drive_Distance2, -Drive_Distance2, Drive_Distance2, -Drive_Distance2, 0.4);
                 // update time telemetry readout
                 //telemetry.addData("Runtime", "%.3f", runtime.seconds());
                 //telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
@@ -535,19 +540,6 @@ public class Auton5663_eocv extends LinearOpMode {
             double BR_distance = -41;
 
 
-            if(robot.getFRColor_alpha() < 400)
-            {
-                encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
-            }
-            else
-            {
-                robot.FRDrive.setPower(0);
-                robot.FLDrive.setPower(0);
-                robot.BRDrive.setPower(0);
-                robot.BLDrive.setPower(0);
-            }
-
-
             // Telemetry
             explainYourself(mode.Reset);
             stageNo = "03.1";
@@ -555,7 +547,7 @@ public class Auton5663_eocv extends LinearOpMode {
             explainYourself(mode.Transmit);
 
             // call encoderDrive
-            //encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
+            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
 
         }
     } // end MoveToWhiteLineForDecision
