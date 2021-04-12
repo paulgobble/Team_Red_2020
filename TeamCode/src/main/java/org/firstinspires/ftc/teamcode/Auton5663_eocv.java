@@ -488,7 +488,15 @@ public class Auton5663_eocv extends LinearOpMode {
                 robot.MecanumDrive(0, 0.2,0);
 
 
-                robot.Intake.setPower(.8);
+                if(canFire == true)
+                {
+                    robot.Intake.setPower(.8);
+                }
+                else
+                {
+                    sleep(500);
+                    canFire = true;
+                }
 
                 //encoderDrive(speed, -Drive_Distance1, Drive_Distance1, -Drive_Distance1, Drive_Distance1, 0.4);
                 //encoderDrive(speed, Drive_Distance2, -Drive_Distance2, Drive_Distance2, -Drive_Distance2, 0.4);
