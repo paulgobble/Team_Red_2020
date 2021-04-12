@@ -90,7 +90,7 @@ public class Auton5663_eocv extends LinearOpMode {
         captureWobbleTarget(2.75);  // was 3
 
         // Stage 02
-        ShootForPowerShots(3.5); // was 3.5
+        ShootForPowerShots(4); // was 3.5
 
         // Stage 03.1
         MoveToWhiteLineForDecision(5);  // was 5
