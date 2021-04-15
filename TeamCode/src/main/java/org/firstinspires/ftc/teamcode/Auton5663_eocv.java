@@ -89,16 +89,19 @@ public class Auton5663_eocv extends LinearOpMode {
         //Stage 01.3
         captureWobbleTarget(2.75);  // was 3
 
-        // Stage 02
-        ShootForPowerShots(3.5); // was 3.5
-
         // Stage 03.1
         MoveToWhiteLineForDecision(5);  // was 5
 
+        // Stage 02 (option 1)
+        //ShootForPowerShots(3.5); // was 3.5
+
+        // Stage 02 (option 2)
+        strafe_n_shoot(5);
+
         // Stage 03.2
-        //Let's see if this is the problem
-        carefullyDriveAtopLine(2); // was 1
-        StrafeBack(3);  // was 5
+        carefullyDriveAtopLine(3); // was 1
+
+        //StrafeBack(3);  // was 5
 
 
         // THE POSTSCRIPT (aka calling he functions unique
@@ -488,6 +491,7 @@ public class Auton5663_eocv extends LinearOpMode {
                 else
                 {
                    robot.LaChickenWing.setPower(0);
+                   // break; // try a break statement here
                 }
             }
 
@@ -547,6 +551,86 @@ public class Auton5663_eocv extends LinearOpMode {
         }
     } // end ShootForPowerShots
 
+
+
+
+
+    // STAGE 02 (option 2)
+    // Specialist Segment
+    // Strafe using encoder counts while shooting for Power Shots
+    public void strafe_n_shoot(double segmentTimeLimit) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Method Set up code goes here
+            int strafeThisFar = 300; // swag
+
+            robot.FLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.FRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.BLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.BRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            robot.FLDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.FRDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.BLDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.BRDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+            int desiredStrafePosition = robot.FRDrive.getCurrentPosition() + strafeThisFar;  // basing strafe measurment of of just the front right drive
+
+
+            // Telemetry
+            explainYourself(mode.Reset);
+            stageNo = "02";
+            stageDescription = "Strafe n Shoot";
+            explainYourself(mode.Transmit);
+
+            // get the flywheels up to speed
+            robot.Shooter(.8);
+            sleep(1500);
+
+            // Check if its safe to run this method
+            while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
+
+                // do stuff
+                robot.Intake.setPower(.8);
+
+                if(robot.FRDrive.getCurrentPosition() < desiredStrafePosition) // testing just the front right drive
+                {
+                    robot.FLDrive.setPower(-0.4);
+                    robot.FRDrive.setPower(0.4);
+                    robot.BLDrive.setPower(0.4);
+                    robot.BRDrive.setPower(-0.4);
+                }
+                else
+                {
+                    robot.FLDrive.setPower(0);
+                    robot.FRDrive.setPower(0);
+                    robot.BLDrive.setPower(0);
+                    robot.BRDrive.setPower(0);
+
+                    robot.Intake.setPower(0);
+                    robot.Shooter(0);
+                    break;
+                }
+
+                // update time telemetry readout
+                explainYourself(mode.Transmit);
+            }
+
+        }
+    } // end specialist template
+
+
+
+
+
+
+
+
+
     // SCRIPT STAGE 03.1
     // Drive Segment
     // Drive quickly and stop just shy of White line
@@ -558,7 +642,7 @@ public class Auton5663_eocv extends LinearOpMode {
             segmentTime.reset();
 
             // Drive Targets
-            double speed = .65;
+            double speed = .4;
             double FL_Distance = -41; // was -41, then exparimented with carefullyDriveAtopLine
             double FR_distance = -41;
             double BL_distance = -41;
@@ -602,10 +686,12 @@ public class Auton5663_eocv extends LinearOpMode {
 
                 if (robot.getFRColor_alpha() < 400) {
 
+                    robot.idTargetZone(Robot.TargetZones.C);
                     robot.MecanumDrive(-0.2, 0, 0);
 
                 } else {
 
+                    robot.idTargetZone(Robot.TargetZones.X);
                     robot.MecanumDrive(0, 0, 0);
                     break; // untested
 
@@ -643,10 +729,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Drive Targets
             double speed = .2; // was .2
-            double FL_Distance = 21;
-            double FR_distance = -21;
-            double BL_distance = 21;
-            double BR_distance = -21;
+            double FL_Distance = 23;
+            double FR_distance = -23;
+            double BL_distance = 23;
+            double BR_distance = -23;
 
             // Telemetry
             explainYourself(mode.Reset);
@@ -673,10 +759,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Drive Targets
             double speed = .3;
-            double FL_Distance = -20; // was -25
-            double FR_distance = -20;
-            double BL_distance = -20;
-            double BR_distance = -20;
+            double FL_Distance = -27; // was -25
+            double FR_distance = -27;
+            double BL_distance = -27;
+            double BR_distance = -27;
 
             // Telemetry
             explainYourself(mode.Reset);
@@ -825,6 +911,7 @@ public class Auton5663_eocv extends LinearOpMode {
                 else
                 {
                     robot.LaChickenWing.setPower(0);
+                    // break;  // try a break statement here
                 }
 
                 // update time telemetry readout
@@ -896,6 +983,7 @@ public class Auton5663_eocv extends LinearOpMode {
                 else
                 {
                     robot.LaChickenWing.setPower(0);
+                    // break;  // try a break statement here
                 }
 
 
@@ -904,7 +992,7 @@ public class Auton5663_eocv extends LinearOpMode {
             }
 
         }
-    } // end lowerChickenWing
+    } // end raiseChickenWing
 
 
     /**************************
@@ -927,10 +1015,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Drive Targets
             double speed = .3;
-            double FL_Distance = 17.5;
-            double FR_distance = -17.5;
-            double BL_distance = 17.5;
-            double BR_distance = -17.5;
+            double FL_Distance = 16.2;
+            double FR_distance = -16.2;
+            double BL_distance = 16.2;
+            double BR_distance = -16.2;
 
             // Telemetry
             explainYourself(mode.Reset);
@@ -957,10 +1045,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Drive Targets
             double speed = .3;
-            double FL_Distance = -20;
-            double FR_distance = -20;
-            double BL_distance = -20;
-            double BR_distance = -20;
+            double FL_Distance = -34;
+            double FR_distance = -34;
+            double BL_distance = -34;
+            double BR_distance = -34;
 
             // Telemetry
             explainYourself(mode.Reset);
