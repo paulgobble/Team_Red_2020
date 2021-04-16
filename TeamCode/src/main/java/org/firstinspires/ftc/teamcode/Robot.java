@@ -48,9 +48,9 @@ public class Robot {
     private double scanCompleteTime;               // store the length of time in seconds it took to complete the video scan. Currently not used
 
     /* Tested Target Zone Average Values for stack of rings */
-    private final double TZAV_0_Reading = 113;   // tested reading for no rings - was 125
-    private final double TZAV_1_Reading = 105;   // tested reading for one ring - was 110
-    private final double TZAV_4_Reading = 46;    // tested reading for four rings - was 87
+    private final double TZAV_0_Reading = 113;   // tested reading for no rings - was 121
+    private final double TZAV_1_Reading = 105;   // tested reading for one ring - was  98
+    private final double TZAV_4_Reading = 46;    // tested reading for four rings - was 39
 
     /* Create an array to hold the sorted TZAVs */
     //private ArrayList<Integer> TZAVs_Array;

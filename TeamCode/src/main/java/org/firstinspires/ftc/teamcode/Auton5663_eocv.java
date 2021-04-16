@@ -382,7 +382,7 @@ public class Auton5663_eocv extends LinearOpMode {
                 {
                     robot.LaChickenWing.setPower(0);
                     robot.FingerGrab(.6);
-                    break;
+                    //break;
                 }
 
                 flexLine_2_caption = "TZAV"; //telemetry.addData("TZAV", robot.getTargetZoneAverageValue());
