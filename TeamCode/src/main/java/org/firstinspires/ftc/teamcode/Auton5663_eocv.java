@@ -382,6 +382,7 @@ public class Auton5663_eocv extends LinearOpMode {
                 {
                     robot.LaChickenWing.setPower(0);
                     robot.FingerGrab(.6);
+                    break;
                 }
 
                 flexLine_2_caption = "TZAV"; //telemetry.addData("TZAV", robot.getTargetZoneAverageValue());
@@ -491,7 +492,7 @@ public class Auton5663_eocv extends LinearOpMode {
                 else
                 {
                    robot.LaChickenWing.setPower(0);
-                   // break; // try a break statement here
+                   break; // try a break statement here
                 }
             }
 
@@ -597,7 +598,7 @@ public class Auton5663_eocv extends LinearOpMode {
             segmentTime.reset();
 
             // Method Set up code goes here
-            int strafeThisFar = 300; // swag
+            int strafeThisFar = 275; // was 300
 
             robot.FLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.FRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -905,7 +906,7 @@ public class Auton5663_eocv extends LinearOpMode {
                 else
                 {
                     robot.LaChickenWing.setPower(0);
-                    // break;  // try a break statement here
+                    break;  // try a break statement here
                 }
 
                 // update time telemetry readout
@@ -942,6 +943,8 @@ public class Auton5663_eocv extends LinearOpMode {
 
                 // update time telemetry readout
                 explainYourself(mode.Transmit);
+
+                break;
             }
 
         }
