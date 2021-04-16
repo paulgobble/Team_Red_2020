@@ -165,7 +165,11 @@ public class Auton5663_eocv extends LinearOpMode {
             driveNearWall(4);
 
             //Postscript Stage 2_C
-            driveCloseToWall(3);
+            driveCloseToWall(2); // was 3
+
+            //Postscript Stage 3_C
+            turnToStrafeC(4);
+
 
             break;
 
@@ -1104,6 +1108,7 @@ public class Auton5663_eocv extends LinearOpMode {
         }
     } // end driveNearWall
 
+    //Drive Segment
     public void driveCloseToWall(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
@@ -1124,7 +1129,7 @@ public class Auton5663_eocv extends LinearOpMode {
 
                 // do stuff
 
-                if(robot.getFrontDistance() < 2)
+                if(robot.getFrontDistance() > 2)
                 {
                     robot.FLDrive.setPower(-0.25); // whoop
                     robot.FRDrive.setPower(-0.25);
@@ -1145,6 +1150,33 @@ public class Auton5663_eocv extends LinearOpMode {
         }
     } // end DriveCloseToWall
 
+    // Drive Segment
+    public void turnToStrafeC(double segmentTimeLimit) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Drive Targets
+            double speed = .5;
+            double FL_Distance = -10;
+            double FR_distance = 10;
+            double BL_distance = -10;
+            double BR_distance = 10;
+
+            // Telemetry
+            explainYourself(mode.Reset);
+            stageNo = "9999";
+            stageDescription = "Words";
+            explainYourself(mode.Transmit);
+
+            // call encoderDrive
+            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
+
+        }
+    } // end drive template
+
 
     /**************************
      *                        *
@@ -1152,7 +1184,6 @@ public class Auton5663_eocv extends LinearOpMode {
      *                        *
      **************************/
 
-    // Testing utlity for PIDF
     // Specialist Segment
     public void pidfTuner_utility(double segmentTimeLimit) {
 
