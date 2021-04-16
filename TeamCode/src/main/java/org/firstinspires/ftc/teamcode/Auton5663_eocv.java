@@ -161,10 +161,10 @@ public class Auton5663_eocv extends LinearOpMode {
         case C:
             //telemetry.addData("Postscript chosen", "C");
 
-            //Segment 1
+            //Postscript Stage 1_C
             driveNearWall(4);
 
-            //Segment 2
+            //Postscript Stage 2_C
             driveCloseToWall(3);
 
             break;
