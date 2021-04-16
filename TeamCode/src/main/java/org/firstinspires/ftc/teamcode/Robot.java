@@ -42,10 +42,10 @@ public class Robot {
     private boolean forceFieldTriggered = false;  // Has the Robot turned on the force field 'cause it wsa activated by pilot and robot is within the stop distance
     private final double stopDistance = 14.0;
 
-    private boolean streamingVideo;             // is the connection to the webcam open
-    private boolean allowVideoScan = false;           // is it OK to begin scanning the video pipeline
-    private boolean scanVideoCompleted = false;      // Has the video pipeline completed one full scan and captured TAZVs
-    private double scanCompleteTime;               // store the length of time in seconds it took to complete the video scan
+    private boolean streamingVideo;             // is the connection to the webcam open, set by OpModes, used by robot to enable or disable webcam and video proecssing
+    private boolean allowVideoScan = false;           // is it OK to begin scanning the video pipeline, set by Auton, used by RedPipeline, never truned off?
+    private boolean scanVideoCompleted = false;      // Has the video pipeline completed one full scan and captured TAZVs?, intended to halt video processing once target zone has been deciphered.
+    private double scanCompleteTime;               // store the length of time in seconds it took to complete the video scan. Currently not used
 
     /* Tested Target Zone Average Values for stack of rings */
     private final double TZAV_0_Reading = 113;   // tested reading for no rings - was 125
@@ -59,6 +59,7 @@ public class Robot {
     private int targetZoneAverageValue;
 
     /* Define Enumerator for possible TargetZones*/
+    /* This is also being hacked to note other interesting states */
     enum TargetZones {
         A,  //no rings
         B,  // one ring
@@ -528,7 +529,7 @@ public class Robot {
 
                 //scanVideoCompleted = true;  // commented out for debugging
 
-            } // end if(streamingVideo)
+            } // end if
 
 
             //  Draw a simple box around the area where we expect the target rings to be seen

@@ -104,13 +104,13 @@ public class TeleOp5663 extends OpMode
     @Override
     public void loop(){
 
-        robot.lightBar(Robot.TargetZones.A); // Turn the lights Red to look cool
+        // robot.lightBar(Robot.TargetZones.A); // Turn the lights Red to look cool
 
         // handle toggle button input
         handleButtons();
 
         // Have Robot update its status
-        robot.updateFFStatus();
+        // robot.updateFFStatus();
 
         // Report Telemetry Data
         explainYourself();
