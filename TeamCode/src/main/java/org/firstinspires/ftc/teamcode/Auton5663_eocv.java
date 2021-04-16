@@ -160,32 +160,12 @@ public class Auton5663_eocv extends LinearOpMode {
 
         case C:
             //telemetry.addData("Postscript chosen", "C");
-            // Stage 10_B_C
-            pivot_B_C(2);
 
-            // Postscript Stage 11_C
-            driveToZone_C(3);
+            //Segment 1
+            driveNearWall(4);
 
-            // Stage 12_C
-            rotateForC(2.5);
-
-            // Stage 13_C
-            driveToZoneC(3);
-
-            // Stage 14_C
-            pivotForZoneC(2.5);
-
-            // Stage 20_Z
-            lowerChickenWing(3);
-
-            // Stage 21_Z
-            releaseWobbleTarget(1);
-
-            // Stage 22_Z
-            raiseChickenWing(2);
-
-            // Stage 23_C
-            moveToWhiteLineForZoneC(4);
+            //Segment 2
+            driveCloseToWall(3);
 
             break;
 
@@ -1098,40 +1078,7 @@ public class Auton5663_eocv extends LinearOpMode {
      *                        *
      **************************/
 
-    // STAGE 11 C
-    // Drive Segment
-    // Drive to Zone C
-    public void driveToZone_C(double segmentTimeLimit) {
-
-        // Ensure that the opmode is still active
-        if (opModeIsActive()) {
-            // reset the segment timer
-            segmentTime.reset();
-
-            // Drive Targets
-            double speed = .3;
-            double FL_Distance = -30;
-            double FR_distance = -30;
-            double BL_distance = -30;
-            double BR_distance = -30;
-
-            // Telemetry
-            explainYourself(mode.Reset);
-            stageNo = "11 C";
-            stageDescription = "Drive to Zones C";
-            explainYourself(mode.Transmit);
-
-            // call encoderDrive
-            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
-
-        }
-    } // end driveToZone_C
-
-
-    // Post-Script 12_C
-    // Drive Segment
-    // Rotate for C
-    public void rotateForC(double segmentTimeLimit) {
+    public void driveNearWall(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
@@ -1140,115 +1087,63 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Drive Targets
             double speed = .5;
-            double FL_Distance = -20;
-            double FR_distance = 20;
-            double BL_distance = -20;
-            double BR_distance = 20;
+            double FL_Distance = -25;
+            double FR_distance = -25;
+            double BL_distance = -25;
+            double BR_distance = -25;
 
             // Telemetry
             explainYourself(mode.Reset);
-            stageNo = "12 C";
-            stageDescription = "Rotate for C";
+            stageNo = "9999";
+            stageDescription = "Words";
             explainYourself(mode.Transmit);
 
             // call encoderDrive
             encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
+
         }
-    } // end rotateForC
+    } // end driveNearWall
 
-
-    // Post-Script 13_C
-    // Drive Segment
-    // Drive to Zone C
-    public void driveToZoneC(double segmentTimeLimit) {
+    public void driveCloseToWall(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
             // reset the segment timer
             segmentTime.reset();
 
-            // Drive Targets
-            double speed = .3; // was .5
-            double FL_Distance = -30; // was 30
-            double FR_distance = -30;
-            double BL_distance = -30;
-            double BR_distance = -30;
+            // Method Set up code goes here
 
             // Telemetry
             explainYourself(mode.Reset);
-            stageNo = "13 C";
-            stageDescription = "Drive for C";
+            stageNo = "8888";
+            stageDescription = "Utterances";
             explainYourself(mode.Transmit);
 
-            // call encoderDrive
-            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
+            // Check if its safe to run this method
+            while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
+
+                // do stuff
+
+                if(robot.FrontDistanceSensor.getFrontDistance < 2)
+                {
+                    robot.FLDrive.setPower(-0.5);
+                    robot.FRDrive.setPower(-0.5);
+                    robot.BLDrive.setPower(-0.5);
+                    robot.BRDrive.setPower(-0.5);
+                }
+                else
+                {
+                    robot.FLDrive.setPower(0);
+                    robot.FRDrive.setPower(0);
+                    robot.BLDrive.setPower(0);
+                    robot.BRDrive.setPower(0);
+                }
+                // update time telemetry readout
+                explainYourself(mode.Transmit);
+            }
 
         }
-    } // end driveToZoneC
-
-
-    // Postscript 14_C
-    // Drive Segment
-    // Pivot for Zone C
-    public void pivotForZoneC(double segmentTimeLimit) {
-
-        // Ensure that the opmode is still active
-        if (opModeIsActive()) {
-            // reset the segment timer
-            segmentTime.reset();
-
-            // Drive Targets
-            double speed = .5;
-            double FL_Distance = -47.5;
-            double FR_distance = 47.5;
-            double BL_distance = -47.5;
-            double BR_distance = 47.5;
-
-            // Telemetry
-            explainYourself(mode.Reset);
-            stageNo = "14 C";
-            stageDescription = "Pivot for Zone C";
-            explainYourself(mode.Transmit);
-
-            // call encoderDrive
-            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
-
-        }
-    } // end pivotForZoneC
-
-
-    // Postscript Stage 23_C
-    // Drive Segment
-    // Drive to White Line
-    public void moveToWhiteLineForZoneC(double segmentTimeLimit) {
-
-        // Ensure that the opmode is still active
-        if (opModeIsActive()) {
-            // reset the segment timer
-            segmentTime.reset();
-
-            // Drive Targets
-            double speed = .5;
-            double FL_Distance = -30;
-            double FR_distance = -30;
-            double BL_distance = -30;
-            double BR_distance = -30;
-
-            // Telemetry
-            explainYourself(mode.Reset);
-            stageNo = "23 C";
-            stageDescription = "Drive to White Line C";
-            explainYourself(mode.Transmit);
-
-            // call encoderDrive
-            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
-        }
-    } // end moveToWhiteLineForZoneA
-
-
-
-
-
+    } // end DriveCloseToWall
 
 
     /**************************
@@ -1343,7 +1238,7 @@ public class Auton5663_eocv extends LinearOpMode {
      *******************************/
     // STAGE 8888
     // Specialist Segment
-    // Short descruption
+    // Short description
     public void specialist_segment_template(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
