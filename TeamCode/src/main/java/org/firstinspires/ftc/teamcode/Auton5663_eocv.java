@@ -161,10 +161,10 @@ public class Auton5663_eocv extends LinearOpMode {
         case C:
             //telemetry.addData("Postscript chosen", "C");
 
-            //Segment 1
+            //Postscript Stage 1_C
             driveNearWall(4);
 
-            //Segment 2
+            //Postscript Stage 2_C
             driveCloseToWall(3);
 
             break;
@@ -1126,10 +1126,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
                 if(robot.getFrontDistance() < 2)
                 {
-                    robot.FLDrive.setPower(-0.5);
-                    robot.FRDrive.setPower(-0.5);
-                    robot.BLDrive.setPower(-0.5);
-                    robot.BRDrive.setPower(-0.5);
+                    robot.FLDrive.setPower(-0.25);
+                    robot.FRDrive.setPower(-0.25);
+                    robot.BLDrive.setPower(-0.25);
+                    robot.BRDrive.setPower(-0.25);
                 }
                 else
                 {
