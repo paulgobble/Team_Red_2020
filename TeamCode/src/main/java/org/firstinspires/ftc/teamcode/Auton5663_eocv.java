@@ -1124,7 +1124,7 @@ public class Auton5663_eocv extends LinearOpMode {
 
                 // do stuff
 
-                if(robot.FrontDistanceSensor.getFrontDistance < 2)
+                if(robot.getFrontDistance() < 2)
                 {
                     robot.FLDrive.setPower(-0.5);
                     robot.FRDrive.setPower(-0.5);
