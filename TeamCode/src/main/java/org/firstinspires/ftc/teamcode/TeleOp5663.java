@@ -48,7 +48,7 @@ public class TeleOp5663 extends OpMode
 
         buttonPressLimit = new Deadline(ButtonLockout, TimeUnit.MILLISECONDS);
 
-        robot.idTargetZone(Robot.TargetZones.X); // Turn white light on at init
+        robot.lightBar(Robot.TargetZones.X); // Turn white light on at init
 
     } // end init
 
@@ -88,7 +88,7 @@ public class TeleOp5663 extends OpMode
         //telemetry.addData("Status", "S T A R T !!");
         explainYourself();
 
-        robot.idTargetZone(Robot.TargetZones.A); // Turn the lights Red to look cool
+        robot.lightBar(Robot.TargetZones.A); // Turn the lights Red to look cool
 
         robot.LaChickenWing.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.LaChickenWing.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -104,9 +104,8 @@ public class TeleOp5663 extends OpMode
     @Override
     public void loop(){
 
-        robot.idTargetZone(Robot.TargetZones.A); // Turn the lights Red to look cool
+        robot.lightBar(Robot.TargetZones.A); // Turn the lights Red to look cool
 
-        //telemetry.addData("Current Wing Position", robot.LaChickenWing.getCurrentPosition());
         // handle toggle button input
         handleButtons();
 
@@ -115,21 +114,6 @@ public class TeleOp5663 extends OpMode
 
         // Report Telemetry Data
         explainYourself();
-        //telemetry.addData("Color, Aplah", robot.getFRColor_alpha());
-        //telemetry.addData("Color, Blue", robot.getFRColor_blue());
-
-        //telemetry.addData("Elasped Time:", "%.1f", runtime.seconds());
-        //telemetry.addData("Drive Orientation:", robot.getDirectionMode());
-        //telemetry.addData("Forcefield:", robot.isForceFieldOn());
-        //telemetry.addData("Front Distance:","%.1f", robot.getFrontDistance());
-
-        //Send telemetry message to monitor encoder values
-        //telemetry.addData("FLDrive:",robot.FLDrive.getCurrentPosition());
-        //telemetry.addData("FRDrive:", robot.FRDrive.getCurrentPosition());
-        //telemetry.addData("BLDrive:", robot.BLDrive.getCurrentPosition());
-        //telemetry.addData("BRDrive:", robot.BRDrive.getCurrentPosition());
-
-        //telemetry.update();
 
         boolean popBackWheels = gamepad2.y;
 

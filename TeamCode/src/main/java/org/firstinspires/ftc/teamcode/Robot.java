@@ -63,7 +63,7 @@ public class Robot {
         A,  //no rings
         B,  // one ring
         C,  // four rings
-        S,  // scanning
+        Rev,  // Reverse drive mode
         X   // pre-scan
     }
 
@@ -187,8 +187,10 @@ public class Robot {
     public void setForwardDriveMode () {
         if (driveDirectionModifyer == 1) {
             driveDirectionModifyer = -1;
+            lightBar(TargetZones.Rev);
         } else {
             driveDirectionModifyer = 1;
+            lightBar(TargetZones.A);
         }
     }
     // Getter - report the valuse of driveDirectionModifyer
@@ -402,7 +404,7 @@ public class Robot {
      *  change its LEDs to indicate *
      *  the detected target zone    *
      ********************************/
-    public void idTargetZone(TargetZones passedZone){
+    public void lightBar(TargetZones passedZone){
         switch (passedZone){
             case A:
                 pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
@@ -413,8 +415,8 @@ public class Robot {
             case C:
                 pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
                 break;
-            case S:
-                pattern = RevBlinkinLedDriver.BlinkinPattern.STROBE_WHITE;
+            case Rev:
+                pattern = RevBlinkinLedDriver.BlinkinPattern.YELLOW;
                 break;
             case X:
                 pattern = RevBlinkinLedDriver.BlinkinPattern.WHITE;
@@ -487,7 +489,7 @@ public class Robot {
             if(allowVideoScan && !scanVideoCompleted) {
                 scanTimer.reset();
 
-                //idTargetZone(TargetZones.S);
+                //idTargetZone(TargetZones.Rev);
 
                 // loop through columns
                 for (int thisX = leftScanPadding; thisX < frameWidth - zoneWidth - rightScanPadding; thisX = thisX + scanStep) {
@@ -522,7 +524,7 @@ public class Robot {
                     decipheredTargetZone = TargetZones.C;
                 }
 
-                idTargetZone(decipheredTargetZone);
+                lightBar(decipheredTargetZone);
 
                 //scanVideoCompleted = true;  // commented out for debugging
 

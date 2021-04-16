@@ -89,8 +89,8 @@ public class Auton5663_eocv extends LinearOpMode {
         //Stage 01.3
         captureWobbleTarget(2.75);  // was 3
 
-        // Stage 03.1
-        MoveToWhiteLineForDecision(5);  // was 5
+        // Stage 01.4
+        MoveToWhiteLineToShoot(5);  // was 5
 
         // Stage 02 (option 1)
         //ShootForPowerShots(3.5); // was 3.5
@@ -498,6 +498,40 @@ public class Auton5663_eocv extends LinearOpMode {
         }
     }
 
+
+
+    // SCRIPT STAGE 01.4
+    // Drive Segment
+    // Drive quickly and stop just shy of White line
+    public void MoveToWhiteLineToShoot(double segmentTimeLimit) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Drive Targets
+            double speed = .4;
+            double FL_Distance = -41; // was -41, then exparimented with carefullyDriveAtopLine
+            double FR_distance = -41;
+            double BL_distance = -41;
+            double BR_distance = -41;
+
+
+            // Telemetry
+            explainYourself(mode.Reset);
+            stageNo = "03.1";
+            stageDescription = "Race up to White Line";
+            explainYourself(mode.Transmit);
+
+            // call encoderDrive
+            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
+
+        }
+    } // end MoveToWhiteLineToShoot
+
+
+
     // SCRIPT STAGE 02
     // Specialist Segment
     public void ShootForPowerShots(double segmentTimeLimit) {
@@ -550,9 +584,6 @@ public class Auton5663_eocv extends LinearOpMode {
             robot.Intake.setPower(0);
         }
     } // end ShootForPowerShots
-
-
-
 
 
     // STAGE 02 (option 2)
@@ -625,43 +656,6 @@ public class Auton5663_eocv extends LinearOpMode {
 
 
 
-
-
-
-
-
-
-    // SCRIPT STAGE 03.1
-    // Drive Segment
-    // Drive quickly and stop just shy of White line
-    public void MoveToWhiteLineForDecision(double segmentTimeLimit) {
-
-        // Ensure that the opmode is still active
-        if (opModeIsActive()) {
-            // reset the segment timer
-            segmentTime.reset();
-
-            // Drive Targets
-            double speed = .4;
-            double FL_Distance = -41; // was -41, then exparimented with carefullyDriveAtopLine
-            double FR_distance = -41;
-            double BL_distance = -41;
-            double BR_distance = -41;
-
-
-            // Telemetry
-            explainYourself(mode.Reset);
-            stageNo = "03.1";
-            stageDescription = "Race up to White Line";
-            explainYourself(mode.Transmit);
-
-            // call encoderDrive
-            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
-
-        }
-    } // end MoveToWhiteLineForDecision
-
-
     // SCRIPT STAGE 3.2
     // Specialist Segment
     // Drive slowly until the front right color sensor see the whiteline
@@ -686,12 +680,12 @@ public class Auton5663_eocv extends LinearOpMode {
 
                 if (robot.getFRColor_alpha() < 400) {
 
-                    robot.idTargetZone(Robot.TargetZones.C);
-                    robot.MecanumDrive(-0.2, 0, 0);
+                    robot.lightBar(Robot.TargetZones.C);
+                    robot.MecanumDrive(-0.3, 0, 0);
 
                 } else {
 
-                    robot.idTargetZone(Robot.TargetZones.X);
+                    robot.lightBar(Robot.TargetZones.X);
                     robot.MecanumDrive(0, 0, 0);
                     break; // untested
 
