@@ -527,7 +527,7 @@ public class Robot {
 
                 lightBar(decipheredTargetZone);
 
-                //scanVideoCompleted = true;  // commented out for debugging
+                scanVideoCompleted = true;  // commented out for debugging
 
             } // end if
 
