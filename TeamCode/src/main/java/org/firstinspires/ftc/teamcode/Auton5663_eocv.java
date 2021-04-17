@@ -395,7 +395,7 @@ public class Auton5663_eocv extends LinearOpMode {
                 {
                     robot.LaChickenWing.setPower(0);
                     robot.FingerGrab(.6);
-                    sleep(500);
+                    sleep(1000);
                     break;
                 }
 
