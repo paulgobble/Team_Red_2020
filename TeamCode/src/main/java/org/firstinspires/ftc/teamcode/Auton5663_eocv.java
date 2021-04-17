@@ -200,8 +200,10 @@ public class Auton5663_eocv extends LinearOpMode {
             //Postscript Stage 10_C
             driveNearWall(5);
 
+            //Postscript Stage 11_C
             turnToStrafeC(4);
 
+            //Postscript Stage 12_C
             backIntoWhiteLine(3);
 
             break;
@@ -1115,7 +1117,9 @@ public class Auton5663_eocv extends LinearOpMode {
      *    POSTSCRIPT C        *
      *                        *
      **************************/
-
+    //Postscript Stage 1_C
+    //Drive Segment
+    //Move near the wall
     public void driveNearWall(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
@@ -1142,7 +1146,9 @@ public class Auton5663_eocv extends LinearOpMode {
         }
     } // end driveNearWall
 
+    //Postscript Stage 2_C
     //Drive Segment
+    //Use the distance sensor to sene how far away the wall is and then stop
     public void driveCloseToWall(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
@@ -1183,9 +1189,11 @@ public class Auton5663_eocv extends LinearOpMode {
             }
 
         }
-    } // end DriveCloseToWall
+    } // end driveCloseToWall
 
+    //Postscript Stae 3_C & 11_C
     // Drive Segment
+    //Turn to strafe with the wobble goal in the right way
     public void turnToStrafeC(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
@@ -1213,7 +1221,9 @@ public class Auton5663_eocv extends LinearOpMode {
         }
     } // end turnToStrafeC
 
+    //Postscript Stage 4_C & 7_C
     // Drive Segment
+    // Back into the wall to straighten out the robot
     public void backIntoWall(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
@@ -1235,9 +1245,11 @@ public class Auton5663_eocv extends LinearOpMode {
             explainYourself(mode.Transmit);
             encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);;
         }
-    } // end strafeForC
+    } // end backIntoWall
 
+    //Postscript Stage 5_C
     // Drive Segment
+    //roll forward to get out of the way of the troublesome hump
     public void rollForward(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
@@ -1255,13 +1267,15 @@ public class Auton5663_eocv extends LinearOpMode {
             // Telemetry
             explainYourself(mode.Reset);
             stageNo = "9999";
-            stageDescription = "Words";
+            stageDescription = "rollForward";
             explainYourself(mode.Transmit);
             encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);;
         }
-    } // end strafeForC
+    } // end rollForward
 
-    // Drive Segment
+    //Postscript Stage 8_C
+    //Drive Segment
+    //Roll forward, but less so
     public void rollForward2(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
@@ -1279,12 +1293,15 @@ public class Auton5663_eocv extends LinearOpMode {
             // Telemetry
             explainYourself(mode.Reset);
             stageNo = "9999";
-            stageDescription = "Words";
+            stageDescription = "rollForward: The Sequel";
             explainYourself(mode.Transmit);
             encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);;
         }
-    } // end strafeForC
+    } // end rollForward2
 
+    //Postscript Stage 12_C
+    //Drive Segment
+    //Back up to the white line to get the points
     public void backIntoWhiteLine(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
@@ -1306,11 +1323,11 @@ public class Auton5663_eocv extends LinearOpMode {
             explainYourself(mode.Transmit);
             encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);;
         }
-    } // end strafeForC
+    } // end backIntoWhiteLne
 
-    // SCRIPT STAGE 3.2
-    // Specialist Segment
-    // Drive slowly until the front right color sensor see the whiteline
+    //Postscript Stage _C
+    //Specialist Segment
+    //Strafe slowly until the front right color sensor see the blue line
     public void strafeTillBlueLine(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
@@ -1349,13 +1366,9 @@ public class Auton5663_eocv extends LinearOpMode {
             }
 
         }
-    } // end specialist template
+    } // end strafeTillBlueLine
 
-
-
-
-
-
+    //Postscript Stage 6_C
     // Drive Segment
     public void strafeForC(double segmentTimeLimit) {
 
