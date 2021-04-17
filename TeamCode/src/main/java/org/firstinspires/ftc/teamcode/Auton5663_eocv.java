@@ -200,6 +200,8 @@ public class Auton5663_eocv extends LinearOpMode {
             //Postscript Stage 10_C
             driveNearWall(5);
 
+            turnToStrafeC(4);
+
             break;
 
         default:
