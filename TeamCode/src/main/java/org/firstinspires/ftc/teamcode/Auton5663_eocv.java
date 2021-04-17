@@ -197,7 +197,7 @@ public class Auton5663_eocv extends LinearOpMode {
             // Postscropt Stage 22_Z
             raiseChickenWing(3);
 
-
+            carefullyDriveAtopLine(10);
 
             break;
 
@@ -1241,10 +1241,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Drive Targets
             double speed = .2;
-            double FL_Distance = -3;
-            double FR_distance = -3;
-            double BL_distance = -3;
-            double BR_distance = -3;
+            double FL_Distance = -4.5;
+            double FR_distance = -4.5;
+            double BL_distance = -4.5;
+            double BR_distance = -4.5;
 
             // Telemetry
             explainYourself(mode.Reset);
