@@ -165,7 +165,7 @@ public class Auton5663_eocv extends LinearOpMode {
             driveNearWall(4);
 
             //Postscript Stage 2_C
-            driveCloseToWall(2); // was 3
+            driveCloseToWall(5); // was 3
 
             //Postscript Stage 3_C
             turnToStrafeC(4);
@@ -1092,10 +1092,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Drive Targets
             double speed = .5;
-            double FL_Distance = -25;
-            double FR_distance = -25;
-            double BL_distance = -25;
-            double BR_distance = -25;
+            double FL_Distance = -30;
+            double FR_distance = -30;
+            double BL_distance = -30;
+            double BR_distance = -30;
 
             // Telemetry
             explainYourself(mode.Reset);
@@ -1161,10 +1161,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Drive Targets
             double speed = .5;
-            double FL_Distance = -50;
-            double FR_distance = 50;
-            double BL_distance = -50;
-            double BR_distance = 50;
+            double FL_Distance = -45;
+            double FR_distance = 45;
+            double BL_distance = -45;
+            double BR_distance = 45;
 
             // Telemetry
             explainYourself(mode.Reset);
@@ -1176,8 +1176,31 @@ public class Auton5663_eocv extends LinearOpMode {
             encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
 
         }
-    } // end drive template
+    } // end turnToStrafeC
 
+    // Drive Segment
+    public void strafeForC(double segmentTimeLimit) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Drive Targets
+            double speed = .2;
+            double FL_Distance = 15;
+            double FR_distance = -15;
+            double BL_distance = -15;
+            double BR_distance = 15;
+
+            // Telemetry
+            explainYourself(mode.Reset);
+            stageNo = "9999";
+            stageDescription = "Words";
+            explainYourself(mode.Transmit);
+            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);;
+        }
+    } // end strafeForC
 
     /**************************
      *                        *
