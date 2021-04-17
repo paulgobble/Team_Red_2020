@@ -1132,10 +1132,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
                 if(robot.getFrontDistance() > 2)
                 {
-                    robot.FLDrive.setPower(-0.25); // whoop
-                    robot.FRDrive.setPower(-0.25);
-                    robot.BLDrive.setPower(-0.25);
-                    robot.BRDrive.setPower(-0.25);
+                    robot.FLDrive.setPower(-0.15); // whoop
+                    robot.FRDrive.setPower(-0.15);
+                    robot.BLDrive.setPower(-0.15);
+                    robot.BRDrive.setPower(-0.15);
                 }
                 else
                 {
@@ -1161,10 +1161,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Drive Targets
             double speed = .5;
-            double FL_Distance = -10;
-            double FR_distance = 10;
-            double BL_distance = -10;
-            double BR_distance = 10;
+            double FL_Distance = -50;
+            double FR_distance = 50;
+            double BL_distance = -50;
+            double BR_distance = 50;
 
             // Telemetry
             explainYourself(mode.Reset);
