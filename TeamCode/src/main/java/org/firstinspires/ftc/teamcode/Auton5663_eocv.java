@@ -202,6 +202,8 @@ public class Auton5663_eocv extends LinearOpMode {
 
             turnToStrafeC(4);
 
+            backIntoWhiteLine(2);
+
             break;
 
         default:
