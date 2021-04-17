@@ -173,7 +173,7 @@ public class Auton5663_eocv extends LinearOpMode {
             //Postscript Stage 4_C
             backIntoWall(4);
 
-            rollFroward(4);
+            rollForward(4);
 
             //Postscript Stage 5_C
             strafeForC(3);
