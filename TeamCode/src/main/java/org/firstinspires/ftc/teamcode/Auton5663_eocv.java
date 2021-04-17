@@ -28,7 +28,7 @@ public class Auton5663_eocv extends LinearOpMode {
 
     /* Store data for telemetry */
     private String stageNo = "0";
-    private String stageDescription = "Awake";
+    private String stageDescription = "Awake"; //whoop, whoop
     private String flexLine_1_caption = "-";
     private String flexLine_1_value = "-";
     private String flexLine_2_caption = "-";
