@@ -186,7 +186,7 @@ public class Auton5663_eocv extends LinearOpMode {
             rollForward2(3);
 
             // Postscritp Stage 9_C
-            strafeTillBlueLine(5);
+            strafeTillBlueLine(3);
 
             // Postscript Stage 20_Z
             lowerChickenWing(2.5);
