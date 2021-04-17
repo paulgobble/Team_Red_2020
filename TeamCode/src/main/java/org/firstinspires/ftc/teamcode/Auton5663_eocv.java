@@ -165,7 +165,7 @@ public class Auton5663_eocv extends LinearOpMode {
             driveNearWall(4);
 
             //Postscript Stage 2_C
-            driveCloseToWall(4); // was 3
+            driveCloseToWall(3);
 
             //Postscript Stage 3_C
             turnToStrafeC(4);
@@ -1172,6 +1172,7 @@ public class Auton5663_eocv extends LinearOpMode {
                     robot.FRDrive.setPower(0);
                     robot.BLDrive.setPower(0);
                     robot.BRDrive.setPower(0);
+                    break;
                 }
                 // update time telemetry readout
                 explainYourself(mode.Transmit);
