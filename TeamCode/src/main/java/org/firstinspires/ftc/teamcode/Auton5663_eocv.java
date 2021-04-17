@@ -1283,6 +1283,28 @@ public class Auton5663_eocv extends LinearOpMode {
         }
     } // end strafeForC
 
+    public void backIntoWhiteLine(double segmentTimeLimit) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Drive Targets
+            double speed = .2;
+            double FL_Distance = 3.5;
+            double FR_distance = 3.5;
+            double BL_distance = 3.5;
+            double BR_distance = 3.5;
+
+            // Telemetry
+            explainYourself(mode.Reset);
+            stageNo = "9999";
+            stageDescription = "Words";
+            explainYourself(mode.Transmit);
+            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);;
+        }
+    } // end strafeForC
 
     // SCRIPT STAGE 3.2
     // Specialist Segment
