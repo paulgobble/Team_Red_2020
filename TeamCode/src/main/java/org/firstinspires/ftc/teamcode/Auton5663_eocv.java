@@ -87,7 +87,7 @@ public class Auton5663_eocv extends LinearOpMode {
         lungeForWobbleTarget(2.75);  // was .5
 
         //Stage 01.3
-        captureWobbleTarget(2.75);  // was 3
+        captureWobbleTarget(2.5);  // was 3
 
         // Stage 01.4
         MoveToWhiteLineToShoot(5);  // was 5
@@ -189,13 +189,13 @@ public class Auton5663_eocv extends LinearOpMode {
             strafeTillBlueLine(5);
 
             // Postscript Stage 20_Z
-            lowerChickenWing(3);
+            lowerChickenWing(2.5);
 
             // Postscript Stage 21_Z
             releaseWobbleTarget(2);
 
             // Postscropt Stage 22_Z
-            raiseChickenWing(3);
+            raiseChickenWing(2.5);
 
             //Postscript Stage 10_C
             driveNearWall(5);
