@@ -171,6 +171,9 @@ public class Auton5663_eocv extends LinearOpMode {
             turnToStrafeC(4);
 
             //Postscript Stage 4_C
+            backIntoWall(2);
+
+            //Postscript Stage 5_C
             strafeForC(3);
 
 
@@ -1169,6 +1172,7 @@ public class Auton5663_eocv extends LinearOpMode {
             double BL_distance = -42.5;
             double BR_distance = 42.5;
 
+
             // Telemetry
             explainYourself(mode.Reset);
             stageNo = "9999";
@@ -1182,6 +1186,30 @@ public class Auton5663_eocv extends LinearOpMode {
     } // end turnToStrafeC
 
     // Drive Segment
+    public void backIntoWall(double segmentTimeLimit) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Drive Targets
+            double speed = .2;
+            double FL_Distance =- 7.5;
+            double FR_distance = 7.5;
+            double BL_distance = 7.5;
+            double BR_distance = -7.5;
+
+            // Telemetry
+            explainYourself(mode.Reset);
+            stageNo = "9999";
+            stageDescription = "Words";
+            explainYourself(mode.Transmit);
+            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);;
+        }
+    } // end strafeForC
+
+    // Drive Segment
     public void strafeForC(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
@@ -1191,10 +1219,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Drive Targets
             double speed = .2;
-            double FL_Distance =- 15;
-            double FR_distance = 15;
-            double BL_distance = 15;
-            double BR_distance = -15;
+            double FL_Distance = -30;
+            double FR_distance = 30;
+            double BL_distance = 30;
+            double BR_distance = -30;
 
             // Telemetry
             explainYourself(mode.Reset);
