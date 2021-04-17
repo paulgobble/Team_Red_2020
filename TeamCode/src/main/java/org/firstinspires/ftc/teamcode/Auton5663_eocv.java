@@ -171,7 +171,7 @@ public class Auton5663_eocv extends LinearOpMode {
             turnToStrafeC(4);
 
             //Postscript Stage 4_C
-            backIntoWall(2);
+            backIntoWall(4);
 
             //Postscript Stage 5_C
             strafeForC(3);
