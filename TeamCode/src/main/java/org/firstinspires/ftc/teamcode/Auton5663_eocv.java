@@ -185,6 +185,18 @@ public class Auton5663_eocv extends LinearOpMode {
             //Postcript Stage 8_C
             rollForward(3);
 
+            // Postscritp Stage 9_C
+            strafeTillBlueLine(5);
+
+            // Postscript Stage 20_Z
+            lowerChickenWing(3);
+
+            // Postscript Stage 21_Z
+            releaseWobbleTarget(2);
+
+            // Postscropt Stage 22_Z
+            raiseChickenWing(3);
+
 
 
             break;
@@ -1242,6 +1254,56 @@ public class Auton5663_eocv extends LinearOpMode {
             encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);;
         }
     } // end strafeForC
+
+
+
+    // SCRIPT STAGE 3.2
+    // Specialist Segment
+    // Drive slowly until the front right color sensor see the whiteline
+    public void strafeTillBlueLine(double segmentTimeLimit) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Method Set up code goes here
+
+            // Telemetry
+            explainYourself(mode.Reset);
+            stageNo = "03.2";
+            stageDescription = "Carefully Drive Atop Blue Line";
+            flexLine_1_caption = "Color, Alpha";
+            explainYourself(mode.Transmit);
+
+            // Check if its safe to run this method
+            while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
+
+                if (robot.getFRColor_blue() < 250) {
+
+                    robot.lightBar(Robot.TargetZones.C);
+                    robot.MecanumDrive(0, .3, 0);
+
+                } else {
+
+                    robot.lightBar(Robot.TargetZones.X);
+                    robot.MecanumDrive(0, 0, 0);
+                    break; // untested
+
+                }
+
+                // Telemetry
+                flexLine_1_value = String.valueOf(robot.getFRColor_alpha());
+                explainYourself(mode.Transmit);
+            }
+
+        }
+    } // end specialist template
+
+
+
+
+
 
     // Drive Segment
     public void strafeForC(double segmentTimeLimit) {
