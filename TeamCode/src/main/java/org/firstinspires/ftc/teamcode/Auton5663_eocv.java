@@ -173,10 +173,18 @@ public class Auton5663_eocv extends LinearOpMode {
             //Postscript Stage 4_C
             backIntoWall(4);
 
-            rollForward(4);
-
             //Postscript Stage 5_C
-            strafeForC(3);
+            rollForward(2);
+
+            //Postscript Stage 6_C
+            strafeForC(4);
+
+            //Postscript Stage 7_C
+            backIntoWall(3);
+
+            //Postcript Stage 8_C
+            rollForward(2);
+
 
 
             break;
@@ -1245,10 +1253,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Drive Targets
             double speed = .2;
-            double FL_Distance = -30;
-            double FR_distance = 30;
-            double BL_distance = 30;
-            double BR_distance = -30;
+            double FL_Distance = -35;
+            double FR_distance = 35;
+            double BL_distance = 35;
+            double BR_distance = -35;
 
             // Telemetry
             explainYourself(mode.Reset);
