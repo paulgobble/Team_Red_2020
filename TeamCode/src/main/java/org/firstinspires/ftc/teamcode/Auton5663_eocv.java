@@ -202,7 +202,7 @@ public class Auton5663_eocv extends LinearOpMode {
 
             turnToStrafeC(4);
 
-            backIntoWhiteLine(2);
+            backIntoWhiteLine(3);
 
             break;
 
@@ -1294,10 +1294,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Drive Targets
             double speed = .2;
-            double FL_Distance = 3.5;
-            double FR_distance = 3.5;
-            double BL_distance = 3.5;
-            double BR_distance = 3.5;
+            double FL_Distance = 5;
+            double FR_distance = 5;
+            double BL_distance = 5;
+            double BR_distance = 5;
 
             // Telemetry
             explainYourself(mode.Reset);
