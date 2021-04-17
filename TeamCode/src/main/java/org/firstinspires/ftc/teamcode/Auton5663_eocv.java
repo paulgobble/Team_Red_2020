@@ -1221,10 +1221,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Drive Targets
             double speed = .2;
-            double FL_Distance = -7.5;
-            double FR_distance = -7.5;
-            double BL_distance = -7.5;
-            double BR_distance = -7.5;
+            double FL_Distance = -3;
+            double FR_distance = -3;
+            double BL_distance = -3;
+            double BR_distance = -3;
 
             // Telemetry
             explainYourself(mode.Reset);
