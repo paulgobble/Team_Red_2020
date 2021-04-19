@@ -165,10 +165,15 @@ public class Auton5663_eocv extends LinearOpMode {
             strafeForC(5);
 
             // Postscript Stage 2_C
-            driveCloseToWall(5);
+            driveNearToWall(5);
 
-            // Postscript stage 3_C
-            driveNearWall(3);
+            // Postscript Stage 3_C
+            driveCloseWall(3);
+
+            turnToStrafeC(5);
+
+            // Postscript Stage 4_C
+
 
             break;
 
