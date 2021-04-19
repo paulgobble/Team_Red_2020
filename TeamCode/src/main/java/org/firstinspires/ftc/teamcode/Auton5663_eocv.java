@@ -150,7 +150,7 @@ public class Auton5663_eocv extends LinearOpMode {
             // Postscript Stage 21_Z
             releaseWobbleTarget(2);
 
-            // Postscropt Stage 22_Z
+            // Postscript Stage 22_Z
             raiseChickenWing(3);
 
             // Postscript Stage 23_B
@@ -161,50 +161,14 @@ public class Auton5663_eocv extends LinearOpMode {
         case C:
             //telemetry.addData("Postscript chosen", "C");
 
-            //Postscript Stage 1_C
-            driveNearWall(4);
+            // Postscript Stage 1_C
+            strafeForC(5);
 
-            //Postscript Stage 2_C
-            driveCloseToWall(3);
+            // Postscript Stage 2_C
+            driveCloseToWall(5);
 
-            //Postscript Stage 3_C
-            turnToStrafeC(4);
-
-            //Postscript Stage 4_C
-            backIntoWall(6);
-
-            //Postscript Stage 5_C
-            rollForward(3);
-
-            //Postscript Stage 6_C
-            strafeForC(4);
-
-            //Postscript Stage 7_C
-            backIntoWall(6);
-
-            //Postcript Stage 8_C
-            rollForward2(3);
-
-            // Postscritp Stage 9_C
-            strafeTillBlueLine(3);
-
-            // Postscript Stage 20_Z
-            lowerChickenWing(2.5);
-
-            // Postscript Stage 21_Z
-            releaseWobbleTarget(2);
-
-            // Postscropt Stage 22_Z
-            raiseChickenWing(2.5);
-
-            //Postscript Stage 10_C
-            driveNearWall(5);
-
-            //Postscript Stage 11_C
-            turnToStrafeC(4);
-
-            //Postscript Stage 12_C
-            backIntoWhiteLine(3);
+            // Postscript stage 3_C
+            driveNearWall(3);
 
             break;
 
@@ -474,7 +438,6 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // call encoderDrive
             encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
-
         }
     }
 
@@ -1390,10 +1353,10 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Drive Targets
             double speed = .2;
-            double FL_Distance = -35;
-            double FR_distance = 35;
-            double BL_distance = 35;
-            double BR_distance = -35;
+            double FL_Distance = 35;
+            double FR_distance = -35;
+            double BL_distance = -35;
+            double BR_distance = 35;
 
             // Telemetry
             explainYourself(mode.Reset);
