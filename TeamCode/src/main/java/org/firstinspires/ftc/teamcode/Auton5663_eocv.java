@@ -1160,8 +1160,18 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Telemetry
             explainYourself(mode.Reset);
-            stageNo = "8888";
-            stageDescription = "Utterances";
+            stageNo = "2";
+            stageDescription = "drive close to the wall using distance sensors" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "*";
             explainYourself(mode.Transmit);
 
             // Check if its safe to run this method
@@ -1211,8 +1221,8 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Telemetry
             explainYourself(mode.Reset);
-            stageNo = "9999";
-            stageDescription = "Words";
+            stageNo = "3";
+            stageDescription = "Turn to be able to strafe";
             explainYourself(mode.Transmit);
 
             // call encoderDrive
@@ -1240,8 +1250,8 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Telemetry
             explainYourself(mode.Reset);
-            stageNo = "9999";
-            stageDescription = "Words";
+            stageNo = "4 or 7";
+            stageDescription = "Back into the wall";
             explainYourself(mode.Transmit);
             encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);;
         }
@@ -1266,7 +1276,7 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Telemetry
             explainYourself(mode.Reset);
-            stageNo = "9999";
+            stageNo = "5";
             stageDescription = "rollForward";
             explainYourself(mode.Transmit);
             encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);;
@@ -1292,7 +1302,7 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Telemetry
             explainYourself(mode.Reset);
-            stageNo = "9999";
+            stageNo = "8";
             stageDescription = "rollForward: The Sequel";
             explainYourself(mode.Transmit);
             encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);;
@@ -1318,15 +1328,15 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Telemetry
             explainYourself(mode.Reset);
-            stageNo = "9999";
-            stageDescription = "Words";
+            stageNo = "12";
+            stageDescription = "back up into the white line for points";
             explainYourself(mode.Transmit);
             encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);;
         }
     } // end backIntoWhiteLne
 
 
-    //Postscript Stage _C
+    //Postscript Stage 9_C
     //Specialist Segment
     //Strafe slowly until the front right color sensor see the blue line
     public void strafeTillBlueLine(double segmentTimeLimit) {
@@ -1340,9 +1350,9 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Telemetry
             explainYourself(mode.Reset);
-            stageNo = "03.2";
+            stageNo = "9";
             stageDescription = "Carefully Drive Atop Blue Line";
-            flexLine_1_caption = "Color, Alpha";
+            flexLine_1_caption = "Color, Blue";
             explainYourself(mode.Transmit);
 
             // Check if its safe to run this method
@@ -1387,8 +1397,8 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Telemetry
             explainYourself(mode.Reset);
-            stageNo = "9999";
-            stageDescription = "Words";
+            stageNo = "6";
+            stageDescription = "Strafe so that it goes near the blue line but not on it";
             explainYourself(mode.Transmit);
             encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);;
         }
