@@ -195,6 +195,9 @@ public class Auton5663_eocv extends LinearOpMode {
             driveNearWall(4);
 
             // Postscript Stage 9_C
+            carefullyDriveAtopLine(3);
+
+            // Postscript Stage 10_C
             turnToStrafeC(3);
 
 
