@@ -1136,8 +1136,8 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Telemetry
             explainYourself(mode.Reset);
-            stageNo = "1 C";
-            stageDescription = "Drive near the wall";
+            stageNo = "9999";
+            stageDescription = "Words";
             explainYourself(mode.Transmit);
 
             // call encoderDrive
@@ -1160,8 +1160,18 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Telemetry
             explainYourself(mode.Reset);
-            stageNo = "2 C";
-            stageDescription = "Sensor drive upto 10 inches from wall";
+            stageNo = "2";
+            stageDescription = "drive close to the wall using distance sensors" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "*";
             explainYourself(mode.Transmit);
 
             // Check if its safe to run this method
@@ -1211,8 +1221,8 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Telemetry
             explainYourself(mode.Reset);
-            stageNo = "3 & 11 C";
-            stageDescription = "Strafe";
+            stageNo = "3";
+            stageDescription = "Turn to be able to strafe";
             explainYourself(mode.Transmit);
 
             // call encoderDrive
@@ -1240,8 +1250,8 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Telemetry
             explainYourself(mode.Reset);
-            stageNo = "4 & 7 C";
-            stageDescription = "back into wall to straighten";
+            stageNo = "4 or 7";
+            stageDescription = "Back into the wall";
             explainYourself(mode.Transmit);
             encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);;
         }
@@ -1266,7 +1276,7 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Telemetry
             explainYourself(mode.Reset);
-            stageNo = "5 C";
+            stageNo = "5";
             stageDescription = "rollForward";
             explainYourself(mode.Transmit);
             encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);;
@@ -1292,7 +1302,7 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Telemetry
             explainYourself(mode.Reset);
-            stageNo = "8 C";
+            stageNo = "8";
             stageDescription = "rollForward: The Sequel";
             explainYourself(mode.Transmit);
             encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);;
@@ -1318,8 +1328,8 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Telemetry
             explainYourself(mode.Reset);
-            stageNo = "12 C";
-            stageDescription = "Back onto white line";
+            stageNo = "12";
+            stageDescription = "back up into the white line for points";
             explainYourself(mode.Transmit);
             encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);;
         }
@@ -1340,9 +1350,9 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Telemetry
             explainYourself(mode.Reset);
-            stageNo = "9 C";
+            stageNo = "9";
             stageDescription = "Carefully Drive Atop Blue Line";
-            flexLine_1_caption = "Color, Alpha";
+            flexLine_1_caption = "Color, Blue";
             explainYourself(mode.Transmit);
 
             // Check if its safe to run this method
@@ -1387,8 +1397,8 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Telemetry
             explainYourself(mode.Reset);
-            stageNo = "6 C";
-            stageDescription = "Strafe for C";
+            stageNo = "6";
+            stageDescription = "Strafe so that it goes near the blue line but not on it";
             explainYourself(mode.Transmit);
             encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);;
         }
