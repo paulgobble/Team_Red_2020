@@ -533,7 +533,6 @@ public class Auton5663_eocv extends LinearOpMode {
             double BL_distance = -41;
             double BR_distance = -41;
 
-
             // Telemetry
             explainYourself(mode.Reset);
             stageNo = "03.1";
