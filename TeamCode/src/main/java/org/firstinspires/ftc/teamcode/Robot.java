@@ -30,7 +30,7 @@ import java.util.Collections;
 
 public class Robot {
 
-    /* Establish Essential Robot Modes */
+    /* Establish Essential Robot Modes  */
 
     /* Create Elapsed runtimer */
     //private ElapsedTime runtime = new ElapsedTime();
