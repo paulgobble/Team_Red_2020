@@ -527,7 +527,7 @@ public class Auton5663_eocv extends LinearOpMode {
             segmentTime.reset();
 
             // Drive Targets
-            double speed = .2;
+            double speed = .25;
             double FL_Distance = -41; // was -41, then exparimented with carefullyDriveAtopLine
             double FR_distance = -41;
             double BL_distance = -41;
@@ -1183,6 +1183,7 @@ public class Auton5663_eocv extends LinearOpMode {
                 }
                 else
                 {
+                    robot.lightBar(Robot.TargetZones.A);
                     robot.FLDrive.setPower(0);
                     robot.FRDrive.setPower(0);
                     robot.BLDrive.setPower(0);
