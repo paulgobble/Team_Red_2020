@@ -492,12 +492,12 @@ public class Robot {
 
                 //idTargetZone(TargetZones.Rev);
 
-                // loop through columns
+                // loop through Zones
                 for (int thisX = leftScanPadding; thisX < frameWidth - zoneWidth - rightScanPadding; thisX = thisX + scanStep) {
 
                     for (int thisY = topScanPadding; thisY < frameHeight - zoneHeight - botScanPadding; thisY = thisY + scanStep) {
 
-                        // copy just target regon to a new matrix
+                        // copy just target zone to a new matrix
                         scanZoneSample = thresholdImage.submat(new Rect(thisX, thisY, zoneWidth, zoneHeight));
                         // convert the matrix single color channel averaged numeric value and add this value to an arrayList
                         these_TZAVs.add((int) Core.mean(scanZoneSample).val[0]);

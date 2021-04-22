@@ -613,7 +613,7 @@ public class Auton5663_eocv extends LinearOpMode {
             segmentTime.reset();
 
             // Method Set up code goes here
-            int strafeThisFar = 275; // was 300
+            int strafeThisFar = 225; // was 275
 
             robot.FLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.FRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
