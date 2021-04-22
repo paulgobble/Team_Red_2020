@@ -1,4 +1,4 @@
-// Version 2.0
+// Version 3.0
 
 package org.firstinspires.ftc.teamcode;
 
@@ -431,6 +431,8 @@ public class Robot {
     /******************************
      *  Nested Class defining the *
      *  EasyOpenCV pipeline       *
+     *            ~               *
+     *     The Fourth Beatle      *
      ******************************/
 
     // Based largely on EasyOpenCV example WebcamExample

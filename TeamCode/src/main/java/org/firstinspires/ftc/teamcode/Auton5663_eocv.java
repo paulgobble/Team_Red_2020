@@ -1,4 +1,4 @@
-// Version 2.0
+// Version 3.0
 
 package org.firstinspires.ftc.teamcode;
 
@@ -35,7 +35,7 @@ public class Auton5663_eocv extends LinearOpMode {
     private String flexLine_2_value = "-";
     private String flexLine_3_caption = "-";
     private String flexLine_3_value = "-";
-    private final String codeVersion = "2.0 Novi + Color Sensors";
+    private final String codeVersion = "3.0";
 
     /* Define enum for possible modes in the explainYoursefl unified telemetry method  */
     enum mode {
