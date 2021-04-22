@@ -13,7 +13,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class Auton5663_eocv extends LinearOpMode {
 
     /* Declare OpMode members. */
-    Robot robot   = new Robot();
+    Robot robot = new Robot();
+
     private ElapsedTime runtime = new ElapsedTime();
     private ElapsedTime segmentTime = new ElapsedTime();
 
@@ -23,8 +24,24 @@ public class Auton5663_eocv extends LinearOpMode {
     static final double     WHEEL_DIAMETER_INCHES   = 3.93734 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double     LOW_SPEED             = 0.25;
-    static final double     HIGH_SPEED              = 0.4;
+
+
+    /* Store data for telemetry */
+    private String stageNo = "0";
+    private String stageDescription = "Awake"; //whoop, whoop
+    private String flexLine_1_caption = "-";
+    private String flexLine_1_value = "-";
+    private String flexLine_2_caption = "-";
+    private String flexLine_2_value = "-";
+    private String flexLine_3_caption = "-";
+    private String flexLine_3_value = "-";
+    private final String codeVersion = "2.0 Novi + Color Sensors";
+
+    /* Define enum for possible modes in the explainYoursefl unified telemetry method  */
+    enum mode {
+        Transmit,   // send the telemetry data
+        Reset       // reset the data
+    };
 
 
     @Override
@@ -34,18 +51,14 @@ public class Auton5663_eocv extends LinearOpMode {
 
         //robot.idTargetZone(Robot.TargetZones.X);
 
-        //telemetry.setAutoClear(false);
-        telemetry.addData("Video Streaming", "Started");
-        telemetry.update();
-
         robot.hMap(hardwareMap);
 
         //Reset all encoders to have a fresh start when the match starts.
         //Drive
-        robot.FLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.FRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.BLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.BRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //robot.FLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //robot.FRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //robot.BLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //robot.BRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         //Turn off RUN_TO_POSITION.
         //Drive
@@ -54,11 +67,8 @@ public class Auton5663_eocv extends LinearOpMode {
         robot.BLDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.BRDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        telemetry.addData("FLDrive", robot.FLDrive.getTargetPosition());
-        telemetry.addData("FRDrive", robot.FRDrive.getTargetPosition());
-        telemetry.addData("BLDrive", robot.BLDrive.getTargetPosition());
-        telemetry.addData("BRDrive", robot.BRDrive.getTargetPosition());
-        telemetry.update();
+        // Telemetry
+        explainYourself(mode.Transmit);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -77,16 +87,21 @@ public class Auton5663_eocv extends LinearOpMode {
         lungeForWobbleTarget(2.75);  // was .5
 
         //Stage 01.3
-        captureWobbleTarget(2.75);  // was 3
+        captureWobbleTarget(2.5);  // was 3
 
-        // Stage 02
-        ShootForPowerShots(3.5); // was 3.5
+        // Stage 01.4
+        MoveToWhiteLineToShoot(5);  // was 5
 
-        // Stage 03.1
-        MoveToWhiteLineForDecision(2.75);  // was 5
+        // Stage 02 (option 1)
+        //ShootForPowerShots(3.5); // was 3.5
+
+        // Stage 02 (option 2)
+        strafe_n_shoot(5);
 
         // Stage 03.2
-        carefullyDriveAtopLine(1);
+        carefullyDriveAtopLine(3); // was 1
+
+        //StrafeBack(3);  // was 5
 
 
         // THE POSTSCRIPT (aka calling he functions unique
@@ -94,85 +109,98 @@ public class Auton5663_eocv extends LinearOpMode {
 
         switch (robot.getDecipheredTargetZone()) {
         case A:
-            telemetry.addData("Postscript", "A");
+            //telemetry.addData("Postscript", "A");
             // Stage 10_A  (all Postscript stages start at 10)
             pivot_A(5);
 
             // Postscript Stage 11_A
-            driveToZone_A(3);
+            driveToZone_A(4);
+
+            // Postscript Stage 11.5_A
+            driveToZone_A_stage_2(4);
 
             // Postscript Stage 12_A
-            pivotForZoneA(3);
+            pivotForZoneA(4);
 
-            driveToZone_A2(3);
-
-            //moveBackForDroppingTarget(3);
             // Postscript Stage 13_A
+            backIntoZoneA(4);
+
+            // Postscript Stage 20_Z
             lowerChickenWing(3);
 
-            // Postscript Stage 14_A
-            dropWobbleTarget(1);
+            // Postscript Stage 21_Z
+            releaseWobbleTarget(1);
 
-            // Postscropt Stage 15_A
+            // Postscropt Stage 22_Z
             raiseChickenWing(3);
 
-            //moveToWhiteLineForZoneA(3);
         break;
 
         case B:
-            telemetry.addData("Postscript chose", "B");
+            //telemetry.addData("Postscript chose", "B");
             // Stage 10_B
-            pivot_B_C(5);
+            pivot_B_C(3);
 
             // Postscript Stage 11_B
             driveToZone_B(3);
 
-            // Postscript Stage 12_B
+            // Postscript Stage 20_Z
             lowerChickenWing(3);
 
-            // Postscript Stage 13_B
-            dropWobbleTarget(2);
+            // Postscript Stage 21_Z
+            releaseWobbleTarget(2);
 
-            // Postscropt Stage 14_B
+            // Postscript Stage 22_Z
             raiseChickenWing(3);
 
-            // Postscript Stage 14_B
+            // Postscript Stage 23_B
             strafeFor_B_ToWhiteLine(2);
 
-            // Stage 11_B
-            // more B stuff
         break;
 
         case C:
-            telemetry.addData("Postscript chosen", "C");
-            // Stage 10_C
-            pivot_B_C(2);
+            //telemetry.addData("Postscript chosen", "C");
 
-            // Postscript Stage 11_C
-            driveToZone_C(3);
+            // Postscript Stage 1_C
+            strafeForC(5);
 
-            // Stage 12_C
-            rotateForC(2.5);
+            // Postscript Stage 2_C
+            driveNearWall(5);
 
-            // Stage 13_C
-            driveToZoneC(3);
+            // Postscript Stage 3_C
+            driveCloseToWall(3);
 
-            // Stage 14_C
-            pivotForZoneC(2.5);
+            // Postscript Stage 4_C
+            turnToStrafeC(5);
 
-            // Stage 15_C
+            // Postscript Stage 5_C
+            backIntoWall(3);
+
+            // Postscript Stage 6_C
+            rollForward(3);
+
+            // Postscript Stage 7_C
+            strafeTillBlueLine(3);
+
+            // Postscript Stage 20_Z
             lowerChickenWing(3);
 
-            // Stage 16_C
-            dropWobbleTarget(1);
+            // Postscript Stage 21_Z
+            releaseWobbleTarget(3);
 
-            // Stage 17_C
-            raiseChickenWing(2);
+            // Postscript Stage 22_Z
+            raiseChickenWing(3);
 
-            // Stage 18_C
-            moveToWhiteLineForZoneC(4);
+            // Postscript Stage 8_C
+            driveNearWall(4);
 
-            //pivot_180(3);
+            // Postscript Stage 9_C
+            carefullyDriveAtopLine(3);
+
+            // Postscript Stage 10_C
+            turnToStrafeC(3);
+
+
 
             break;
 
@@ -188,11 +216,13 @@ public class Auton5663_eocv extends LinearOpMode {
 
 
 
-    /***********************
-     *                     *
-     *   Drive Functions   *
-     *                     *
-     ***********************/
+    /*********************************
+     *                               *
+     *   Internal opMode Functions   *
+     *                               *
+     *********************************/
+
+
 
     public void encoderDrive(double speed, double FLInches, double FRInches, double BLInches, double BRInches, double segmentTimeLimit)
     {
@@ -237,13 +267,9 @@ public class Auton5663_eocv extends LinearOpMode {
                     (segmentTime.seconds() < segmentTimeLimit) &&
                     (robot.FLDrive.isBusy() && robot.FRDrive.isBusy()&&robot.BLDrive.isBusy()&&robot.BRDrive.isBusy())) {
 
-                //Tell driver what the robot is doing.
+                //Telemetry
+                explainYourself(mode.Transmit);
 
-                telemetry.addData("FLDrive", robot.FLDrive.getCurrentPosition());
-                telemetry.addData("FRDrive", robot.FRDrive.getCurrentPosition());
-                telemetry.addData("BLDrive", robot.BLDrive.getCurrentPosition());
-                telemetry.addData("BRDrive", robot.BRDrive.getCurrentPosition());
-                telemetry.update();
             }
 
             //Stop motors.
@@ -259,6 +285,70 @@ public class Auton5663_eocv extends LinearOpMode {
             robot.BRDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
     } //encoderDrive
+
+    // unified Telemetry management
+    public void explainYourself(mode thisMode){
+
+        if (thisMode == mode.Transmit) {
+
+            telemetry.addLine("Runtime | ")
+                    .addData("TOTAL", "%.3f", runtime.seconds())
+                    .addData("SEGMENT", "%.3f", segmentTime.seconds());
+
+            telemetry.addLine("Stage | ")
+                    .addData("No.", stageNo)
+                    .addData("-", stageDescription);
+
+            telemetry.addData(flexLine_1_caption, flexLine_1_value);
+            telemetry.addData(flexLine_2_caption, flexLine_2_value);
+            telemetry.addData(flexLine_3_caption, flexLine_3_value);
+
+            if (robot.FRDrive.getMode() == DcMotorEx.RunMode.RUN_TO_POSITION) {
+
+                telemetry.addLine("FLDrive | ")
+                        .addData("Current", "|%05d|", robot.FLDrive.getCurrentPosition())
+                        .addData("Target", "|%05d|", robot.FLDrive.getTargetPosition());
+                telemetry.addLine("FRDrive | ")
+                        .addData("Current", "|%05d|", robot.FRDrive.getCurrentPosition())
+                        .addData("Target", "|%05d|", robot.FRDrive.getTargetPosition());
+                telemetry.addLine("BLDrive | ")
+                        .addData("Current", "|%05d|", robot.BLDrive.getCurrentPosition())
+                        .addData("Target", "|%05d|", robot.BLDrive.getTargetPosition());
+                telemetry.addLine("BRDrive | ")
+                        .addData("Current", "|%05d|", robot.BRDrive.getCurrentPosition())
+                        .addData("Target", "|%05d|", robot.BRDrive.getTargetPosition());
+            } else {
+
+                telemetry.addLine("FLDrive | ")
+                        .addData("Current", "|%05d|", robot.FLDrive.getCurrentPosition())
+                        .addData("Target", "none");
+                telemetry.addLine("FRDrive | ")
+                        .addData("Current", "|%05d|", robot.FRDrive.getCurrentPosition())
+                        .addData("Target", "none");
+                telemetry.addLine("BLDrive | ")
+                        .addData("Current", "|%05d|", robot.BLDrive.getCurrentPosition())
+                        .addData("Target", "none");
+                telemetry.addLine("BRDrive | ")
+                        .addData("Current", "|%05d|", robot.BRDrive.getCurrentPosition())
+                        .addData("Target", "none");
+            }
+
+            telemetry.addData("Code Version", codeVersion);
+
+            telemetry.update();
+
+        } else if (thisMode == mode.Reset) {
+
+            flexLine_1_caption = "-";
+            flexLine_1_value = "-";
+            flexLine_2_caption = "-";
+            flexLine_2_value = "-";
+            flexLine_3_caption = "-";
+            flexLine_3_value = "-";
+
+        }
+
+    } // end explainYourself
 
 
 
@@ -290,10 +380,12 @@ public class Auton5663_eocv extends LinearOpMode {
             int desiredWingPosition = robot.LaChickenWing.getCurrentPosition() + increaseWingPosition;
 
             // Telemetry
-            telemetry.addData("Stage No", "01.1");
-            telemetry.addData("Stage Desc","Scan and Prep");
-            telemetry.addData("VideoScan", "Started");
-            telemetry.update();
+            explainYourself(mode.Reset);
+            stageNo = "01.1";  //telemetry.addData("Stage No", "01.1");
+            stageDescription = "Scan and Prep";  //telemetry.addData("Stage Desc","Scan and Prep");
+            flexLine_1_caption = "VideoScan"; //telemetry.addData("VideoScan", "Started");
+            flexLine_1_value = "Started";
+            explainYourself(mode.Transmit); //telemetry.update();
 
             while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
 
@@ -305,25 +397,24 @@ public class Auton5663_eocv extends LinearOpMode {
                 {
                     robot.LaChickenWing.setPower(0);
                     robot.FingerGrab(.6);
+                    sleep(1000);
+                    break;
                 }
 
-                // update time telemetry readout
-                telemetry.addData("Runtime", "%.3f", runtime.seconds());
-                telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
-                telemetry.addData("Final Scan time", "%.3f", robot.getScanCompleteTime());
-                telemetry.addData("TZAV", robot.getTargetZoneAverageValue());
-                telemetry.addData("Target Zone", robot.getDecipheredTargetZone());
-                telemetry.update();
+                flexLine_2_caption = "TZAV"; //telemetry.addData("TZAV", robot.getTargetZoneAverageValue());
+                flexLine_2_value = String.valueOf(robot.getTargetZoneAverageValue());
+                flexLine_3_caption = "Target Zone"; //telemetry.addData("Target Zone", robot.getDecipheredTargetZone());
+                flexLine_3_value = String.valueOf(robot.getDecipheredTargetZone());
+                explainYourself(mode.Transmit); // telemetry.update();
             }
 
             // stop sampling video
             robot.setStreamingVideo(false);
-            telemetry.addData("VideoScan", "Stopped");
-            telemetry.update();
+            flexLine_1_value = "stopped"; // telemetry.addData("VideoScan", "Stopped");
+            explainYourself(mode.Transmit); //telemetry.update();
 
         }
     } // end scanAndPrepChickenWing
-
 
     // SCRIPT STAGE 01.2
     // Drive Segment
@@ -334,6 +425,12 @@ public class Auton5663_eocv extends LinearOpMode {
             // reset the segment timer
             segmentTime.reset();
 
+            // Telemetry
+            explainYourself(mode.Reset);
+            stageNo = "01.2";
+            stageDescription = "Lunge for Wobble Target";
+            explainYourself(mode.Transmit);
+
             // Drive Targets
             double speed = .2;
             double FL_Distance = -5;
@@ -341,16 +438,42 @@ public class Auton5663_eocv extends LinearOpMode {
             double BL_distance = -5;
             double BR_distance = -5;
 
-            // Telemetry
-            telemetry.addData("Stage No", "01.2");
-            telemetry.addData("Stage Desc", "Lunge for Wobble");
-            telemetry.update();
-
             // call encoderDrive
             encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
 
         }
     } // end lungeForWobbleTarget
+
+
+    // SCRIPT Stage 01.3
+    // Specialist Segment
+    public void StrafeBack(double segmentTimeLimit)
+    {
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Drive Targets
+            double speed = .65;
+            double FL_Distance = -4; // was -41, then exparimented with carefullyDriveAtopLine
+            double FR_distance = 4;
+            double BL_distance = 4;
+            double BR_distance = -4;
+
+
+            // Telemetry
+            explainYourself(mode.Reset);
+            stageNo = "03.1";
+            stageDescription = "Race up to White Line";
+            explainYourself(mode.Transmit);
+
+            // call encoderDrive
+            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
+        }
+    }
+
+
 
 
     // SCRIPT Stage 01.3
@@ -362,9 +485,10 @@ public class Auton5663_eocv extends LinearOpMode {
             segmentTime.reset();
 
             // Telemetry
-            telemetry.addData("Stage No", "01.3");
-            telemetry.addData("Stage Desc", "Capture Wobble");
-            telemetry.update();
+            explainYourself(mode.Reset);
+            stageNo = "01.3";
+            stageDescription = "Capture Wobble Target";
+            explainYourself(mode.Transmit);
 
             while(opModeIsActive() && segmentTime.seconds() < segmentTimeLimit)
             {
@@ -383,11 +507,46 @@ public class Auton5663_eocv extends LinearOpMode {
                 else
                 {
                    robot.LaChickenWing.setPower(0);
+                   break; // try a break statement here
                 }
             }
 
         }
     }
+
+
+
+    // SCRIPT STAGE 01.4
+    // Drive Segment
+    // Drive quickly and stop just shy of White line
+    public void MoveToWhiteLineToShoot(double segmentTimeLimit) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Drive Targets
+            double speed = .25;
+            double FL_Distance = -41; // was -41, then exparimented with carefullyDriveAtopLine
+            double FR_distance = -41;
+            double BL_distance = -41;
+            double BR_distance = -41;
+
+
+            // Telemetry
+            explainYourself(mode.Reset);
+            stageNo = "03.1";
+            stageDescription = "Race up to White Line";
+            explainYourself(mode.Transmit);
+
+            // call encoderDrive
+            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
+
+        }
+    } // end MoveToWhiteLineToShoot
+
+
 
     // SCRIPT STAGE 02
     // Specialist Segment
@@ -398,48 +557,43 @@ public class Auton5663_eocv extends LinearOpMode {
             // reset the segment timer
             segmentTime.reset();
 
+            // Method Set up code goes here
             boolean canFire = true;
 
-            // Method Set up code goes here
-            double speed = .275;
-            double FL_Distance1 = 1;
-            double FR_distance1 = -1;
-            double BL_distance1 = 1;
-            double BR_distance1 = -1;
-
-            double FL_Distance2 = -5;
-            double FR_distance2 = 5;
-            double BL_distance2 = -5;
-            double BR_distance2 = 5.;
-
-            double FL_Distance3 = 4.;
-            double FR_distance3 = -4;
-            double BL_distance3 = 4;
-            double BR_distance3 = -4;
-
-
             // Telemetry
-            telemetry.addData("Stage No", "02");
-            telemetry.addData("Stage Desc", "Shoot for Power");
-            telemetry.update();
+            explainYourself(mode.Reset);
+            stageNo = "02";
+            stageDescription = "Sweep Power Shot";
+            explainYourself(mode.Transmit);
+
+            robot.Shooter(.75);
+            sleep(1500);
+
 
             // Check if its safe to run this method
-            while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit) && canFire ) {
+            while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
 
-                robot.Shooter(0.825);
-                sleep(1500);
-                robot.Intake.setPower(0.9);
-                encoderDrive(speed, FL_Distance2, FR_distance2, BL_distance2, BR_distance2, segmentTimeLimit);
-                sleep(1000);
-                encoderDrive(speed, FL_Distance1, FR_distance1, BL_distance1, BR_distance1, segmentTimeLimit);
-                sleep(1000);
-                encoderDrive(speed, FL_Distance3, FR_distance3, BL_distance3, BR_distance3, segmentTimeLimit);
-                sleep(1000);
-                canFire = false;
+                robot.MecanumDrive(0, 0.375,0);
+
+
+                if(canFire)
+                {
+                    robot.Intake.setPower(.8);
+                    sleep(1000);
+                    canFire = false;
+                }
+                else
+                {
+                    sleep(500);
+                    canFire = true;
+                }
+
+                //encoderDrive(speed, -Drive_Distance1, Drive_Distance1, -Drive_Distance1, Drive_Distance1, 0.4);
+                //encoderDrive(speed, Drive_Distance2, -Drive_Distance2, Drive_Distance2, -Drive_Distance2, 0.4);
                 // update time telemetry readout
-                telemetry.addData("Runtime", "%.3f", runtime.seconds());
-                telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
-                telemetry.update();
+                //telemetry.addData("Runtime", "%.3f", runtime.seconds());
+                //telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
+                explainYourself(mode.Transmit); //telemetry.update();
 
             }
             robot.Shooter(0);
@@ -447,33 +601,74 @@ public class Auton5663_eocv extends LinearOpMode {
         }
     } // end ShootForPowerShots
 
-    // SCRIPT STAGE 03.1
-    // Drive Segment
-    // Drive quickly and stop just shy of White line
-    public void MoveToWhiteLineForDecision(double segmentTimeLimit) {
+
+    // STAGE 02 (option 2)
+    // Specialist Segment
+    // Strafe using encoder counts while shooting for Power Shots
+    public void strafe_n_shoot(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
             // reset the segment timer
             segmentTime.reset();
 
-            // Drive Targets
-            double speed = .65;
-            double FL_Distance = -41;
-            double FR_distance = -41;
-            double BL_distance = -41;
-            double BR_distance = -41;
+            // Method Set up code goes here
+            int strafeThisFar = 225; // was 275
+
+            robot.FLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.FRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.BLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.BRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            robot.FLDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.FRDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.BLDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.BRDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+            int desiredStrafePosition = robot.FRDrive.getCurrentPosition() + strafeThisFar;  // basing strafe measurment of of just the front right drive
+
 
             // Telemetry
-            telemetry.addData("Stage No", "03.1");
-            telemetry.addData("Stage Desc", "Move to White Line");
-            telemetry.update();
+            explainYourself(mode.Reset);
+            stageNo = "02";
+            stageDescription = "Strafe n Shoot";
+            explainYourself(mode.Transmit);
 
-            // call encoderDrive
-            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
+            // get the flywheels up to speed
+            robot.Shooter(.8);
+            sleep(1500);
+
+            // Check if its safe to run this method
+            while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
+
+                // do stuff
+                robot.Intake.setPower(.8);
+
+                if(robot.FRDrive.getCurrentPosition() < desiredStrafePosition) // testing just the front right drive
+                {
+                    robot.FLDrive.setPower(-0.4);
+                    robot.FRDrive.setPower(0.4);
+                    robot.BLDrive.setPower(0.4);
+                    robot.BRDrive.setPower(-0.4);
+                }
+                else
+                {
+                    robot.FLDrive.setPower(0);
+                    robot.FRDrive.setPower(0);
+                    robot.BLDrive.setPower(0);
+                    robot.BRDrive.setPower(0);
+
+                    robot.Intake.setPower(0);
+                    robot.Shooter(0);
+                    break;
+                }
+
+                // update time telemetry readout
+                explainYourself(mode.Transmit);
+            }
 
         }
-    } // end MoveToWhiteLineForDecision
+    } // end specialist template
 
 
 
@@ -490,24 +685,31 @@ public class Auton5663_eocv extends LinearOpMode {
             // Method Set up code goes here
 
             // Telemetry
-            telemetry.addData("Stage No", "03.2");
-            telemetry.addData("Stage Desc", "Drive Carefully atop line");
-            telemetry.update();
+            explainYourself(mode.Reset);
+            stageNo = "03.2";
+            stageDescription = "Carefully Drive Atop White Line";
+            flexLine_1_caption = "Color, Alpha";
+            explainYourself(mode.Transmit);
 
             // Check if its safe to run this method
             while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
 
-                // do stuff
-                while (robot.getFRColor_alpha() < 20) {
+                if (robot.getFRColor_alpha() < 400) {
 
-                    robot.MecanumDrive(0.2, 0, 0);
+                    robot.lightBar(Robot.TargetZones.C);
+                    robot.MecanumDrive(-0.3, 0, 0);
+
+                } else {
+
+                    robot.lightBar(Robot.TargetZones.X);
+                    robot.MecanumDrive(0, 0, 0);
+                    break; // untested
 
                 }
 
-                // update time telemetry readout
-                telemetry.addData("Runtime", "%.3f", runtime.seconds());
-                telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
-                telemetry.update();
+                // Telemetry
+                flexLine_1_value = String.valueOf(robot.getFRColor_alpha());
+                explainYourself(mode.Transmit);
             }
 
         }
@@ -527,6 +729,7 @@ public class Auton5663_eocv extends LinearOpMode {
 
     // POSTSCRIPT STAGE 10_A
     // Drive Segment
+    // Pivot to Target Zone A
     public void pivot_A(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
@@ -535,16 +738,17 @@ public class Auton5663_eocv extends LinearOpMode {
             segmentTime.reset();
 
             // Drive Targets
-            double speed = .3;
-            double FL_Distance = 21;
-            double FR_distance = -21;
-            double BL_distance = 21;
-            double BR_distance = -21;
+            double speed = .2; // was .2
+            double FL_Distance = 23;
+            double FR_distance = -23;
+            double BL_distance = 23;
+            double BR_distance = -23;
 
             // Telemetry
-            telemetry.addData("Stage No", "10 A");
-            telemetry.addData("Stage Desc", "Pivot to Box A");
-            telemetry.update();
+            explainYourself(mode.Reset);
+            stageNo = "10 A";
+            stageDescription = "Pivot to Zone A";
+            explainYourself(mode.Transmit);
 
             // call encoderDrive
             encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
@@ -552,34 +756,10 @@ public class Auton5663_eocv extends LinearOpMode {
         }
     } // end pivot_A
 
-    public void pivot_180(double segmentTimeLimit) {
-
-        // Ensure that the opmode is still active
-        if (opModeIsActive()) {
-            // reset the segment timer
-            segmentTime.reset();
-
-            // Drive Targets
-            double speed = .3;
-            double FL_Distance = 90;
-            double FR_distance = -90;
-            double BL_distance = 90;
-            double BR_distance = -90;
-
-            // Telemetry
-            telemetry.addData("Stage No", "10 A");
-            telemetry.addData("Stage Desc", "Pivot to Box A");
-            telemetry.update();
-
-            // call encoderDrive
-            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
-
-        }
-    } // end pivot_180
-
 
     // STAGE 11 A
     // Drive Segment
+    // Drive up to Zone A
     public void driveToZone_A(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
@@ -589,15 +769,16 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Drive Targets
             double speed = .3;
-            double FL_Distance = -25; // was 20
-            double FR_distance = -25;
-            double BL_distance = -25;
-            double BR_distance = -25;
+            double FL_Distance = -27; // was -25
+            double FR_distance = -27;
+            double BL_distance = -27;
+            double BR_distance = -27;
 
             // Telemetry
-            telemetry.addData("Stage No", "11 A");
-            telemetry.addData("Stage Desc", "Drive to A zone");
-            telemetry.update();
+            explainYourself(mode.Reset);
+            stageNo = "11 A";
+            stageDescription = "Drice Up To Zone A";
+            explainYourself(mode.Transmit);
 
             // call encoderDrive
             encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
@@ -605,33 +786,52 @@ public class Auton5663_eocv extends LinearOpMode {
         }
     } // end driveToZone_A
 
-    public void driveToZone_A2(double segmentTimeLimit) {
+
+    // SCRIPT STAGE 11.5 A
+    // Specialist Segment
+    // Drive slowly until the front right color sensor see the blue tape
+    public void driveToZone_A_stage_2(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
             // reset the segment timer
             segmentTime.reset();
 
-            // Drive Targets
-            double speed = .3;
-            double FL_Distance = -11.5; // was 20
-            double FR_distance = -11.5;
-            double BL_distance = -11.5;
-            double BR_distance = -11.5;
+            // Method Set up code goes here
 
             // Telemetry
-            telemetry.addData("Stage No", "11 A");
-            telemetry.addData("Stage Desc", "Drive to A zone");
-            telemetry.update();
+            explainYourself(mode.Reset);
+            stageNo = "11.5 A";
+            stageDescription = "Dive Carefully Atop Zone A";
+            explainYourself(mode.Transmit);
 
-            // call encoderDrive
-            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
+            // Check if its safe to run this method
+            while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
+
+                // do stuff
+
+                if ((robot.getFRColor_blue() < 300)) {  // && (!allDone)
+
+                    robot.MecanumDrive(-0.2, 0, 0);
+
+                } else {
+
+                    robot.MecanumDrive(0, 0, 0);
+                    //allDone = true;
+                    break;
+                }
+
+                // update time telemetry readout
+                explainYourself(mode.Transmit);
+            }
 
         }
-    } // end driveToZone_A2
+    } // end driveToZone_A_stage_2
+
 
     // Postscript Stage 12_A
     // Drive Segment
+    // Pivot for Zone A
     public void pivotForZoneA(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
@@ -640,16 +840,17 @@ public class Auton5663_eocv extends LinearOpMode {
             segmentTime.reset();
 
             // Drive Targets
-            double speed = .5;
-            double FL_Distance = 22;
-            double FR_distance = -22;
-            double BL_distance = 22;
-            double BR_distance = -22;
+            double speed = .2;
+            double FL_Distance = 21; // was 22
+            double FR_distance = -21;
+            double BL_distance = 21;
+            double BR_distance = -21;
 
             // Telemetry
-            telemetry.addData("Stage No", "12_A");
-            telemetry.addData("Stage Desc", "pivotForZoneA");
-            telemetry.update();
+            explainYourself(mode.Reset);
+            stageNo = "12 A";
+            stageDescription = "Pivot for Zone A";
+            explainYourself(mode.Transmit);
 
             // call encoderDrive
             encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
@@ -657,8 +858,40 @@ public class Auton5663_eocv extends LinearOpMode {
         }
     } // end pivotForZoneA
 
-    // Postscript Stage 13_A (and several other post script locations)
+
+    // Post-Script 13_A
+    // Drive Segment
+    // Back up a bit to drop Wobble targe fully into Zone A
+    public void backIntoZoneA(double segmentTimeLimit) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Drive Targets
+            double speed = .3;
+            double FL_Distance = 11; // was -11.5
+            double FR_distance = 11;
+            double BL_distance = 11;
+            double BR_distance = 11;
+
+            // Telemetry
+            explainYourself(mode.Reset);
+            stageNo = "13 A";
+            stageDescription = "Back in Zone A";
+            explainYourself(mode.Transmit);
+
+            // call encoderDrive
+            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
+
+        }
+    } // end backIntoZoneA
+
+
+    // Postscript Stage 20_Z (and several other post script locations)
     // Specialist Segment
+    // Lower La Chicken Wing
     public void lowerChickenWing(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
@@ -669,9 +902,10 @@ public class Auton5663_eocv extends LinearOpMode {
             // Method Set up code goes here
 
             // Telemetry
-            telemetry.addData("Stage No", "13_Z");
-            telemetry.addData("Stage Desc", "lower La Chicken Wing");
-            telemetry.update();
+            explainYourself(mode.Reset);
+            stageNo = "20 Z";
+            stageDescription = "Lower La Chicken Wing";
+            explainYourself(mode.Transmit);
 
             // Check if its safe to run this method
             while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
@@ -687,21 +921,21 @@ public class Auton5663_eocv extends LinearOpMode {
                 else
                 {
                     robot.LaChickenWing.setPower(0);
+                    break;  // try a break statement here
                 }
 
                 // update time telemetry readout
-                telemetry.addData("Runtime", "%.3f", runtime.seconds());
-                telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
-                telemetry.update();
+                explainYourself(mode.Transmit);
             }
 
         }
     } // end lowerChickenWing
 
 
-    // Postscript Stage 14_A
+    // Postscript Stage 21_Z
     // Specialsit Segment
-    public void dropWobbleTarget(double segmentTimeLimit) {
+    // Release the Wobble Target
+    public void releaseWobbleTarget(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
@@ -711,216 +945,29 @@ public class Auton5663_eocv extends LinearOpMode {
             // Method Set up code goes here
 
             // Telemetry
-            telemetry.addData("Stage No", "14_A");
-            telemetry.addData("Stage Desc", "Drop Wobble Target");
-            telemetry.update();
+            explainYourself(mode.Reset);
+            stageNo = "21 Z";
+            stageDescription = "Release Wobble Target";
+            explainYourself(mode.Transmit);
 
             // Check if its safe to run this method
             while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
 
                 // Drop target
-
                 robot.FingerGrab(.6);
 
                 // update time telemetry readout
-                telemetry.addData("Runtime", "%.3f", runtime.seconds());
-                telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
-                telemetry.update();
+                explainYourself(mode.Transmit);
+
+                break;
             }
 
         }
     } //End drop wobble target.
 
-
-    /**************************
-     *                        *
-     *  Autonomous  Segments  *
-     *                        *
-     *    POSTSCRIPT B        *
-     *                        *
-     **************************/
-
-    // POSTSCRIPT STAGE 10_B_C
-    // Drive Segment
-    public void pivot_B_C(double segmentTimeLimit) {
-
-        // Ensure that the opmode is still active
-        if (opModeIsActive()) {
-            // reset the segment timer
-            segmentTime.reset();
-
-            // Drive Targets
-            double speed = .3;
-            double FL_Distance = 17.5;
-            double FR_distance = -17.5;
-            double BL_distance = 17.5;
-            double BR_distance = -17.5;
-
-            // Telemetry
-            telemetry.addData("Stage No", "10 B C");
-            telemetry.addData("Stage Desc", "Pivot to Box B or C");
-            telemetry.update();
-
-            // call encoderDrive
-            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
-
-        }
-    } // end pivot_B
-
-
-    // STAGE 11 B
-    // Drive Segment
-    public void driveToZone_B(double segmentTimeLimit) {
-
-        // Ensure that the opmode is still active
-        if (opModeIsActive()) {
-            // reset the segment timer
-            segmentTime.reset();
-
-            // Drive Targets
-            double speed = .3;
-            double FL_Distance = -20;
-            double FR_distance = -20;
-            double BL_distance = -20;
-            double BR_distance = -20;
-
-            // Telemetry
-            telemetry.addData("Stage No", "11 B");
-            telemetry.addData("Stage Desc", "Drive to B zone");
-            telemetry.update();
-
-            // call encoderDrive
-            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
-
-        }
-    } // end driveToZone_B
-
-
-    // Postscript Stage 14_B
-    // Drive segment
-    public void strafeFor_B_ToWhiteLine (double segmentTimeLimit) {
-
-        // Ensure that the opmode is still active
-        if (opModeIsActive()) {
-            // reset the segment timer
-            segmentTime.reset();
-
-            // Drive Targets
-            double speed = .5;
-            double FL_Distance = 15;
-            double FR_distance = -15;
-            double BL_distance = -15;
-            double BR_distance = 15;
-
-            // Telemetry
-            telemetry.addData("Stage No", "14_B");
-            telemetry.addData("Stage Desc", "Strafe to White Line");
-            telemetry.update();
-
-            // call encoderDrive
-            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
-
-        }
-    } // end moveBackForDroppingTarget
-
-
-
-    /**************************
-     *                        *
-     *  Autonomous  Segments  *
-     *                        *
-     *    POSTSCRIPT C        *
-     *                        *
-     **************************/
-
-    // POSTSCRIPT STAGE 10_B_C
-    // Drive Segment
-    // see Postscript B
-
-    // STAGE 11 C
-    // Drive Segment
-    public void driveToZone_C(double segmentTimeLimit) {
-
-        // Ensure that the opmode is still active
-        if (opModeIsActive()) {
-            // reset the segment timer
-            segmentTime.reset();
-
-            // Drive Targets
-            double speed = .3;
-            double FL_Distance = -30;
-            double FR_distance = -30;
-            double BL_distance = -30;
-            double BR_distance = -30;
-
-            // Telemetry
-            telemetry.addData("Stage No", "11 C");
-            telemetry.addData("Stage Desc", "Drive to C zone");
-            telemetry.update();
-
-            // call encoderDrive
-            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
-
-        }
-    } // end driveToZone_C
-
-
-    // Postscript 14_C
-    // Drive Segment
-    public void pivotForZoneC(double segmentTimeLimit) {
-
-        // Ensure that the opmode is still active
-        if (opModeIsActive()) {
-            // reset the segment timer
-            segmentTime.reset();
-
-            // Drive Targets
-            double speed = .5;
-            double FL_Distance = -47.5;
-            double FR_distance = 47.5;
-            double BL_distance = -47.5;
-            double BR_distance = 47.5;
-
-            // Telemetry
-            telemetry.addData("Stage No", "14_C");
-            telemetry.addData("Stage Desc", "Pivot for Zone C");
-            telemetry.update();
-
-            // call encoderDrive
-            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
-
-        }
-    } // end pivotForZoneC
-
-
-
-    // Postscript Stage 18_C
-    public void moveToWhiteLineForZoneC(double segmentTimeLimit) {
-
-        // Ensure that the opmode is still active
-        if (opModeIsActive()) {
-            // reset the segment timer
-            segmentTime.reset();
-
-            // Drive Targets
-            double speed = .5;
-            double FL_Distance = -30;
-            double FR_distance = -30;
-            double BL_distance = -30;
-            double BR_distance = -30;
-
-            // Telemetry
-            telemetry.addData("Stage No", "18_C");
-            telemetry.addData("Stage Desc", "Drive to White Line");
-            telemetry.update();
-
-            // call encoderDrive
-            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
-        }
-    } // end moveToWhiteLineForZoneA
-
-
-
+    // Post-Script Stage 22_Z
+    // Specialist Stage
+    // Raise La Chicken Wing
     public void raiseChickenWing(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
@@ -928,12 +975,11 @@ public class Auton5663_eocv extends LinearOpMode {
             // reset the segment timer
             segmentTime.reset();
 
-            // Method Set up code goes here
-
             // Telemetry
-            telemetry.addData("Stage No", "888");
-            telemetry.addData("Stage Desc", "sepecist stuff");
-            telemetry.update();
+            explainYourself(mode.Reset);
+            stageNo = "22 Z";
+            stageDescription = "Raise La Chicken Wing";
+            explainYourself(mode.Transmit);
 
             // Check if its safe to run this method
             while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
@@ -949,19 +995,90 @@ public class Auton5663_eocv extends LinearOpMode {
                 else
                 {
                     robot.LaChickenWing.setPower(0);
+                    // break;  // try a break statement here
                 }
 
 
                 // update time telemetry readout
-                telemetry.addData("Runtime", "%.3f", runtime.seconds());
-                telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
-                telemetry.update();
+                explainYourself(mode.Transmit);
             }
 
         }
-    } // end lowerChickenWing
+    } // end raiseChickenWing
 
-    public void rotateForC(double segmentTimeLimit) {
+
+    /**************************
+     *                        *
+     *  Autonomous  Segments  *
+     *                        *
+     *    POSTSCRIPT B        *
+     *                        *
+     **************************/
+
+    // POSTSCRIPT STAGE 10_B_C
+    // Drive Segment
+    // Pivot to both Zones B and C
+    public void pivot_B_C(double segmentTimeLimit) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Drive Targets
+            double speed = .3;
+            double FL_Distance = 16.2;
+            double FR_distance = -16.2;
+            double BL_distance = 16.2;
+            double BR_distance = -16.2;
+
+            // Telemetry
+            explainYourself(mode.Reset);
+            stageNo = "10 B-C";
+            stageDescription = "Pivot to Zones B+C";
+            explainYourself(mode.Transmit);
+
+            // call encoderDrive
+            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
+
+        }
+    } // end pivot_B_C
+
+
+    // STAGE 11 B
+    // Drive Segment
+    // Drive to Zone B
+    public void driveToZone_B(double segmentTimeLimit) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Drive Targets
+            double speed = .3;
+            double FL_Distance = -34;
+            double FR_distance = -34;
+            double BL_distance = -34;
+            double BR_distance = -34;
+
+            // Telemetry
+            explainYourself(mode.Reset);
+            stageNo = "11 B";
+            stageDescription = "Drive to Zones B";
+            explainYourself(mode.Transmit);
+
+            // call encoderDrive
+            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
+
+        }
+    } // end driveToZone_B
+
+
+    // Postscript Stage 23_B
+    // Drive segment
+    // Strafe to the White line
+    public void strafeFor_B_ToWhiteLine (double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
@@ -970,22 +1087,35 @@ public class Auton5663_eocv extends LinearOpMode {
 
             // Drive Targets
             double speed = .5;
-            double FL_Distance = -20;
-            double FR_distance = 20;
-            double BL_distance = -20;
-            double BR_distance = 20;
+            double FL_Distance = 15;
+            double FR_distance = -15;
+            double BL_distance = -15;
+            double BR_distance = 15;
 
             // Telemetry
-            telemetry.addData("Stage No", "12_C");
-            telemetry.addData("Stage Desc", "rotateForC");
-            telemetry.update();
+            explainYourself(mode.Reset);
+            stageNo = "23 B";
+            stageDescription = "Strafe for White Line";
+            explainYourself(mode.Transmit);
 
             // call encoderDrive
             encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
-        }
-    } // end rotateForC
 
-    public void driveToZoneC(double segmentTimeLimit) {
+        }
+    } // end strafeFor_B_ToWhiteLine
+
+
+    /**************************
+     *                        *
+     *  Autonomous  Segments  *
+     *                        *
+     *    POSTSCRIPT C        *
+     *                        *
+     **************************/
+    //Postscript Stage 1_C
+    //Drive Segment
+    //Move near the wall
+    public void driveNearWall(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
@@ -993,22 +1123,282 @@ public class Auton5663_eocv extends LinearOpMode {
             segmentTime.reset();
 
             // Drive Targets
-            double speed = .3; // was .5
-            double FL_Distance = -30; // was 30
+            double speed = .5;
+            double FL_Distance = -30;
             double FR_distance = -30;
             double BL_distance = -30;
             double BR_distance = -30;
 
             // Telemetry
-            telemetry.addData("Stage No", "13_C");
-            telemetry.addData("Stage Desc", "driveToZoneC");
-            telemetry.update();
+            explainYourself(mode.Reset);
+            stageNo = "9999";
+            stageDescription = "Words";
+            explainYourself(mode.Transmit);
 
             // call encoderDrive
             encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
 
         }
-    } // end driveToZoneC
+    } // end driveNearWall
+
+    //Postscript Stage 2_C
+    //Drive Segment
+    //Use the distance sensor to sene how far away the wall is and then stop
+    public void driveCloseToWall(double segmentTimeLimit) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Method Set up code goes here
+
+            // Telemetry
+            explainYourself(mode.Reset);
+            stageNo = "2";
+            stageDescription = "drive close to the wall using distance sensors" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "*";
+            explainYourself(mode.Transmit);
+
+            // Check if its safe to run this method
+            while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
+
+                // do stuff
+
+                if(robot.getFrontDistance() > 10)
+                {
+                    robot.FLDrive.setPower(-0.15); // whoop
+                    robot.FRDrive.setPower(-0.15);
+                    robot.BLDrive.setPower(-0.15);
+                    robot.BRDrive.setPower(-0.15);
+                }
+                else
+                {
+                    robot.lightBar(Robot.TargetZones.A);
+                    robot.FLDrive.setPower(0);
+                    robot.FRDrive.setPower(0);
+                    robot.BLDrive.setPower(0);
+                    robot.BRDrive.setPower(0);
+                    break;
+                }
+                // update time telemetry readout
+                explainYourself(mode.Transmit);
+            }
+
+        }
+    } // end driveCloseToWall
+
+    //Postscript Stae 3_C & 11_C
+    // Drive Segment
+    //Turn to strafe with the wobble goal in the right way
+    public void turnToStrafeC(double segmentTimeLimit) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Drive Targets
+            double speed = .5;
+            double FL_Distance = -42.5;
+            double FR_distance = 42.5;
+            double BL_distance = -42.5;
+            double BR_distance = 42.5;
+
+
+            // Telemetry
+            explainYourself(mode.Reset);
+            stageNo = "3";
+            stageDescription = "Turn to be able to strafe";
+            explainYourself(mode.Transmit);
+
+            // call encoderDrive
+            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
+
+        }
+    } // end turnToStrafeC
+
+    //Postscript Stage 4_C & 7_C
+    // Drive Segment
+    // Back into the wall to straighten out the robot
+    public void backIntoWall(double segmentTimeLimit) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Drive Targets
+            double speed = .2;
+            double FL_Distance = 7.5;
+            double FR_distance = 7.5;
+            double BL_distance = 7.5;
+            double BR_distance = 7.5;
+
+            // Telemetry
+            explainYourself(mode.Reset);
+            stageNo = "4 or 7";
+            stageDescription = "Back into the wall";
+            explainYourself(mode.Transmit);
+            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);;
+        }
+    } // end backIntoWall
+
+    //Postscript Stage 5_C
+    // Drive Segment
+    //roll forward to get out of the way of the troublesome hump
+    public void rollForward(double segmentTimeLimit) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Drive Targets
+            double speed = .2;
+            double FL_Distance = -4.5;
+            double FR_distance = -4.5;
+            double BL_distance = -4.5;
+            double BR_distance = -4.5;
+
+            // Telemetry
+            explainYourself(mode.Reset);
+            stageNo = "5";
+            stageDescription = "rollForward";
+            explainYourself(mode.Transmit);
+            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);;
+        }
+    } // end rollForward
+
+    //Postscript Stage 8_C
+    //Drive Segment
+    //Roll forward, but less so
+    public void rollForward2(double segmentTimeLimit) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Drive Targets
+            double speed = .2;
+            double FL_Distance = -2.75;
+            double FR_distance = -2.75;
+            double BL_distance = -2.75;
+            double BR_distance = -2.75;
+
+            // Telemetry
+            explainYourself(mode.Reset);
+            stageNo = "8";
+            stageDescription = "rollForward: The Sequel";
+            explainYourself(mode.Transmit);
+            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);;
+        }
+    } // end rollForward2
+
+    //Postscript Stage 12_C
+    //Drive Segment
+    //Back up to the white line to get the points
+    public void backIntoWhiteLine(double segmentTimeLimit) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Drive Targets
+            double speed = .2;
+            double FL_Distance = 5;
+            double FR_distance = 5;
+            double BL_distance = 5;
+            double BR_distance = 5;
+
+            // Telemetry
+            explainYourself(mode.Reset);
+            stageNo = "12";
+            stageDescription = "back up into the white line for points";
+            explainYourself(mode.Transmit);
+            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);;
+        }
+    } // end backIntoWhiteLne
+
+
+    //Postscript Stage 9_C
+    //Specialist Segment
+    //Strafe slowly until the front right color sensor see the blue line
+    public void strafeTillBlueLine(double segmentTimeLimit) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Method Set up code goes here
+
+            // Telemetry
+            explainYourself(mode.Reset);
+            stageNo = "9";
+            stageDescription = "Carefully Drive Atop Blue Line";
+            flexLine_1_caption = "Color, Blue";
+            explainYourself(mode.Transmit);
+
+            // Check if its safe to run this method
+            while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
+
+                if (robot.getFRColor_blue() < 250) {
+
+                    robot.lightBar(Robot.TargetZones.C);
+                    robot.MecanumDrive(0, .3, 0);
+
+                } else {
+
+                    robot.lightBar(Robot.TargetZones.X);
+                    robot.MecanumDrive(0, 0, 0);
+                    break; // untested
+
+                }
+
+                // Telemetry
+                flexLine_1_value = String.valueOf(robot.getFRColor_alpha());
+                explainYourself(mode.Transmit);
+            }
+
+        }
+    } // end strafeTillBlueLine
+
+    //Postscript Stage 6_C
+    // Drive Segment
+    public void strafeForC(double segmentTimeLimit) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+            // reset the segment timer
+            segmentTime.reset();
+
+            // Drive Targets
+            double speed = .2;
+            double FL_Distance = 35;
+            double FR_distance = -35;
+            double BL_distance = -35;
+            double BR_distance = 35;
+
+            // Telemetry
+            explainYourself(mode.Reset);
+            stageNo = "6";
+            stageDescription = "Strafe so that it goes near the blue line but not on it";
+            explainYourself(mode.Transmit);
+            encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);;
+        }
+    } // end strafeForC
 
     /**************************
      *                        *
@@ -1016,7 +1406,6 @@ public class Auton5663_eocv extends LinearOpMode {
      *                        *
      **************************/
 
-    // Testing utlity for PIDF
     // Specialist Segment
     public void pidfTuner_utility(double segmentTimeLimit) {
 
@@ -1102,6 +1491,7 @@ public class Auton5663_eocv extends LinearOpMode {
      *******************************/
     // STAGE 8888
     // Specialist Segment
+    // Short description
     public void specialist_segment_template(double segmentTimeLimit) {
 
         // Ensure that the opmode is still active
@@ -1112,9 +1502,10 @@ public class Auton5663_eocv extends LinearOpMode {
             // Method Set up code goes here
 
             // Telemetry
-            telemetry.addData("Stage No", "888");
-            telemetry.addData("Stage Desc", "sepecist stuff");
-            telemetry.update();
+            explainYourself(mode.Reset);
+            stageNo = "8888";
+            stageDescription = "Utterances";
+            explainYourself(mode.Transmit);
 
             // Check if its safe to run this method
             while (opModeIsActive() && (segmentTime.seconds() < segmentTimeLimit)) {
@@ -1122,9 +1513,7 @@ public class Auton5663_eocv extends LinearOpMode {
                 // do stuff
 
                 // update time telemetry readout
-                telemetry.addData("Runtime", "%.3f", runtime.seconds());
-                telemetry.addData("Segment time", "%.3f", segmentTime.seconds());
-                telemetry.update();
+                explainYourself(mode.Transmit);
             }
 
         }
@@ -1154,9 +1543,10 @@ public class Auton5663_eocv extends LinearOpMode {
             double BR_distance = 5;
 
             // Telemetry
-            telemetry.addData("Stage No", "999");
-            telemetry.addData("Stage Desc", "Drive stuff");
-            telemetry.update();
+            explainYourself(mode.Reset);
+            stageNo = "9999";
+            stageDescription = "Words";
+            explainYourself(mode.Transmit);
 
             // call encoderDrive
             encoderDrive(speed, FL_Distance, FR_distance, BL_distance, BR_distance, segmentTimeLimit);
