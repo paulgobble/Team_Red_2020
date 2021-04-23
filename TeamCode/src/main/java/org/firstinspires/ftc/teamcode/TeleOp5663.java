@@ -142,7 +142,7 @@ public class TeleOp5663 extends OpMode
         double shootPower = 0;                      // Computed shooting power sent to Robot
 
         if (shootFast != 0) {
-            shootPower = .65;
+            shootPower = .8;
         } else if (shootSlow != 0) {
             shootPower = .5;
         } else {
