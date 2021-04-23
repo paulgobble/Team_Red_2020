@@ -1,4 +1,4 @@
-// Version 2.0
+// Version 3.0
 
 package org.firstinspires.ftc.teamcode;
 
@@ -35,16 +35,6 @@ public class TeleOp5663 extends OpMode
 
         // telemetry
         explainYourself();
-
-        //telemetry.addData("Status:", "Initialized v2.0");
-        //telemetry.addData("Drive Orientation:", "Forward");
-        //telemetry.addData("Force Field:", "Off");
-        //telemetry.addData("Front Distance:", "-------");
-
-        //telemetry.addData("FLDrive:",robot.FLDrive.getCurrentPosition());
-        //telemetry.addData("FRDrive:", robot.FRDrive.getCurrentPosition());
-        //telemetry.addData("BLDrive:", robot.BLDrive.getCurrentPosition());
-        //telemetry.addData("BRDrive:", robot.BRDrive.getCurrentPosition());
 
         buttonPressLimit = new Deadline(ButtonLockout, TimeUnit.MILLISECONDS);
 
@@ -269,7 +259,7 @@ public class TeleOp5663 extends OpMode
                 .addData("Current", "|%05d|", robot.BRDrive.getCurrentPosition())
                 .addData("Target", "none");
 
-        telemetry.addData("Code Version", "2.0 Novi + Color Sensors");
+        telemetry.addData("Code Version", "3.0");
 
         telemetry.update();
 
